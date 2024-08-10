@@ -13,8 +13,14 @@ packages/
 *.zip
 
 # dependencies
-/node_modules
+AngularClientApp/node_modules/
+AngularClientApp/src/assets/
 
+CreativeHandsCoreApi/bin/
+CreativeHandsCoreApi/obj/
+
+MarketGeneral/bin/
+MarketGeneral/obj/
 # IDEs and editors
 /.idea
 .project
