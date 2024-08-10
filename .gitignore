@@ -20,6 +20,7 @@ AngularClientApp/src/assets/
 
 CreativeHandsCoreApi/bin/
 CreativeHandsCoreApi/obj/
+CreativeHandsCoreApi/appsettings.json
 
 MarketGeneral/bin/
 MarketGeneral/obj/
