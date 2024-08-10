@@ -1,0 +1,21 @@
+.file-upload-component {
+  border: 1px solid green;
+  padding:5px;
+  text-align:right;
+}
+  .file-upload-component .btn {
+      padding:0px 5px 2px 5px!important;
+    margin-right: 23px !important;
+    margin-left: 15px !important;
+  }
+ .file-upload-component .file-input {
+     display:inline;
+     width:60%!important;
+     margin-left:5px;
+  }
+  .file-upload-component .add-file-upload-component {
+    float: left;
+    margin:5px 5px 0 10px;
+    width: 20px;
+    background-color: transparent;
+  }

@@ -1,0 +1,68 @@
+
+<div class="order-row" *ngIf="!isMobile" [ngClass]="{'small-view': isSmallView}">
+  <div class="order-col order-item-number">{{itemIndex}}</div>
+  <div class="order-col order-item-id">{{orderItem.Id}}</div>
+  <div class="order-col order-item-product">
+    <img #img src="/assets/Images/{{orderItem.Product.Images[0]}}" (click)="changeSelectedImageClass($event);$event.stopPropagation()" />
+    {{orderItem.Product.Name}}
+    <span *ngIf="orderItem.ProductVariation">({{orderItem.ProductVariation.Description}})</span>
+    <div *ngIf="orderItem.Colours" class="order-item-colours">
+      <span *ngFor='let Colour of orderItem.Colours;let i=index;' class="product-colour" [ngStyle]="{'background-color': Colour}"></span>
+    </div>
+  </div>  
+  <div class="order-col quantity">
+    <span><i class="fa fa-plus" aria-hidden="true" (click)="incQuantity(orderItem.Quantity)"></i></span>
+    <label class="quantity-label">{{orderItem.Quantity}}</label>
+    <span><i class="fa fa-minus" aria-hidden="true" (click)="decQuantity(orderItem.Quantity)"></i></span>
+  </div>
+  <div class="order-col unit-price">
+    <label class="price-label" *ngIf="!isAdmin">{{orderItem.UnitPrice}}</label>
+    <div class="unit-price" *ngIf="isLoggedIn && isAdmin">
+      <input class="price-input" [(ngModel)]="unitPrice" />
+      <img src="/assets/Images/Save.PNG" (click)="changeUnitPrice()" />
+    </div>
+
+  </div>
+  <div class="order-col total-price">{{orderItem.Quantity*orderItem.UnitPrice}}</div>
+  <div class="order-col delete-icon"><img src="/assets/Images/delete.png" (click)="deleteOrderItem( orderItem.Id )" style="width:20px;height:20px;" /></div>
+</div>
+
+<div *ngIf="isMobile && orderItem" class="product-item" [ngClass]="{'small-view': isSmallView}">
+  <div class="product-image" (click)="changeSelectedImageClass($event)">
+    <img #img src="/assets/Images/{{orderItem.Product.Images[0]}}" />
+  </div>
+  <div class="product-info">
+    <div class="product-info-line1">
+      <div class="product-name">
+        {{orderItem.Product.Name}}
+        <a *ngIf="isLoggedIn && isAdmin && !isSmallView" [routerLink]="['/add-product/',orderItem.Product.Id]" title="تعديل">
+          <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
+        </a>
+      </div>
+      <div class="product-price" *ngIf="!isSmallView">{{orderItem.UnitPrice}} ش</div>
+    </div>
+    <div class="product-info-line2">
+      <span>رقم المنتج: </span>
+      <span class="product-id">{{("000"+orderItem.Product.Id).slice(-4)}}</span>
+      <div *ngIf="orderItem.Colours" class="order-item-colours">
+        <span *ngFor='let Colour of orderItem.Colours;let i=index;' class="product-colour" [ngStyle]="{'background-color': Colour}"></span>
+      </div>
+    </div>    
+    <div class="product-info-line3 quantity" *ngIf="!(isSmallView)">
+      <span>الكميه: </span>
+      <span><i class="fa fa-minus" aria-hidden="true" (click)="decQuantity(orderItem.Quantity)"></i></span>
+      <input #prodQuantity type="number" [value]="orderItem.Quantity" (keyup)="changeQuantity($event.target.value)" />
+      <span><i class="fa fa-plus" aria-hidden="true" (click)="incQuantity(orderItem.Quantity)"></i></span>
+    </div>
+    <div class="product-info-line3 quantity" *ngIf="isSmallView">
+      <span>{{orderItem.Quantity*orderItem.UnitPrice}} = {{orderItem.Quantity}} X {{orderItem.UnitPrice}}   </span>
+    </div>
+    <div class="product-info-line4" *ngIf="!isSmallView">
+      <span>المبلغ: </span>
+      <span class="product-total-price">{{orderItem.Quantity*orderItem.UnitPrice}}</span>
+      <img class="delete-icon" src="/assets/Images/delete.png" (click)="deleteOrderItem( orderItem.Id )" style="width:20px;height:20px;" />
+    </div>
+  </div>  
+</div>
+
+ 

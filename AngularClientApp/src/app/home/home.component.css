@@ -1,0 +1,10 @@
+body {
+}
+.main-banner img{
+  margin-top: 10px;
+}
+@media only screen and (max-width: 600px) {
+  .main-banner{
+      display:none;
+  }
+}

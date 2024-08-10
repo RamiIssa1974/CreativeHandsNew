@@ -1,0 +1,15 @@
+<!-- Use a unique ID for each file input -->
+<div class="file-upload-component">
+  <span>Choose file</span>
+  <span>{{ files && files.length > 0 ? files[0].name : 'or drag and drop file here' }}</span>
+  <!-- Ensure unique IDs -->
+  <input class="file-input" id="fileInput{{fileId}}" type="file" (change)="onChange($event)" />
+  <label for="fileInput{{fileId}}" class="btn btn-primary mr-3">اختر صوره</label>
+  <input class="form-control file-input" id="selectedFileId{{fileId}}" type="text" [value]="files && files.length > 0 ? files[0].name : ''" readonly />
+  <img class="add-file-upload-component" src="/assets/Images/delete.png" />
+</div>
+
+<!-- Display selected files -->
+<ul>
+  <li *ngFor="let f of files">{{ f.name }}</li>  
+</ul>

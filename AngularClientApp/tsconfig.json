@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "@angular/*": ["node_modules/@angular/*"]
+    },
+    "module": "esnext",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "ES2018",
+      "dom"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,          // Skip type checking of declaration files
+    "strict": true,                // Enable all strict type-checking options
+    "esModuleInterop": true        // Enables emit interoperability between CommonJS and ES Modules
+  }
+}

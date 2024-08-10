@@ -1,0 +1,140 @@
+ <div class="save-success-message" [hidden]="!showSaveSuccessMessage">تم تغيير حالة الطلبيه</div>
+<div class="overlay" [hidden]="!isLoading">
+  <img class="waiting-image" src="/assets/Images/loading.gif" />
+</div>
+<div class="title">
+  <h1>قائمة الطلبيات</h1>
+</div>
+<div class="filter-div">
+  <div class="filter-item">
+    <label class="status-id-label" for="orderStatusId">الحاله:</label>
+    <div class="dropdown-select">
+      <select id="orderStatusId" class="status-id" (change)="filterByStatus($event.target.value)">
+        <option class="dropdown-item" value="0">الكل</option>
+        <option value="1">سلة مشتريات</option>
+        <option value="2" [selected]="true">قيد الانتظار</option>
+        <option value="3">جاهزه</option>
+        <option value="4">ارسلت</option>
+        <option value="5">مدفوع</option>
+        <option value="6">ملغي</option>
+        <option value="7">تامه</option>
+      </select>
+      <i class="fa fa-filter" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div class="filter-item">
+    <label class="customer-name-filter-label" for="orderStatusId">الأسم:</label>
+    <input class="filter-input" [(ngModel)]="customerNameFilter" (keydown.enter)="filterByCustomerName()" />
+  </div>
+  <div class="filter-item">
+    <label class="customer-tel-filter-label" for="orderStatusId">الهاتف:</label>
+    <input class="filter-input" [(ngModel)]="customerTelFilter" (keydown.enter)="filterByCustomerTel()" />
+  </div>
+  <div class="filter-item buttons">
+    <button class="btn btn-primary m-2 submit-btn" (click)="cleanFilters()">تنظيف الحقول</button>
+    <button class="btn btn-primary m-2 submit-btn" (click)="getOrders()">بحث</button>
+  </div>
+
+</div>
+
+<div class="orders-list" *ngIf="!isMobileResolution && ordersList$ | async; let ordersList">
+  <div class="order-header-row">
+    <div class="order-col">#</div>
+    <div class="order-col">المعرف</div>
+    <div class="order-col">التاريخ</div>
+    <div class="order-col">اسم الزبون</div>
+    <div class="order-col">رقم الهاتف</div>
+    <div class="order-col">العنوان</div>
+    <div class="order-col">المبلغ</div>
+    <div class="order-col">الحاله</div>
+    <div class="order-col">تفاصيل</div>
+  </div>
+  <div class="order-row" *ngFor='let order of ordersList;let i=index;'>
+    <div class="order-col">{{i+1}}</div>
+    <div class="order-col">{{order.Id}}</div>
+    <div class="order-col">{{order.CreateDate |date:'dd/MM/yyyy'}}</div>
+    <div class="order-col">{{order.Customer.Name}}</div>
+    <div class="order-col Telephone">{{order.Customer.Tel1}}</div>
+    <div class="order-col">{{order.Customer.Address}}</div>
+    <div class="order-col">
+      {{ (getOrderTotal(order) + order.DeleveryPrice - (order.Discount * getOrderTotal(order)/100)) | number:'1.0-1' }}
+    </div>
+    <div class="order-col">
+      <span *ngIf="!isLoggedIn || !isAdmin">{{getStatusById(order.StatusId)}}</span>
+      <div class="selected-status-id" *ngIf="isLoggedIn && isAdmin">
+        <div class="dropdown-select">
+          <select #orderStatusId id="orderStatusId" class="status-id" [(ngModel)]="order.StatusId">
+            <option class="dropdown-item" value="0" [selected]="true">الكل</option>
+            <option value="1">سلة مشتريات</option>
+            <option value="2">قيد الانتظار</option>
+            <option value="3">جاهزه</option>
+            <option value="4">ارسلت</option>
+            <option value="5">مدفوع</option>
+            <option value="6">ملغي</option>
+            <option value="7">تامه</option>
+          </select>
+          <i class="fa fa-filter" aria-hidden="true"></i>
+          <img class="save-button" src="/assets/Images/Save.PNG" (click)="changeOrderStatus(order, orderStatusId.value)" />
+        </div>
+      </div>
+    </div>
+    <div class="order-col">
+      <a [routerLink]="['/order/',order.Id]" title="">
+        تفاصيل
+      </a>
+      <a [routerLink]="['/order-details/',order.Id]" title="تعديل">
+        <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-orders-list" *ngIf="isMobileResolution && ordersList$ | async; let ordersList">
+  <div class="order-item" *ngFor='let order of ordersList'>
+    <div class="order-item-detail">
+      <span class="order-item-detail-lable">المعرف:</span>
+      <span class="order-item-detail-data">{{order.Id}}</span>
+    </div>
+    <div class="order-item-detail">
+      <span class="order-item-detail-lable">التاريخ:</span>
+      <span class="order-item-detail-data">{{order.CreateDate |date:'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="order-item-detail">
+      <span class="order-item-detail-lable">اسم الزبون:</span>
+      <span class="order-item-detail-data">{{order.Customer.Name}}</span>
+    </div>
+    <div class="order-item-detail">
+      <span class="order-item-detail-lable">رقم الهاتف:</span>
+      <span class="order-item-detail-data Telephone">{{order.Customer.Tel1}}</span>
+    </div>
+    <div class="order-item-detail">
+      <span *ngIf="!isLoggedIn || !isAdmin">{{getStatusById(order.StatusId)}}</span>
+      <div class="selected-status-id" *ngIf="isLoggedIn && isAdmin">
+        <div class="dropdown-select">
+          <select #orderStatusId id="orderStatusId" class="status-id" [(ngModel)]="order.StatusId">
+            <option class="dropdown-item" value="0" [selected]="true">الكل</option>
+            <option value="1">سلة مشتريات</option>
+            <option value="2">قيد الانتظار</option>
+            <option value="3">جاهزه</option>
+            <option value="4">ارسلت</option>
+            <option value="5">مدفوع</option>
+            <option value="6">ملغي</option>
+            <option value="7">تامه</option>
+          </select>
+          <i class="fa fa-filter" aria-hidden="true"></i>
+          <img class="save-button" src="/assets/Images/Save.PNG" (click)="changeOrderStatus(order, orderStatusId.value)" />
+        </div>
+      </div>
+    </div>
+    <div class="order-item-detail">
+      <span class="order-item-detail-lable">المبلغ:</span>
+      <span class="order-item-detail-data"> {{ getOrderTotal(order) }}</span>
+      <a class="order-item-detail-lable more-details" [routerLink]="['/order/',order.Id]" title="">
+        تفاصيل
+      </a>
+      <a [routerLink]="['/order-details/',order.Id]" title="تعديل">
+        <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
+      </a>
+    </div>
+  </div>
+</div>

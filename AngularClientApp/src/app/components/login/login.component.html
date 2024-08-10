@@ -1,0 +1,101 @@
+
+<!--<form [formGroup]="form">
+  <fieldset>
+    <legend>Login</legend>
+    <div class="form-field">
+      <label>Email:</label>
+      <input name="email" formControlName="email">
+    </div>
+    <div class="form-field">
+      <label>Password:</label>
+      <input name="password" formControlName="password"
+             type="password">
+    </div>
+  </fieldset>
+  <div class="form-buttons">
+    <button class="button button-primary"
+            (click)="login()">
+      Login
+    </button>
+  </div>
+</form>-->
+<div class="card main-frame">
+  <div class="card-header">
+    {{pageTitle}}
+  </div>
+
+  <div class="card-body">
+    <form novalidate
+          (ngSubmit)="login(loginForm)"
+          #loginForm="ngForm"
+          autocomplete="off">
+      <fieldset>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label"
+                 for="userNameId">اسم المستخدم</label>
+          <div class="col-md-7">
+            <input class="form-control"
+                   id="userNameId"
+                   type="text"
+                   placeholder="اسم المستخدم (مطلوب)"
+                   required
+                   ngModel
+                   name="userName"
+                   #userNameVar="ngModel"
+                   [ngClass]="{'is-invalid': (userNameVar.touched || userNameVar.dirty) && !userNameVar.valid }" />
+            <span class="invalid-feedback">
+              <span *ngIf="userNameVar.errors?.required">
+                الرجاء ادخال اسم المستخدم
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form--label"
+                 for="passwordId">كلمة السر</label>
+
+          <div class="col-md-7">
+            <input class="form-control"
+                   id="passwordId"
+                   type="password"
+                   placeholder="كلمة السر (مطلوب)"
+                   required
+                   ngModel
+                   name="password"
+                   #passwordVar="ngModel"
+                   [ngClass]="{'is-invalid': (passwordVar.touched || passwordVar.dirty) && !passwordVar.valid }" />
+            <span class="invalid-feedback">
+              <span *ngIf="passwordVar.errors?.required">
+                الرجاء ادخال كلمة السر
+              </span>
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            <button class="btn btn-primary mr-3"
+                    type="submit"
+                    style="width:80px"
+                    [disabled]="!loginForm.valid">
+              الدخول
+            </button>
+            <button class="btn btn-outline-secondary cancel"
+                    type="button"
+                    style="width:80px"
+                    [routerLink]="['/']">
+              الغاء
+            </button>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+
+  <div class="alert alert-danger"
+       *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+</div>

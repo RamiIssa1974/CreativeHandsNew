@@ -1,0 +1,48 @@
+/* You can add global styles to this file, and also import other style files */
+body, html {
+  overflow-x: hidden;
+  position: relative;
+  background-color: #ecdada;
+  min-height: 600px;
+}
+/* Provide sufficient contrast against white background */
+a {color: #0366d6;}
+
+code {color: #e01a76;}
+
+.btn-primary {color: #fff;background-color: #1b6ec2;border-color: #1861ac;}
+
+@media (max-width: 768px) {
+  .navbar-collapse {
+    position: fixed;
+    top: 143px;
+    right: 16px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 15px;
+    width: 90%;
+    height: 25%;
+    background-color: white;
+    border: 1px solid #2b362b;
+    z-index: 1;
+    text-align: right;
+  }
+    .navbar-collapse ul{padding:0;}
+    .navbar-collapse li {
+      padding-right: 15px;
+      border: 1px solid #8bfa0842;
+    }    
+    .navbar-collapse.collapsing {
+      left: -75%;
+      transition: height 0s ease;
+    }
+
+    .navbar-collapse.show {
+      left: 0;
+      transition: left 500ms ease-in-out;
+    }
+
+  .navbar-toggler.collapsed ~ .navbar-collapse {
+    transition: left 500ms ease-in-out;
+  }
+}

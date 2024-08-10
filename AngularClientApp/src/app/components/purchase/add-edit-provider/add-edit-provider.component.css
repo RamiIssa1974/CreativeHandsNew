@@ -1,0 +1,117 @@
+.overlay {background: #e9e9e9;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.5;z-index: 1;}
+
+.waiting-image {position: absolute;top: 50%;left: 45%;}
+
+.card-body {
+  position: relative;
+  border: 10px solid aliceblue;
+  background-color: #ddd8c1;
+  width: 100%;
+  text-align: center;
+}
+
+.form-group.row {
+  text-align: right;
+}
+
+.submit-div {
+  width:100%;
+  margin:auto;
+  text-align:center;
+}
+
+  .submit-div .btn {
+    width: 200px;
+  }
+  
+  .product-variations .delete-icon,
+  .product-image .delete-icon,
+  .new-files-list .delete-icon {
+    cursor: pointer;
+    float: left;
+    margin: 5px 5px 0 10px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+  }
+   
+
+.data-label {
+  margin-right: 20px;
+  font-weight: bold;
+  text-align: right;
+  min-width:120px;
+}
+
+.product-item {
+  padding: 7px;
+  border: 5px solid red;
+  border-radius: 10px;
+  width: 240px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.provider-info {
+  padding: 20px;
+  width: 50%;
+  display: inline-block;
+  background-color: aliceblue;
+  border:1px solid orange;
+  border-radius:10px;
+}
+  .provider-info .row{margin:0 0 5px 0}
+  .provider-info .row input,
+  .provider-info .row textarea,
+  .provider-info .row ul {
+    width: 70%;
+  }
+
+     
+  
+ .data-label {
+    margin-right: 10px;
+    margin-left: 5px;
+    font-weight: bold;
+    text-align: right;
+    width: auto;
+  }
+
+  
+  
+
+@media only screen and (max-width: 600px) {
+  .provider-info {
+    padding: 20px;
+    width: 100%;
+    display: inline-block;
+    background-color: aliceblue;
+    border: 1px solid orange;
+    border-radius: 10px;
+  }
+    .provider-info .row input,
+    .provider-info .row textarea,
+    .provider-info .row ul {
+      width: 90%;
+      margin-right:10px;
+    }
+
+  .data-label {
+    margin-right: 10px;
+    font-weight: bold;
+    text-align: right;
+    width: 25%;
+  }
+
+  .card-body {
+    padding: 0px;
+    border: none;
+  }
+
+  .product-info {
+    padding: 20px;
+    width: 100%;
+    display: inline-block;
+    background-color: aliceblue;
+  }
+}

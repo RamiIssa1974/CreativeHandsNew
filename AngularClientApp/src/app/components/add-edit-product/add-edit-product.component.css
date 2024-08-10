@@ -1,0 +1,295 @@
+.overlay {
+  background: #e9e9e9;  
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.5;
+  z-index:1;
+}
+.waiting-image {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+}
+.card-body {
+  position: relative;
+  border: 10px solid aliceblue;
+  background-color: aliceblue;
+}
+
+.form-group.row {
+  text-align: right;
+}
+
+.submit-div {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+}
+
+  .submit-div .btn {
+    width: 100px;
+  }
+
+.second-panel {
+  vertical-align: top;
+  display: inline-block;
+  padding-right: 20px;
+  width: 50%;
+  height: 100%;
+}
+
+.uploader {
+  width: 100%;
+}
+
+  .uploader .file-input {
+    display: inline;
+    width: 78% !important;
+    margin-left: 0px;
+  }
+
+  .uploader .btn {
+    float: right;
+    margin: 0 !important;
+    padding: 4px !important;
+  }
+
+    .uploader .btn img {
+      width: 20px;
+      background-color: transparent;
+      margin-left: 5px;
+    }
+
+.new-files-list {
+  margin: 0 10px 30px 0;
+}
+
+  .new-files-list .file-name {
+    margin-right: 10px;
+  }
+ 
+  .product-variations .delete-icon,
+  .product-image .delete-icon,
+  .new-files-list .delete-icon {
+    cursor: pointer;
+    float: left;
+    margin: 5px 5px 0 10px;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+  }
+
+.product-images {
+  vertical-align: top;
+}
+
+.data-label {
+  margin-right: 20px;
+  font-weight: bold;
+  text-align: right;
+  width: 15%;
+}
+
+.product-item {
+  padding: 7px;
+  border: 5px solid red;
+  border-radius: 10px;
+  width: 240px;
+  display: inline-block;
+  margin: 10px;
+}
+
+.product-info {
+  padding: 20px;
+  width: 50%;
+  display: inline-block;
+  background-color: aliceblue;
+}
+  .product-info .row input,
+  .product-info .row textarea,
+  .product-info .row ul {    
+    width: 70%;    
+  }
+.categories-row {
+  margin-right: 0px;
+  background-color: aliceblue;
+}
+.categories {
+ 
+  width: 100%;
+}
+   .categories ul {
+    list-style: none;
+    columns: 4;
+    -webkit-columns: 4;
+    -moz-columns: 4;
+   /* width: 98%!important;*/
+    margin: 0;
+    line-height:0.5;
+  }
+   .category input{ width:30px;}
+    .category input:checked {
+      color: #f00;
+      background-color: #2196F3;
+    }
+.categories-error-message{
+    color:red;
+}
+.product-image {
+  display: inline-block;
+  border: 1px solid gray;
+  padding: 5px;
+  text-align: right;
+  width: 100%;
+}
+
+.produc-image-thumb {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+  .produc-image-thumb img {
+    border-radius: 5px;
+    border: 1px solid green;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+.produc-image-name {
+  margin-right: 5%;
+  width: 65%;
+  display: inline-block;
+}
+
+.produc-image-icon {
+  width: 15%;
+  display: inline-block;
+  text-align: left;
+}
+
+.product-image img {
+  height: 180px;
+  width: 210px;
+}
+
+.product-name {
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+}
+
+.product-price {
+  color: seagreen;
+  display: inline-block;
+  width: 30%;
+}
+
+.product-info-line1 {
+  border: 1px solid white;
+  padding: 5px;
+}
+
+.product-info-line2 {
+  border: 1px solid white;
+  padding: 5px;
+  text-align: right;
+}
+
+.product-id {
+  font-weight: bold;
+}
+
+.product-info-line3 {
+  padding-top: 5px;
+  text-align: right;
+  width: 100%;
+}
+
+.cart {
+  float: left;
+  display: inline;
+  text-align: left;
+}
+.product-variations{ text-align:right;}
+.product-variations .product-variation{ border:1px solid green;}
+.product-variations .data-label { margin-right:10px;margin-left:5px; font-weight:bold; text-align:right; width:auto;}
+.product-variations .product-variation-price { width: 90px;display: inline;}
+.product-variations .product-variation-description{ width:265px; display:inline;}
+.product-variations .add-variation-item{ display:inline-block;}
+.product-variations .add-variation-item .fa-plus-circle {color: green;font-size: 27px;vertical-align:bottom; cursor:pointer;}
+
+.product-available-colours {text-align:right;margin-top:10px;}
+.product-available-colours .color-picker-div {display:inline-block;min-width:60px;position:relative;}
+.product-available-colours .color-picker-div input.color-picker {top:-15px; width:60px; height:20px;padding:5px;border:1px solid black;border-radius:5px;}
+.product-available-colours .add-color-item{ display:inline-block;margin-right:5px;}
+.product-available-colours .add-color-item .fa-plus-circle {color: green;font-size: 27px;vertical-align:bottom; cursor:pointer;}
+/* .product-available-colours .delete-icon{cursor: pointer;text-align: left; } */
+.product-available-colours .delete-icon img{width:20px;height:20px;display:inline-block;}
+.product-available-colours .product-available-colours-data-label{margin-right:10px;margin-left:5px; font-weight:bold; text-align:right; }
+.product-available-colours .product-colour{display:inline-block; border:1px solid black;margin:2px;}
+/* .product-available-colours .product-colour .product-colour-div{width:20px;height:20px;display:inline-block;} */
+.product-available-colours .product-colour-div {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+}
+.product-available-colours .delete-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+  .product-info .row input, .product-info .row textarea {
+    width: 65%;
+  }
+  .data-label {
+    margin-right: 20px;
+    font-weight: bold;
+    text-align: right;
+    width: 25%;
+  }
+  
+  .card-body {
+    padding: 0px;
+    border: none;
+  }
+  .product-info {
+    padding: 20px;
+    width: 100%;
+    display: inline-block;
+    background-color: aliceblue;
+  }
+  .uploader .file-input {
+    display: inline;
+    width: 64% !important;
+    margin-left: 0px;
+  }
+  .second-panel {
+      margin-top:10px;
+    vertical-align: top;
+    display:block;
+    padding-right: 20px;
+    width: 100%;
+    height: 100%;
+  }
+  .new-files-list {
+    margin: 0;
+  }
+  .submit-div {
+    position: inherit;   
+    margin-bottom: 20px;
+    text-align:center;
+  }
+    .submit-div .btn {
+    width:80%;
+    margin:0!important;
+  }
+}

@@ -1,0 +1,101 @@
+<div class="product-list">
+  <div class="modal-backdrop"></div>
+  <!-- <app-product-details [product]="selectedProduct"></app-product-details> -->
+  <app-product-details *ngIf="selectedProduct" [product]="selectedProduct"
+    (close)="closeProductDetailsPopup()"></app-product-details>
+
+  <div class="added-to-cart-message" [hidden]="!showAddedToCartMessage">اضيف المنتج الى سلة المشتريات</div>
+  <div class="empty-seaarch" *ngIf="showEmptySearch">{{emptySearchMessage}}</div>
+  <div class="title" *ngIf="CategoryName">
+    <h1>{{CategoryName}}</h1>
+  </div>
+  <div *ngFor='let product of filteredProducts' class="product-item">
+    <div class="sale-image"
+      [ngClass]="{'is-sale':product.SalePrice && product.SalePrice > 0 && product.SalePrice < product.Price}">
+      <img src="/assets/Images/Sale.png" />
+    </div>
+    <div class="product-image" (click)="showProduct(product)">
+      <img #img src="/assets/Images/{{product.Images[0]}}?ver=111221" [ngClass]="{'selected-image': img.selected}" />
+    </div>
+    <div class="product-info">
+      <div class="product-info-line1" (click)="showProduct(product)">
+        <div class="product-name">
+          {{product.Name}}
+          <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/add-product/',product.Id]" title="تعديل">
+            <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
+          </a>
+        </div>
+        <div class="product-price"
+          [ngClass]="{'is-sale':product.SalePrice && product.SalePrice > 0 && product.SalePrice < product.Price}">
+          <span class="normal-price">{{product.Price}}</span>
+          <span class="sale-price">{{product.SalePrice}}</span>
+          ش.ج.
+        </div>
+      </div>
+      <div class="product-info-line2" (click)="showProduct(product)">
+        <span>رقم المنتج: </span>
+        <span class="product-id">{{("000"+product.Id).slice(-4)}}</span>
+      </div>
+    </div>
+    <div class="product-info-line2 product-available-colours"
+      [ngClass]="{'has-colours': product.AvailableColours && product.AvailableColours.length}">
+      <div *ngIf="product.AvailableColours && product.AvailableColours.length">
+        <div><span class="data-label">اللون:</span></div>
+        <div *ngFor="let d of product.AvailableColours" class="product-colour" [ngStyle]="{'background-color': d}"
+          (click)="selectColour($event, d)" [ngClass]="{'active': toggle}"></div>
+      </div>
+      <div *ngIf="!(product.AvailableColours && product.AvailableColours.length)">
+        <!-- Optionally include some placeholder content or message ie No Colours Available -->
+        <span class="data-label"></span>
+      </div>
+    </div>
+
+    <div class="product-info-line3">
+      <div class="added-to-cart-quantity" *ngIf="product.StockQuantity">
+        <span><i class="fa fa-minus" aria-hidden="true" (click)="decAddProdQuantity(prodQuantity)"></i></span>
+        <input #prodQuantity type="number" value="1" />
+        <span><i class="fa fa-plus" aria-hidden="true" (click)="incAddProdQuantity(prodQuantity)"></i></span>
+        <div class="cart" *ngIf="product.StockQuantity">
+          <!--*ngIf="isLoggedIn && isAdmin"-->
+          <img width="30" src="/assets/Images/cart.png" alt="اضف الى عجله المشتريات" title="اضف الى عجله المشتريات"
+            (click)="addToCart(product, prodQuantity.value)" />
+        </div>
+      </div>
+
+      <div class="finished-in-stock" *ngIf="!product.StockQuantity">
+        <!--*ngIf="isLoggedIn && isAdmin"-->
+        <img width="80" src="/assets/Images/FinishedInStock.jpg" alt="هذا المنتج غير متوفر حاليا"
+          title="هذا المنتج غير متوفر حاليا" />
+      </div>
+    </div>
+    <div id="productVariations{{product.Id}}Div" class="product-variations hidden" *ngIf="product.ProductVariations">
+      <div class="popup-header">
+        <span class="title">امكانيات سعر المنتج</span>
+        <i class="fa fa-window-close" aria-hidden="true" (click)="closeDiv(product.Id)"></i>
+      </div>
+      <div class="popup-body" *ngIf="product.ProductVariations[0]">
+        <div class="added-to-cart-quantity">
+          <span><i class="fa fa-minus" aria-hidden="true" (click)="decAddProdQuantity(prodQuantity)"></i></span>
+          <input #prodQuantity type="number" value="1" />
+          <span><i class="fa fa-plus" aria-hidden="true" (click)="incAddProdQuantity(prodQuantity)"></i></span>
+        </div>
+        <select #selectedPrice
+          (change)="changeSelectedProductVariation(product, $event.target.value, prodQuantity, varTotal)">
+          <option *ngFor='let prVar of product.ProductVariations' value="{{prVar.Id}}">{{prVar.Description}} ب
+            {{prVar.Price}} ش</option>
+        </select>
+        <div class="cart">
+          <input class="var-tota-price" #varTotal type="text" value="{{product.ProductVariations[0].Price}}"
+            disabled="disabled" />
+          <img width="30" src="/assets/Images/cart.png" alt="اضف الى عجله المشتريات" title="اضف الى عجله المشتريات"
+            (click)="addToCart(product, prodQuantity.value,selectedPrice)" />
+        </div>
+        <div class="finished-in-stock" *ngIf="!product.StockQuantity">
+          <img width="80" src="/assets/Images/FinishedInStock.jpg" alt="هذا المنتج غير متوفر حاليا"
+            title="هذا المنتج غير متوفر حاليا" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

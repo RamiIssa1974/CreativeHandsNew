@@ -1,0 +1,195 @@
+.order-component{ top: 45px;position: relative;}
+.overlay {background: #e9e9e9;position: fixed;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.5;z-index: 1;}
+.waiting-image {position: absolute;top: 50%;left: 45%;}
+.empty-cart-message {
+    text-align:right;
+  border: 5px solid orange;
+  width: 90%;
+  margin-top: 5%;
+  margin-right: 5%;
+  padding: 50px;
+  text-align: right;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  -moz-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+}
+.sent-order-message {border: 5px solid #20ef7c;width: 50%;margin-top: 5%;margin-right: 12.5%;padding: 50px;text-align: right;border-radius: 10px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 10px 6px -6px #777;position: fixed;z-index: 1;background-color: aliceblue;}
+.order-info {background-color: aliceblue;border: 1px solid black;width: 100%;text-align: right;padding: 10px;}
+.order-info.small-view {padding:0 10px;}
+.order-info.small-view label{margin:0;}
+.Telephone {direction:ltr;}
+.order-title{display: flex; width:100%;}
+.order-title label { width:100%;  text-align: center;background-color: darkcyan;color: white;line-height: 50px;font-weight: bold;font-size: 22px;font-family: 'Times New Roman', Times, serif;}
+.data-label{ font-weight:bold; padding-left:10px;min-width:60px;}
+.data-label.view-type{float:left;}
+.order-header-row {
+  background-color: cornflowerblue;
+  color: white;
+  font-weight: bold;
+  height:38px;
+}
+.order-row:nth-child(2n+1) {background-color:#f6f3f3}
+.order-col {display: inline-block;border: 1px solid black;padding: 5px;width: 12%;text-align: center;  vertical-align:bottom;}
+ .fa.fa-minus {color:red;font-size:20px; margin:0 2px 0 2px;}
+ .fa.fa-plus {color:green;font-size:20px; margin:0 2px 0 12px;}
+  .order-col .quantity-label{width:50px;margin: 0;}
+  .order-col .price-label {margin: 0;}
+  .order-col .price-label { width: 75px;border-radius: 3px;}
+  .order-col .price-input { width: 75px;border-radius: 3px; text-align:center;}
+.order-item-number {width: 4%}
+.order-item-id {width: 7%}
+.order-item-product {width:49%; text-align: right;padding-right:10px}
+.order-item-delete {width:4%; text-align: right;padding-right:10px}
+.order-item-product img{ width:100px;height:100px}
+.order-summary {background-color:lightgray;min-height:30px;}
+.order-summary .order-delivery-price ,
+.order-summary .total-with-delivery ,
+.order-summary .order-discount ,
+.order-summary .order-total{ width:25%; display:inline-block;margin-left:20px;}
+.order-summary .order-total-quantity { display:inline-block}
+.order-summary label {line-height:1;margin-bottom:0;}
+/*.data-label.total {
+  width: 50%;
+}*/
+/*.data-value.total{ width:15%; text-align:center; font-weight:bold;}*/
+
+.add-order-item {
+  margin-top: 10px;
+  min-height: 30px
+}
+.order-item-add-icon {
+  padding-top: 4px;
+  width: 7%;
+  padding: 0;
+  vertical-align:bottom;
+}
+.add-order-item .fa-plus-circle {
+  color: green;
+  font-size: 33px;
+  margin-top:5px;
+}
+.add-order-item .order-col{height:44px;vertical-align:bottom}
+.order-item-product {
+  position: relative;  
+}
+.order-item-product .selected-product {width: 300px;padding: 2px}
+.order-item-product .products-dropdownlist {position: absolute;right: 10px;top: 40px;width: 300px; padding:5px 15px 5px 5px;  display:none; list-style-type:none;border:1px solid black;
+                                         height:500px;z-index:1;
+                                         background-color:white;
+                                         overflow:auto;
+}
+.order-item-product .products-dropdownlist option {padding: 5px 5px 5px 5px}
+
+.save-and-send {border: 2px solid blue;margin-top: 10px;padding: 15px;min-height:70px;}
+.save-and-send  button{width:100px;}
+.save-and-send .empty-cart{ width:120px;}
+.save-and-send .fa.fa-trash { font-size:21px; }
+.save-and-send .order-additional-data {text-align:right; }
+.save-and-send .buttons div {display:inline-block;}
+.save-and-send .order-additional-data .discount {display:inline-block;margin-left:10px;border: 1px solid orange; padding:10px 10px 5px 10px; border-radius:5px 5px 0px 0px;}
+.save-and-send .order-additional-data .discount label {display:inline;font-weight:bold;}
+.save-and-send .order-additional-data .discount #discountPercentId,.save-and-send .order-additional-data .discount #discountId {display:inline-block; width:70px;margin-right:5px;padding:5px}
+
+.save-and-send .order-additional-data .delivery {display:inline-block;width:170px;padding:2px 2px 2px 0;border: 1px solid orange;margin:2px 0 0 0;height:36px;border-radius:0px 0px 5px 0px;}
+.save-and-send .order-additional-data .delivery label {display:inline;font-weight:bold;font-size:13px;}
+.save-and-send .order-additional-data .delivery input{ display:inline;width:70px;padding:2px;height:26px;}
+
+.save-and-send .order-additional-data .selected-status-id{display:inline-block;margin:0 2px 0 0;width:155px;padding:2px 0 2px 0;border: 1px solid orange;border-radius:0px 0px 0px 5px;}
+.save-and-send .order-additional-data .selected-status-id label {display:inline;font-weight:bold;font-size:13px;}
+.save-and-send .order-additional-data .selected-status-id .dropdown-select{ display:inline;width:70px;}
+
+.save-and-send .order-additional-data .dropdown-select i {position: absolute;left: 3px;top: 2px;font-size: 18px;}
+.save-and-send .order-additional-data .status-id-label {margin-left: 10px;font-weight: bold;display:flex;}
+.save-and-send .order-additional-data .dropdown-select {display: inline-block;position: relative;font-family: Arial;margin-left: 10px;}
+.save-and-send .order-additional-data select.status-id {padding: 5px 10px 5px 20px;line-height: 18px;-webkit-appearance: none;-moz-appearance: none;}
+
+.error-message{ color:red; padding-right:10px;}
+.invalid { border:3px solid red;}
+
+.send-order {
+  text-align: right;
+  border: 2px solid green;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: honeydew;
+}
+  .send-order .customer-name{width:25%;margin-left:10px;}
+  .send-order .customer-tel{width:25%;margin-left:10px;}
+  .send-order .customer-address{width:25%}
+  .send-order .customer-note{width:50%;margin-right:100px}
+  .send-order .send-order-info{ margin-right:100px; color:green; display:block;}
+  .send-order .send-order-info.red{color:red;}
+  .submit-btn-div{margin: 12px 86px 0 0;}
+  .send-order .submit-btn{background-color:#17cc17; width:150px;}
+
+  
+    @media only screen and (max-width: 660px) {
+      .empty-cart-message {        
+        border: 5px solid orange;
+        width: 90%;
+        margin-top: 5%;
+        margin-right: 5%;
+        padding: 50px;
+        text-align: right;
+        border-radius: 10px;
+        webkit-box-shadow: 0 10px 6px -6px #777;
+        -moz-box-shadow: 0 10px 6px -6px #777;
+        box-shadow: 0 10px 6px -6px #777;
+      } 
+      .save-and-send .discount{display:block;width:100%;margin-left:0;padding:0px;}
+      .save-and-send .discount .arrow {width:25px;padding:0;}
+      .save-and-send button {width: 50px;}
+      .save-and-send .empty-cart {width: 120px;}
+      .save-and-send .fa.fa-trash {font-size: 21px;}
+      .save-and-send .order-additional-data .discount #discountPercentId,.save-and-send .order-additional-data .discount #discountId {width:55px;margin-right:5px;padding:2px}
+      .save-and-send .buttons {display:block;width:100%;padding:5px 0 0 0;}
+      .save-and-send .buttons div{display:inline-block;}
+     .order-summary .order-total-quantity,
+     .order-summary .order-delivery-price ,
+     .order-summary .total-with-delivery ,
+     .order-summary .order-discount ,
+     .order-summary .order-total{ width:95%; display:block;margin:20px;}
+
+  
+
+      .send-order {
+        text-align: right;
+        border: 2px solid green;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: honeydew;
+        margin-bottom: 20px;
+      }
+
+        .send-order .customer-name {
+          width: 100%;
+          margin-left: 10px;
+        }
+
+        .send-order .customer-tel {
+          width: 100%;
+          margin-left: 10px;
+        }
+
+        .send-order .customer-address {
+          width: 100%
+        }
+
+        .send-order .customer-note {
+          width: 100%
+        }
+
+        .send-order .send-order-info {
+          margin: 0;
+          color: green;
+          display: block;
+        }
+
+        .send-order .submit-btn {
+          background-color: #17cc17;
+          width: 80%;
+          margin-top: 10px;
+        }
+    }
+

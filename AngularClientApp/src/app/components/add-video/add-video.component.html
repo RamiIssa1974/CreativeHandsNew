@@ -1,0 +1,40 @@
+
+<form novalidate (ngSubmit)="saveVideo()" [formGroup]="videoForm">
+  <div class="overlay" *ngIf="isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
+  <div class="card-body">
+    <div class="page-title">اضافة فيديو</div>
+    <div class="video-info">
+      <div class="row">
+        <label class="data-label" for="idId">المعرف:</label>
+        <input id="idId" class="form-control product-price" formControlName="Id" [disabled]="true" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="videoName">اسم الفيديو:</label>
+        <input id="videoName" class="video-name form-control" formControlName="Name" [ngClass]="{'is-invalid': (videosName?.touched || videosName?.dirty) && !videosName?.valid }" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="idTitle">العنوان:</label>
+        <input id="idTitle" class="video-title form-control" formControlName="Title" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="descriptionId">الوصف:</label>
+        <textarea id="descriptionId" class="product-Description form-control" formControlName="Description"></textarea>
+      </div>
+      <div class="form-group row video-image">
+        <div class="form-group selected-video-image">
+          <div class="video-image-name">{{videosName?.value}}</div>
+        </div>
+        <div class="form-group uploader">
+          <label for="fileUploader" class="btn btn-primary mr-3"><img src="/assets/Images/AddFile.png" />اختر فيديو</label>
+          <input class="form-control file-input" id="selectedFileId" name="selectedFileId" type="text" value='{{videosName?.value}}' />
+          <input type="file" #fileUploader id="fileUploader" style="display:none;" (change)="onSelectFile(fileUploader.files)" multiple accept="video/*" />
+        </div>
+      </div>
+      <div class="submit-div">
+        <button class="btn btn-primary mr-3" type="submit" title="حفظ">حفظ</button>
+      </div>
+    </div>
+  </div>
+</form>

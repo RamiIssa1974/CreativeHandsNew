@@ -1,0 +1,80 @@
+<header>
+  <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">-->
+  <div class="container upper-bar">
+    <a *ngIf="isMobile" class="navbar-brand" [routerLink]="['/']"><img src="/assets/Images/CreativeHandsLogoMobile.jpg" /></a>
+    <div class="navbar-light upper-bar-item">
+      <button class="navbar-toggler" *ngIf="isMobile"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>      
+    </div>
+    <div class="search-box upper-bar-item">
+      <input class="search" type="text" [(ngModel)]="filterText" (keydown.enter)="updateFilterVal()" placeholder="بحث.." />
+      <button class="clear" type="button" title="تنظيف الحقل" (click)="clear()"><i class="fa fa-times" aria-hidden="true"></i></button>
+      <button class="search" type="button" title="بحث منتجات" (click)="updateFilterVal()"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="cart upper-bar-item" *ngIf="showCartIcon">
+      <a [routerLink]="['/cart/']">
+        <div class="cart-quantity">{{cartQuantity}}</div>
+        <div>
+          <img width="28" height="24" src="/assets/Images/cart.png" alt="الى عجله المشتريات" title="الى عجله المشتريات"/>
+        </div>
+      </a>
+    </div>
+    <div class="upper-bar-item ">
+      <nav role="navigation" class="navbar-expand-sm navbar-toggleable-sm" [hidden]="!isExpanded && isMobile">
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/']">الرئيسيه</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/videos']">فيديوهات</a>
+          </li>
+          <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/add-video']">اضافة فيديو</a>
+          </li>
+          <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/orders-list']">قائمة الطلبيات</a>
+          </li>
+          <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/add-product']">اضافة منتج</a>
+          </li>
+          <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/provider']">اضافة مزود</a>
+          </li>
+          <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark with-right-arrow" [routerLink]="['/purchase-list']">المشتريات</a>
+            <ul class="navbar-nav flex-grow" (click)="toggle()">
+              <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/purchase']">اضافة فاتورة شراء</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark with-right-arrow" [routerLink]="['/']">الفئات</a>
+            <ul class="navbar-nav flex-grow" (click)="toggle()">
+              <li *ngFor='let category of Categories' class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/products-list/',category.Id]">{{category.Name}}</a>
+              </li>
+            </ul>
+          </li>
+
+          <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" (click)="logOut()">Logout</a>
+          </li>
+          <li *ngIf="!isLoggedIn" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
+            <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    
+  </div>
+  <!--</nav>-->
+</header>

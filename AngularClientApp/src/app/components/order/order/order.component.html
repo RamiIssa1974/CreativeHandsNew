@@ -1,0 +1,200 @@
+<div class="order-component">
+  <div class="overlay" [hidden]="!isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
+  <div class="sent-order-message" [hidden]="!showOrderSentMessage">تم ارسال طلبيتك بنجاح سيتم الرد عليك وتجهيز طلبيتك في
+    اقرب وقت</div>
+  <div class="order-title">
+    <label class="data-label view-type">{{orderTitle}}</label>
+  </div>
+  <div *ngIf="!isLoading && !(order && order.OrderItems && order.OrderItems.length)" class="empty-cart-message">
+    عربة مشترياتك فارغه, بامكانك اضافة منتجات بواسطة اختيار منتجات من قائمة المنتجات <a class="" [routerLink]="['/']">
+      في الصفحة الرئيسيه
+    </a>
+  </div>
+  <div class="order-info" *ngIf="order && !isCartPage" [ngClass]="{'small-view': isSmallView}">
+    <div *ngIf="order.Customer.Name">
+      <label class="data-label view-type">
+        <input type="checkbox" [(ngModel)]="isSmallView"> عرض صور صغيره
+      </label>
+      <label class="data-label">اسم الزبون:</label><label class="data-value">{{order.Customer.Name}}</label>
+    </div>
+    <div *ngIf="!isSmallView"><label class="data-label">التاربخ:</label><label
+        class="data-value">{{order.CreateDate|date:'dd/MM/yyyy'}}</label></div>
+    <div><label class="data-label">هاتف:</label><label class="data-value Telephone">{{order.Customer.Tel1}}</label>
+    </div>
+    <div *ngIf="order.Customer.Tel2"><label class="data-label">هاتف اضافي:</label><label
+        class="data-value">{{order.Customer.Tel2}}</label></div>
+    <div *ngIf="order.Customer.Address &&!isSmallView"><label class="data-label">العنوان:</label><label
+        class="data-value">{{order.Customer.Address}}</label></div>
+    <div *ngIf="order.Customer.Email"><label class="data-label">ايميل:</label><label
+        class="data-value">{{order.Customer.Email}}</label></div>
+    <div *ngIf="order.Customer.Notes"><label class="data-label">ملاحظات:</label><label
+        class="data-value">{{order.Customer.Notes}}</label></div>
+  </div>
+  <div class="orders-items" *ngIf="order && order.OrderItems && order.OrderItems.length">
+    <div class="order-header-row" *ngIf="!isMobile">
+      <div class="order-col order-item-number">#</div>
+      <div class="order-col order-item-id">المعرف</div>
+      <div class="order-col order-item-product">المنتج</div>
+      <div class="order-col">الكميه</div>
+      <div class="order-col">السعر</div>
+      <div class="order-col">المبلغ</div>
+      <div class="order-col order-item-delete">مسح</div>
+    </div>
+    <app-order-item *ngFor='let orderItem of order.OrderItems;let i=index;' [isSmallView]="isSmallView"
+      [itemIndex]="i+1" [orderItem]="orderItem" (orderItemQuantityChanged)="orderItemQuantityChanged($event,orderItem)"
+      (orderItemUnitPriceChanged)="orderItemUnitPriceChanged($event,orderItem)"
+      (orderItemDeleted)="orderItemDeleted($event)"></app-order-item>
+  </div>
+  <div class="order-summary" *ngIf="order && order.OrderItems && order.OrderItems && order.OrderItems.length">
+    <div class="order-total-quantity">
+      <label class="data-label total">الكميه الكليه:</label>
+      <label class="data-value total">{{OrderTotalQuantity}}</label>
+    </div>
+    &nbsp;    
+    <div class="order-total">
+      <label class="data-label total">المبلغ الكلي:</label>
+      <label class="data-value total">{{OrderTotal}}</label>
+    </div>
+    <div class="order-delivery-price">
+      <label class="data-label">خدمة التوصيل:</label>
+      <label class="data-value">{{order.DeleveryPrice}}</label>
+    </div>
+    <div class="order-discount"
+      *ngIf="order && order.OrderItems && order.OrderItems && order.OrderItems.length && order.Discount > 0">
+      <label class="data-label">تخفيض:</label>
+      <label class="data-value">{{ (order.Discount * OrderTotal / 100) | number : '1.0-1'}}</label>
+    </div>
+    <div class="total-with-delivery">
+      <label class="data-label">المبلغ النهائي:</label>
+      <label class="data-value">{{(order.DeleveryPrice + OrderTotal -(order.Discount * OrderTotal / 100))| number :
+        '1.0-1'}}</label>
+    </div>
+  </div>
+
+  <div class="add-order-item" *ngIf="order && !isMobile">
+    <div class="order-col order-item-add-icon">
+      <i class="fa fa-plus-circle" (click)="addSelectedProductToOrder()" title="click to add to cart"></i>
+    </div>
+    <div class="order-col order-item-product">
+      <input class="selected-product" (input)="updateFilterVal($event.target.value)" (focus)="onSelectedProducFocus()"
+        (blur)="onSelectedProducLoseFocus()" [value]="newOrderItem.Product.Name" />
+      <ul class="products-dropdownlist" *ngIf="filteredProductsList.length">
+        <li *ngFor="let prod of filteredProductsList" value="{{prod.Id}}" (click)="selectProduct(prod.Id)">
+          {{prod.Name}}
+        </li>
+      </ul>
+      <label class="error-message">{{addProductMesssage}}</label>
+    </div>
+    <div class="order-col quantity">
+      <span><i class="fa fa-plus" aria-hidden="true" (click)="incAddProdQuantity(newOrderItem)"></i></span>
+      <label class="quantity-label">{{newOrderItem.Quantity}}</label>
+      <span><i class="fa fa-minus" aria-hidden="true" (click)="decAddProdQuantity(newOrderItem)"></i></span>
+    </div>
+    <div class="order-col">
+      <input class="price-input" value="{{newOrderItem.UnitPrice}}" />
+    </div>
+    <div class="order-col">
+      <input class="price-input" value="{{newOrderItem.Quantity*newOrderItem.UnitPrice}}" />
+    </div>
+  </div>
+  <div class="save-and-send" *ngIf="order && order.OrderItems && order.OrderItems.length">
+    <div class="order-additional-data" *ngIf="isAdmin">
+      <div class="discount">
+        <label for="discountId">تخفيض:</label>
+        <input #odp id="discountPercentId" class="form-control" [(ngModel)]="orderDiscountPercent" />%
+        <input class="arrow" type="button" title=">>" (click)="setOrderDiscountPercent(odp.value)" value=">>" />
+        <input class="arrow" type="button" title="<<" (click)="setOrderDiscount(od.value)" value="<<" />
+        <input #od id="discountId" class="form-control arrow" [(ngModel)]="orderDiscount" />ش
+      </div>
+      <div>
+        <div class="delivery">
+          <label for="deliveryId">خدمة التوصيل:</label>
+          <input id="deliveryId" class="form-control" [(ngModel)]="orderdeliveryPrice" />
+        </div>
+        <div class="selected-status-id">
+          <label class="status-id-label" for="orderStatusId">الحاله:</label>
+          <div class="dropdown-select">
+            <select id="orderStatusId" class="status-id" [(ngModel)]="orderStatusId">
+              <option class="dropdown-item" value="0" [selected]="true">الكل</option>
+              <option value="1">سلة مشتريات</option>
+              <option value="2">قيد الانتظار</option>
+              <option value="3">جاهزه</option>
+              <option value="4">ارسلت</option>
+              <option value="5">مدفوع</option>
+              <option value="6">ملغي</option>
+              <option value="7">تامه</option>
+            </select>
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <div class="buttons-1" *ngIf="order && order.StatusId==1">
+        <a class="" [routerLink]="['/']">متابعة المشتريات</a>
+        <button class="btn btn-primary m-2 empty-cart" type="button" title="افرغ السله" [disabled]="!isAdmin && 1==2"
+          (click)="emptyTheCart()">افرغ السله <i class="fa fa-trash" aria-hidden="true"></i></button>
+      </div>
+      <div class="buttons-2">
+        <button class="btn btn-primary m-2" type="button" title="حفظ" [disabled]="!isAdmin && 1==2"
+          (click)="saveOrder()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="send-order"
+    *ngIf="sendOrderForm && order && order.OrderItems && order.OrderItems.length && order.StatusId==1">
+    <h4>ارسال طلبيه</h4>
+    <form novalidate (ngSubmit)="sendOrder()" [formGroup]="sendOrderForm">
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="customer-name">
+            <label class="data-label" for="nameId">الاسم:</label>
+            <input id="nameId" class="form-control" formControlName="CustomerName"
+              [ngClass]="{'is-invalid': (customerName.touched || customerName.dirty) && !customerName.valid }" />
+          </div>
+          <div class="customer-tel">
+            <label class="data-label" for="telId">رقم الهاتف:</label>
+            <input id="telId" class="form-control" formControlName="CustomerTel"
+              [ngClass]="{'is-invalid': (customerTel.touched || customerTel.dirty) && !customerTel.valid }" />
+          </div>
+          <div class="customer-address">
+            <label class="data-label" for="addressId">العنوان:</label>
+            <input id="addressId" class=" form-control" formControlName="CustomerAddress"
+              [ngClass]="{'is-invalid': (customerAddress.touched || customerAddress.dirty) && !customerAddress.valid }" />
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="noteId">ملاحظات:</label>
+          <textarea id="noteId" class="customer-note form-control" formControlName="CustomerNote"
+            [ngClass]="{'is-invalid': (customerNote.touched || customerNote.dirty) && !customerNote.valid }"></textarea>
+        </div>
+        <div class="form-group row">
+          <div>
+            <span class="send-order-info">يسرنا اختيارك لنا</span>
+            <span class="send-order-info">بالضغط على زر ارسال سيتم حفظ طلبيتك في الجهاز</span>
+            <span class="send-order-info"> أنت غير مجبر على الشراء ويمكنك تغيير او الغاء الطلبيه في كل مرحله</span>
+            <span class="send-order-info">احد مندوبينا سيتواصل معك قريبا لاتمام الطلبيه</span>
+            <span class="send-order-info red ">السعر لا يشمل خدمة التوصيل</span>
+            <span class="send-order-info ">التوصيل في كفرقاسم,كفربرا وجلجوليه مجاني. في الطيره الطيبه وقلنسوه ب30 ش وفي
+              سائر البلاد 40 ش</span>
+            <span class="send-order-info">مع الشكر الجزيل, الأيدي المبدعه</span>
+          </div>
+          <div class="submit-btn-div">
+            <button class="btn btn-primary m-2 submit-btn" type="submit" title="ارسال طلبيه">ارسال</button>
+          </div>
+          
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!--<div>orderdeliveryPrice:{{orderdeliveryPrice}}</div>
+<div>orderStatusId:{{orderStatusId}}</div>-->
+<!-- {{order|json}}-->
+<!--{{sendOrderForm.value|json}}-->
+<!--{{newOrderItem|json}}-->
+<!--{{filteredProductsList|json}}-->

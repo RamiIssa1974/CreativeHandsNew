@@ -1,0 +1,51 @@
+  
+<form novalidate (ngSubmit)="saveProvider()" [formGroup]="providerForm">
+  <div class="overlay" *ngIf="isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
+  <div class="card-body">
+    <div class="provider-info">
+      <div class="row">
+        <label class="data-label" for="idId">المعرف:</label>
+        <input id="idId" class="form-control product-price" formControlName="Id" [disabled]="true" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="nameId">اسم المزود:</label>
+        <input id="nameId" class="product-name form-control" formControlName="Name" [ngClass]="{'is-invalid': (providersName.touched || providersName.dirty) && !providersName.valid }" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="idNId">رقم الهويه:</label>
+        <input id="idNId" class="product-price form-control" formControlName="IdN" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="tel1Id">هاتف 1:</label>
+        <input id="tel1Id" class="product-sale-price form-control" formControlName="Tel1" [ngClass]="{'is-invalid': (providersTel1.touched || providersTel1.dirty) && !providersTel1.valid }" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="tel2Id">هاتف 2:</label>
+        <input id="tel2Id" class="product-barcode form-control" formControlName="Tel2" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="addressId">العنوان:</label>
+        <input id="addressId" class="product-stockQuantity form-control" formControlName="Address" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="emailId">بريد الكتروني:</label>
+        <input  class="product-Description form-control" formControlName="Email" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="websiteId">الموقع الالكتروني:</label>
+        <input id="websiteId" class="product-stockQuantity form-control" formControlName="WebSite" />
+      </div>
+      <div class="row">
+        <label class="data-label" for="descriptionId">الوصف:</label>
+        <textarea id="descriptionId" class="product-Description form-control" formControlName="Description"></textarea>
+      </div>
+      <div class="submit-div">
+        <button class="btn btn-primary mr-3" type="submit" title="حفظ">حفظ</button>
+      </div>
+    </div>   
+  </div>
+</form>
+
+

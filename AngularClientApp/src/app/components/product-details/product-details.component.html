@@ -1,0 +1,84 @@
+ <div class="popup" *ngIf="product">
+  <div class="added-to-cart-message" [hidden]="!showAddedToCartMessage">اضيف المنتج الى سلة المشتريات</div>
+  <div class="product-item">
+    <div class="popup-header">
+      <span class="title">تفاصيل المنتج</span>
+      <i class="fa fa-window-close" aria-hidden="true" (click)="closeProductDetailsPopup()"></i>
+    </div>
+    <div class="popup-body">
+
+      <div class="product-name">
+        {{product.Name}}
+        <a *ngIf="isLoggedIn && isAdmin" [routerLink]="['/add-product/',product.Id]" title="تعديل">
+          <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
+        </a>
+      </div>
+      <div class="product-id">
+        <span class="data-label">رقم المنتج: </span>
+        <span class="data-value">{{("000"+product.Id).slice(-4)}}</span>
+      </div>
+
+      <div class="image-gallery">
+        <div *ngFor='let image of product.Images;let i=index' class="col current-image">
+          <div class="col next" *ngIf="product.Images.length > 1"><i class="fa fa-arrow-right" (click)="showImage(i+1)"></i></div>
+          <img src="/assets/Images/{{product.Images[i]}}?ver=111221" />
+          <div class="col prev" *ngIf="product.Images.length > 1"><i class="fa fa-arrow-left" (click)="showImage(i-1)"></i></div>
+        </div>
+      </div>
+
+      <div class="product-price" [ngClass]="{'is-sale':product.SalePrice && product.SalePrice > 0 && product.SalePrice < product.Price}">
+        <span>السعر</span>
+        <span class="normal-price">{{product.Price}}</span>
+        <span class="sale-price">{{product.SalePrice}}</span>
+        ش.ج.
+      </div>
+      <div class="product-available-colours" *ngIf="product.AvailableColours && product.AvailableColours.length">
+        <div>
+          <span class="data-label">اللون:</span>
+        </div>
+         
+          <div *ngFor="let d of product.AvailableColours"
+               class="product-colour" [ngStyle]="{'background-color': d}"
+               (click)="selectColour($event, d)" [ngClass]="{'active': toggle}">
+          </div>
+          
+      </div>
+      <div class="product-description" *ngIf="product.Description">
+        <div>
+          <span class="data-label">وصف المنتج:</span>
+        </div>
+        <span class="data-value">{{product.Description}}</span>
+      </div>
+
+      <div class="added-to-cart-quantity" *ngIf="product.StockQuantity && !(product.ProductVariations && product.ProductVariations.length > 0)">
+        <span><i class="fa fa-minus" aria-hidden="true" (click)="decAddProdQuantity(prodQuantity)"></i></span>
+        <input #prodQuantity type="number" value="1" />
+        <span><i class="fa fa-plus" aria-hidden="true" (click)="incAddProdQuantity(prodQuantity)"></i></span>
+        <img class="cart" width="30" src="/assets/Images/cart.png" alt="اضف الى عجله المشتريات" title="اضف الى عجله المشتريات" (click)="addToCart(product, prodQuantity.value)" />
+      </div>
+      <div class="finished-in-stock" *ngIf="!product.StockQuantity">
+        <!--*ngIf="isLoggedIn && isAdmin"-->
+        <img width="80" src="/assets/Images/FinishedInStock.jpg" alt="هذا المنتج غير متوفر حاليا" title="هذا المنتج غير متوفر حاليا" />
+      </div>
+
+      <div class="product-variations" *ngIf="product.ProductVariations && product.ProductVariations.length > 0">
+        <div class="title data-label">امكانيات سعر المنتج</div>
+        <div>
+          <select #selectedPrice (change)="changeSelectedProductVariation(product, $event.target.value, prodQuantity, varTotal)">
+            <option *ngFor='let prVar of product.ProductVariations' value="{{prVar.Id}}">{{prVar.Description}} ب {{prVar.Price}} ش</option>
+          </select>
+          <div class="added-to-cart-quantity" *ngIf="product.StockQuantity">
+            <span><i class="fa fa-minus" aria-hidden="true" (click)="decAddProdVarQuantity(product, selectedPrice, prodQuantity, varTotal)"></i></span>
+            <input #prodQuantity type="number" value="1" />
+            <span><i class="fa fa-plus" aria-hidden="true" (click)="incAddProdVarQuantity(product, selectedPrice, prodQuantity, varTotal)"></i></span>
+            <div class="cart">
+              <img width="30" src="/assets/Images/cart.png" alt="اضف الى عجله المشتريات" title="اضف الى عجله المشتريات"
+                   (click)="addToCart(product, prodQuantity.value, selectedPrice)" />
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

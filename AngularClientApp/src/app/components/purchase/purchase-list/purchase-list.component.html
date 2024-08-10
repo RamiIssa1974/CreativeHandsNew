@@ -1,0 +1,87 @@
+<!-- {{purchsesList|json}} -->
+<div class="overlay" [hidden]="!isLoading">
+  <img class="waiting-image" src="/assets/Images/loading.gif" />
+</div>
+<h1>قائمة المشتريات</h1>
+<div class="filter-div">
+  <div class="filter-item">
+    <label class="data-label" for="providerIdId">المزود:</label>
+    <div class="dropdown-select" *ngIf="providersList">
+      <select id="providerIdId" class="provider-id" [(ngModel)]="selectProviderId">
+        <option value="-1">الكل</option>
+        <option *ngFor="let provider of providersList;let index=index" class="dropdown-item" value="{{provider.Id}}">{{provider.Name}}</option>
+      </select>
+      <i class="fa fa-filter" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div class="filter-item">
+    <!--<label class="from-date-filter-label" for="fromDateId">من تاريخ:</label>-->
+    <input id="fromDateId" class="filter-input" [(ngModel)]="fromDateFilter" (keydown.enter)="filterByFromDate()" placeholder="من تاريخ" />
+
+    <!--<label class="to-date-filter-label" for="toDateId">حتى تاريخ:</label>-->
+    <input id="toDateId" class="filter-input" [(ngModel)]="toDateFilter" (keydown.enter)="filterByToDate()" placeholder="حتى تاريخ" />
+  </div>
+  <div class="filter-item buttons">
+    <button class="btn btn-primary m-2 submit-btn" (click)="cleanFilters()">تنظيف الحقول</button>
+    <button class="btn btn-primary m-2 submit-btn" (click)="getPurchases()">بحث</button>
+  </div>
+</div>
+
+<div class="purchases-list" *ngIf="!isMobileResolution">
+  <div class="purchase-header-row">
+    <div class="purchase-col">#</div>
+    <div class="purchase-col">المعرف</div>
+    <div class="purchase-col">التاريخ</div>
+    <div class="purchase-col">المزود</div>
+    <div class="purchase-col">المبلغ</div>
+    <div class="purchase-col">الوصله</div>
+    <div class="purchase-col">تفاصيل</div>
+    <div class="purchase-col">الطلبيه</div>
+  </div>
+   
+  <div class="purchase-row" *ngFor='let purchase of purchsesList;let i=index;'>
+    <div class="purchase-col">{{i+1}}</div>
+    <div class="purchase-col">{{purchase.Id}}</div>
+    <div class="purchase-col">{{purchase.CreateDate |date:'dd/MM/yyyy'}}</div>
+    <div class="purchase-col">{{purchase.Provider?.Name}}</div>
+    <div class="purchase-col">{{purchase.Amount}}</div>
+    <div class="purchase-col">
+      <a href="{{purchase.PurchaseLink}}" target="_blank">فاتوره</a>
+    </div>
+    <div class="purchase-col description">
+      <span>{{  purchase.Description?purchase.Description: "&nbsp;" }}</span>      
+    </div>
+    <div class="purchase-col purchase-image">
+      <img class="purchase-full-image" (click)="setActive($event)"
+           src="/assets/Images/Purchases/{{purchase.Image }}" />
+      <img class="purchase-thumb" (click)="setActive($event)"
+           src="/assets/Images/attachment.png" />
+    </div>
+  </div>
+</div>
+<div class="mobile-purchases-list" *ngIf="isMobileResolution">
+  <div class="purchase-item" *ngFor='let purchase of purchsesList'>
+    <div class="purchase-item-detail">
+      <span class="purchase-item-detail-lable">المعرف:</span>
+      <span class="purchase-item-detail-data">{{purchase.Id}}</span>
+    </div>
+    <div class="purchase-item-detail">
+      <span class="purchase-item-detail-lable">التاريخ:</span>
+      <span class="purchase-item-detail-data">{{purchase.CreateDate |date:'dd/MM/yyyy'}}</span>
+    </div>
+    <div class="purchase-item-detail">
+      <span class="purchase-item-detail-lable">المزود:</span>
+      <span class="purchase-item-detail-data">{{purchase.Provider.Name}}</span>
+    </div>
+    <div class="purchase-item-detail">
+      <img class="purchase-item-detail-data"
+           [ngClass]="{ 'active' : isActive }" (click)="isActive = !isActive"
+           src="/assets/Images/Purchases/{{purchase.Image }}" />
+    </div>
+
+    <div class="purchase-item-detail">
+      <span class="purchase-item-detail-lable">المبلغ:</span>
+      <span class="purchase-item-detail-data"> {{ purchase.Amount }}</span>
+    </div>
+  </div>
+</div>

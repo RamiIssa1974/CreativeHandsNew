@@ -1,0 +1,11 @@
+.video-list{
+    padding:10px;
+    margin-top: 45px;
+}
+.video-item {
+  display: inline-block;
+  border: 1px solid green;
+  margin:5px;
+}
+.video-item .title{ text-align: center;}
+.video-item .description{ text-align: right;}

@@ -1,0 +1,15 @@
+<div class="overlay" *ngIf="isLoading">
+  <img class="waiting-image" src="/assets/Images/loading.gif" />
+</div>
+
+<div class="video-list">
+  <div class="video-item" *ngFor='let video of videos'>
+    <div class="title">{{video.Title}}</div>
+    <video width="320" height="240" controls>
+      <source src="assets/videos/{{video.Name}}" type="video/mp4">
+    </video>
+    <div class="description">{{video.Title}}</div>
+  </div>
+  
+</div>
+

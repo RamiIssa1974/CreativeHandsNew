@@ -1,0 +1,4 @@
+.main-window {
+  position: absolute;
+  z-index: 1;
+}

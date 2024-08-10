@@ -1,0 +1,58 @@
+<form novalidate (ngSubmit)="savePurchase()" [formGroup]="purchaseForm">
+  <div class="overlay" *ngIf="isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
+  <div class="card-body">
+    <div class="purchase-info">
+      <div class="form-group row title">
+        <span class="title">فاتورة شراء</span> 
+      </div>
+        <div class="form-group row">
+          <label class="data-label" for="idId">المعرف:</label>
+          <input id="idId" class="form-control purchase-id" formControlName="Id" [disabled]="true" />
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="providerIdId">المزود:</label>
+          <div class="dropdown-select" *ngIf="providersList">
+            <select id="providerIdId" class="provider-id" formControlName="ProviderId">
+              <option *ngFor="let provider of providersList;let index=index" class="dropdown-item" value="{{provider.Id}}">{{provider.Name}}</option>
+            </select>
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="amountId">المبلغ:</label>
+          <input id="amountId" class="purchase-amount form-control" formControlName="Amount" [ngClass]="{'is-invalid': (purchasesAmount.touched || purchasesAmount.dirty) && !purchasesAmount.valid }" />
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="CreateDateId">تاريخ الشراء:</label>
+          <input id="CreateDateId" class="purchase-date form-control" formControlName="CreateDate" [ngClass]="{'is-invalid': (purchasesDate.touched || purchasesDate.dirty) && !purchasesDate.valid }" />
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="PurchaseLinkId">رابط الفاتوره:</label>
+          <input id="PurchaseLinkId" class="purchase-purchase-link form-control" formControlName="PurchaseLink" [ngClass]="{'is-invalid': (purchasesPurchaseLink.touched || purchasesPurchaseLink.dirty) && !purchasesPurchaseLink.valid }" />
+        </div>
+        <div class="form-group row">
+          <label class="data-label" for="descriptionId">الوصف:</label>
+          <textarea id="descriptionId" class="purchase-Description form-control" formControlName="Description"></textarea>
+        </div>
+        <div class="form-group row purchase-image">
+          <div class="form-group selected-purchase-image">
+            <div class="purchase-image-thumb"><img src="/assets/Images/{{purchasesImage?.value || 'No image available'  }}" /></div>
+            <div class="purchase-image-name">{{purchasesImage?.value || 'No image available' }}</div>            
+          </div>
+          <div class="form-group uploader">
+            <label for="fileUploader" class="btn btn-primary mr-3"><img src="/assets/Images/AddFile.png" />اختر صوره</label>
+            <input class="form-control file-input" id="selectedFileId" name="selectedFileId" type="text" value='{{purchasesImage.value}}' />
+            <input type="file" #fileUploader id="fileUploader" style="display:none;" (change)="onSelectFile(fileUploader.files)" multiple accept="image/*" />
+          </div>
+        </div>
+
+        <div class="submit-div">
+          <button class="btn btn-primary mr-3" type="submit" title="حفظ">حفظ</button>
+        </div>
+      </div>
+    </div>
+</form>
+
+

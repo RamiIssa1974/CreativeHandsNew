@@ -1,0 +1,134 @@
+<div>
+  {{InvalidControls()}}
+</div>
+<form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm">
+  <div class="overlay" *ngIf="isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
+  <div class="card-body">
+    <div class="product-info">
+      <div class="form-group row">
+        <label class="data-label" for="idId">المعرف:</label>
+        <input id="idId" class="form-control product-price" formControlName="Id" [disabled]="true" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="nameId">اسم المنتج:</label>
+        <input id="nameId" class="product-name form-control" formControlName="Name"
+          [ngClass]="{'is-invalid': (prodName?.touched || prodName?.dirty) && !prodName?.valid }" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="priceId">السعر:</label>
+        <input id="priceId" class="product-price form-control" formControlName="Price"
+          [ngClass]="{'is-invalid': (prodPrice?.touched || prodPrice?.dirty) && !prodPrice?.valid }" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="salePriceId">سعر الحمله:</label>
+        <input id="salePriceId" class="product-sale-price form-control" formControlName="SalePrice"
+          [ngClass]="{'is-invalid': (prodSalePrice?.touched || prodSalePrice?.dirty) && !prodSalePrice?.valid }" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="barcodeId">باركود:</label>
+        <input id="barcodeId" class="product-barcode form-control" formControlName="Barcode" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="stockQuantityId">الكميه المتوفره:</label>
+        <input id="stockQuantityId" class="product-stockQuantity form-control" formControlName="StockQuantity"
+          [ngClass]="{'is-invalid': (prodStockQuantity?.touched || prodStockQuantity?.dirty) && !prodStockQuantity?.valid }" />
+      </div>
+      <div class="form-group row">
+        <label class="data-label" for="descriptionId">الوصف:</label>
+        <textarea id="descriptionId" class="product-Description form-control" formControlName="Description"></textarea>
+      </div>
+    </div>
+    <div class="second-panel">
+      <div style="color:red" *ngIf="productForm.controls['Images'].errors">
+        الرجاء ادراج صوره واحده على الأقل
+      </div>
+      <div class="product-images" *ngIf="productImages">
+        <div class="form-group product-image" formArrayName="Images"
+          *ngFor="let image of productImages.controls;let index=index">
+          <div class="produc-image-thumb"><img src="/assets/Images/{{image.value }}" /></div>
+          <div class="produc-image-name">{{image.value}}</div>
+          <div class="delete-icon"><img src="/assets/Images/delete.png" (click)="deleteFile( image, index )"
+              style="width:20px;height:20px;" /></div>
+        </div>
+        <div class="form-group uploader">
+          <label for="fileUploader" class="btn btn-primary mr-3"><img src="/assets/Images/AddFile.png" />اختر
+            صوره</label>
+          <input class="form-control file-input" id="selectedFileId" name="selectedFileId" type="text"
+            value='{{selectedfileName}}' />
+          <input type="file" #fileUploader id="fileUploader" style="display:none;"
+            (change)="onSelectFile(fileUploader.files)" multiple accept="image/*" />
+        </div>
+      </div>
+      <div class="product-variations">
+        <div class="form-group" formArrayName="ProductVariations"
+          *ngFor="let prVar of productVariations.controls;let index=index">
+          <div [formGroup]="prVar" class="product-variation">
+            <label class="data-label">الوصف:</label>
+            <label class="product-variation-description">{{prVar.value.Description}}</label>
+            <label class="data-label">السعر:</label>
+            <label class="product-variation-price">{{prVar.value.Price}}</label>
+            <div class="delete-icon"><img src="/assets/Images/delete.png" (click)="deleteProductVariations( index )"
+                style="width:20px;height:20px;" /></div>
+          </div>
+        </div>
+        <div class="add-variation-item">
+          <i class="fa fa-plus-circle" (click)="addVariation(productVariationPrice,productVariationDescription)"></i>
+        </div>
+        <label for="productVariationDescriptionId" class="data-label">الوصف:</label>
+        <input id="productVariationDescriptionId" #productVariationDescription type="text"
+          class="product-variation-description form-control" />
+        <label form="productVariationPriceId" class="data-label">السعر:</label>
+        <input id="productVariationPriceId" #productVariationPrice type="text"
+          class="product-variation-price form-control" />
+      </div>
+
+      <div class="product-available-colours">
+        <div class="color-picker-div">
+          <input class="color-picker" [(colorPicker)]="selectedColour" [style.background]="selectedColour"
+            [value]="selectedColour" />
+        </div>
+        <div class="add-color-item"><i class="fa fa-plus-circle" (click)="addAvailableColour()"></i></div>
+        <label class="product-available-colours-data-label">الالوان المتوفره:</label>
+        <div class="form-group product-colour" formArrayName="AvailableColours">
+          <div *ngFor="let prClr of prodAvailableColours.controls; let index = index" [formGroupName]="index"
+            style="display: inline-flex; align-items: center;">
+            <div class="product-colour-div" [ngStyle]="{'background-color': prClr.value.Colour}">
+            </div>
+            <div class="delete-icon">
+              <img src="/assets/Images/delete.png" (click)="deleteAvailableColour(index)" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="submit-div">
+        <button class="btn btn-primary mr-3" type="submit" title="حفظ">حفظ</button>
+      </div>
+    </div>
+    <div class="form-group row categories-row" *ngIf="categories">
+      <div>
+        <label class="data-label" for="DescriptionId">التصنيفات:</label>
+      </div>
+      <div>
+        <div class="categories">
+          <ul>
+            <li class="category" *ngFor="let cat of categories;let index=index">
+              <label for="cat{{index}}" class="container">
+                <input id="cat{{index}}" name="cat{{index}}" type="checkbox" title="{{cat.Name}}" value="{{cat.Id}}"
+                  [(checked)]="cat.IsBelongToProduct" [ngClass]="{'checked': cat.IsBelongToProduct === true}"
+                  (change)="onCatChange($event,cat.Id)" />
+                {{cat.Name}}
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div class="categories-error-message" *ngIf="productForm.controls['Categories'].errors">
+          الرجاء اختيارتصنيق واحد على الأقل
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

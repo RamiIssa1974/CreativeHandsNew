@@ -1,0 +1,52 @@
+ .overlay {background: #e9e9e9;position: absolute;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.5;z-index: 1;}
+ .waiting-image {position: absolute;top: 50%;left: 45%;}
+ .page-title {font-weight:bold;font-size:18px;}
+ .card-body {position: relative;border: 10px solid aliceblue;background-color: #ddd8c1;width: 100%;text-align: center;top: 45px;}
+.video-info .row {
+  text-align: right;
+  padding: 10px;
+}
+
+ .submit-div {margin: 20px 0 20px 0;text-align: center;}
+ .submit-div .btn {width: 80%;margin: 0 !important;}
+
+.uploader {width: 100%;}
+.uploader .file-input {display: inline;width: 65%;margin-right: 13px;}
+.uploader .btn {float: right;margin: 0 !important;padding: 4px !important;}
+.uploader .btn img {width: 20px;background-color: transparent;margin-left: 5px;height:20px;}
+ 
+  .data-label {margin-right: 20px;font-weight: bold;text-align: right;width: 18%;}
+  .video-info {padding: 7px;border: 1px solid orange;border-radius: 10px;width: 500px;display: inline-block;margin: 10px;background-color: aliceblue;}
+  .video-info .row input,
+  .video-info .row textarea,
+  .video-info .row ul {width: 65%;}
+  .form-group.row .title{ width:100%;margin:auto;text-align:center;font-weight:bold;font-size:x-large;color:brown;}
+  .dropdown-select i {position: absolute;left: 12px;top: 12px;font-size: 20px;}
+  .status-id-label {margin-left: 10px;font-weight: bold;display:flex;}
+  .dropdown-select {display: inline-block;position: relative;font-family: Arial;margin-left: 10px;}
+  .dropdown-select select{height:40px;min-width:361px;border-radius:5px;border-color:#ced4da;padding-right:15px}
+
+  .video-image {display: inline-block;border: 1px solid gray;padding: 5px;text-align: right;width: 83%;}
+  .selected-video-image {display: inline-block;border: 1px solid gray;padding: 5px;text-align: right;width: 100%;margin-bottom: 10px;}
+  .video-image-thumb {margin-right: 10px;display: inline-block;}
+  .video-image-thumb img {border-radius: 5px;border: 1px solid green;width: 40px !important;height: 40px !important;}
+  .video-image-name {margin-right: 5%;width: 65%;display: inline-block;}
+  .video-image-icon {width: 15%;display: inline-block;text-align: left;}
+  .video-image img {height: 180px;width: 210px;}
+  .video-image .delete-icon {cursor: pointer;float: left;margin: 5px 5px 0 10px;width: 20px;height: 20px;background-color: transparent;}
+  .video-amount {color: seagreen;display: inline-block;width: 30%;}
+  .video-id {font-weight: bold;}
+
+/* Mobile Style ***********************************************************************************************   */
+@media only screen and (max-width: 600px) {
+  .video-info {padding: 7px;border: 1px solid orange;border-radius: 10px;width: 95%;display: inline-block;margin: 10px;background-color: aliceblue;}
+  .video-info .row input, .purchase-info .row textarea {width: 85%;margin-right: 20px;margin-bottom: 5px;}
+  .data-label {margin-right: 20px;font-weight: bold;text-align: right;width: 80%;}
+  .video-image-name {margin-right: 5%;width: 48%;display: inline-block;}
+  .card-body {padding: 0px;border: none;}
+
+  .uploader .file-input {display: inline;width: 98% !important;margin: 10px 0px 0 0 !important;}
+   
+  .submit-div {margin: 20px 0 20px 0;text-align: center;}
+  .submit-div .btn {width: 80%;margin: 0 !important;}
+}
