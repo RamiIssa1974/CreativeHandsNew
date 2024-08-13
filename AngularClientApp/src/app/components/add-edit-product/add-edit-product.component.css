@@ -130,7 +130,8 @@
     margin: 0;
     line-height:0.5;
   }
-   .category input{ width:30px;}
+  .categories li{line-height: 1.3;}
+   .category input{ width:30px;min-height: 20px;}
     .category input:checked {
       color: #f00;
       background-color: #2196F3;
@@ -292,4 +293,20 @@
     width:80%;
     margin:0!important;
   }
+  .categories ul {
+    list-style: none;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+   /* width: 98%!important;*/
+    margin: 0;
+    line-height:0.5;
+  }
+  .categories li{line-height: 1.3;}
+  .categories li .container{padding: 0 0 0 0;}
+   .category input{ width:30px;min-height: 20px;}
+    .category input:checked {
+      color: #f00;
+      background-color: #2196F3;
+    }
 }

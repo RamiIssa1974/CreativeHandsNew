@@ -177,7 +177,8 @@
         }
 
         .send-order .customer-note {
-          width: 100%
+          width: 94%;
+          margin-right: 12px;
         }
 
         .send-order .send-order-info {
@@ -188,8 +189,9 @@
 
         .send-order .submit-btn {
           background-color: #17cc17;
-          width: 80%;
+          width: 45%;
           margin-top: 10px;
+          padding: 12px;
         }
     }
 

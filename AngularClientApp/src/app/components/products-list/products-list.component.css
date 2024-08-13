@@ -60,7 +60,7 @@ vertical-align: top;
   .product-variations .popup-body .cart .var-tota-price{ width:60px; margin-left:20px}
 
    @media only screen and (max-width: 600px) {
-      .product-item {position:relative;padding: 4px;border: 1px solid red;border-radius: 5px;width: 95%;display: inline-block;margin: 2%;}
+      .product-item {position:relative;padding: 4px;border: 1px solid red;border-radius: 5px;width: 95%;display: inline-block;margin: 2%;min-height: 220px;}
       
       .product-info {vertical-align:top;text-align: right;width: 70%;height:100px;display: inline-block;background-color: aliceblue;}
       
