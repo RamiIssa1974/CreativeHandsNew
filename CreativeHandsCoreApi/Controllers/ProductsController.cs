@@ -4,6 +4,7 @@ using CreativeHandsCoreApi.Services;
 using MarketCoreGeneral.Models.Orders;
 using MarketCoreGeneral.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 
 namespace CreativeHandsCoreApi.Controllers
@@ -29,7 +30,8 @@ namespace CreativeHandsCoreApi.Controllers
         public async Task<ActionResult<List<ProductModel>>> GetProducts(GetProductRequest request)
         {
             try
-            {
+            {             
+                //TODO this function returns all the product and dont filter data by request
                 var allProducts = await _productsRepository.GetCachedProductsAsync(request);
 
                 if (allProducts == null || !allProducts.Any())

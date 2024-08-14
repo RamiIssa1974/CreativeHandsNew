@@ -18,6 +18,7 @@ builder.Host.UseSerilog();
 // Add services to the container.
 builder.Services.Configure<FtpSettings>(builder.Configuration.GetSection("FtpSettings"));
 builder.Services.Configure<SmsSettings>(builder.Configuration.GetSection("SmsSettings"));
+builder.Services.Configure<CacheSettings>(builder.Configuration.GetSection("CacheSettings"));
 
 builder.Services.AddCors(options =>
 {

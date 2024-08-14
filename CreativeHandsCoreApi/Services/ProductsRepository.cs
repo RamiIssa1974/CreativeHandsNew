@@ -2,10 +2,12 @@
 using CreativeHandsCoreApi.DbContexts;
 using CreativeHandsCoreApi.Entities.Sql.Products;
 using CreativeHandsCoreApi.Services.Mail;
+using MarketCoreGeneral.Models;
 using MarketCoreGeneral.Models.Products;
 using MarketCoreGeneral.Requests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace CreativeHandsCoreApi.Services
@@ -18,6 +20,7 @@ namespace CreativeHandsCoreApi.Services
         private readonly IConfiguration _configuration;
         private readonly MarketContext _context;
         private readonly IMailService _mailer;
+        private readonly CacheSettings _cacheSettings;
         private readonly HttpContent? httpContent;
         private readonly HttpClient httpClient;
         public ProductsRepository(IMemoryCache memoryCache,
@@ -25,7 +28,8 @@ namespace CreativeHandsCoreApi.Services
             ILogger<SqlMarketRepository> logger,
             IConfiguration configuration,
             IMapper mapper,
-            IMailService mailer)
+            IMailService mailer,
+            IOptions<CacheSettings> cacheSettings)
         {
             _memoryCache = memoryCache;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -33,6 +37,7 @@ namespace CreativeHandsCoreApi.Services
             _configuration = configuration;
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mailer = mailer;
+            _cacheSettings = cacheSettings.Value;
         }
         public async Task<List<ProductColourModel>> GetAvailableColours()
         {
@@ -44,15 +49,13 @@ namespace CreativeHandsCoreApi.Services
         public async Task<List<ProductModel>> GetCachedProductsAsync(GetProductRequest request)
         {
             if (_memoryCache.TryGetValue("cachedAllProducts", out List<ProductModel> cachedProducts))
-            {
-                // Cache hit, return cached products
+            {                
                 return cachedProducts;
             }
             else
-            {
-                // Cache miss, retrieve products from source and cache them
+            {                
                 List<ProductModel> products = await GetAllProducts();
-                _memoryCache.Set("cachedAllProducts", products, TimeSpan.FromMinutes(30)); // Cache for 30 minutes
+                _memoryCache.Set("cachedAllProducts", products, TimeSpan.FromHours(_cacheSettings.AllProductsCacheHours)); 
                 return products;
             }
         }
