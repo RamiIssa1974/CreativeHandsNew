@@ -15,9 +15,12 @@ packages/
 *.zip
 
 # dependencies
+AngularClientApp/.angular/
+AngularClientApp/.vscode/
 AngularClientApp/node_modules/
 AngularClientApp/src/assets/
 AngularClientApp/.angular/cache/
+AngularClientApp/dist/
 
 CreativeHandsCoreApi/bin/
 CreativeHandsCoreApi/obj/
