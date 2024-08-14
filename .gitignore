@@ -17,6 +17,7 @@ packages/
 # dependencies
 AngularClientApp/node_modules/
 AngularClientApp/src/assets/
+AngularClientApp/.angular/cache/
 
 CreativeHandsCoreApi/bin/
 CreativeHandsCoreApi/obj/

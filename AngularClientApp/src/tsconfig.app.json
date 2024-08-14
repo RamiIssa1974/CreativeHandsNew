@@ -8,7 +8,7 @@
     "src/test.ts",
     "**/*.spec.ts"
   ],
-  "files": [
-    "server.ts"
+  "include": [
+    "**/*.ts"
   ]
 }
