@@ -3,18 +3,26 @@
  }
 
  nav {
-   float: left;
-   font-size: 14px;
-   font-weight: bold;
-   direction: ltr;
+  height: 45px;
+  padding: 10px 10px 0 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  direction: ltr;
+  background: #003366; /* Background color */
+  z-index: 1000; /* Ensure the menu is above other content */
+  position: absolute; /* Fix the menu position */
+  top: 0;
+  left: 30px;
+  width: 640px;
  }
-
+ 
  nav a {
    text-decoration: none;
  }
 
  nav ul {
-   background: #dc94f1;
+   background: #003366;
    list-style: none;
    margin: 0;
    padding-left: 0;
@@ -23,7 +31,7 @@
 
  nav li {
    color: #fff;
-   background: #dc94f1;
+   background: #003366;
    display: block;
    float: right;
    padding: 0 5px;
@@ -32,12 +40,13 @@
    transition-duration: 0.5s;
  }
 
- nav li a {
-   color: #fff;
- }
+ 
+nav li a {color: #fff!important;}
+nav li a:hover {color: #000!important;}
+ 
 
  nav li:hover {
-   background: #be64c3;
+   background: #FFD700;
    cursor: pointer;
  }
 
@@ -67,7 +76,7 @@
  }
 
  .upper-bar {
-   background-color: #ecd7f2;
+   
    padding: 5px 0;
  }
 
@@ -75,6 +84,7 @@
    display: inline-block;
    line-height: 1;
    float: inline-end;
+   position: relative;
  }
 
  .upper-bar .upper-bar-item.cart {
@@ -160,25 +170,42 @@
  .cart .cart-quantity {
    text-align: center;
    font-size: 12px;
+   font-weight: bold;
+   color: white;
  }
-
+/* For desktop view */
+@media (min-width: 769px) {
+  .navbar-light {
+      padding-top: 50px; /* Adjust if needed to ensure visibility */
+  }
+}
  @media only screen and (max-width: 600px) {
    a .navbar-brand {
      display: none;
    }
 
    nav {
-     float: left;
-     font-size: 16px;
-     font-weight: bold;
-   }
+    position: absolute; /* Fix the menu position */
+    top: 43px;
+    left: 17px;
+    width: 50%;
+    background: #003366; /* Menu background color */
+    z-index: 1000; /* Ensure the menu is above other content */
+}
+.navbar-toggler {
+  margin: 8px;
+}
+
+.navbar-expand-sm {
+  margin-top: 0px; /* Adjust as needed to avoid overlapping with other content */
+}
 
    nav a {
      text-decoration: none;
    }
 
    nav ul {
-     background: #dc94f1;
+     background: #003366;
      list-style: none;
      margin: 0;
      padding: 5px 0px 5px 15px;
@@ -186,7 +213,7 @@
 
    nav li {
      color: #fff;
-     background: #dc94f1;
+     background: #003366;
      display: block;
      float: right;
      padding: 5px;
@@ -195,9 +222,7 @@
      transition-duration: 0.5s;
    }
 
-   nav li a {
-     color: #fff;
-   }
+   nav li a {color: #fff!important;}
 
    nav li a.with-right-arrow:after {
      content: '\276D';
@@ -205,7 +230,7 @@
    }
 
    nav li:hover {
-     background: #be64c3;
+     background: #FFD700;
      cursor: pointer;
    }
 
@@ -237,30 +262,21 @@
   }
   
  }
-
  @media (max-width: 768px) {
-   html {
-     font-size: 16px;
-   }
+  .cart {
+      display: inline-block;
+  }
 
-   .cart {
-     display: inline-block;
-   }
+  .search-box {
+      display: inline-block;
+      width: 64%;
+  }
 
-   .cart a {
-     padding: 0px;
-   }
+  a.navbar-brand {
+      margin-right: 0;
+  }
 
-   .search-box {
-     display: inline-block;
-     width: 64%;
-   }
-
-   a.navbar-brand {
-     margin-right: 0;
-   }
-
-   a.navbar-brand img {
-     width: 100%;
-   }
- }
+  a.navbar-brand img {
+      width: 100%;
+  }
+}

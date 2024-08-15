@@ -25,7 +25,7 @@ AngularClientApp/dist/
 CreativeHandsCoreApi/bin/
 CreativeHandsCoreApi/obj/
 CreativeHandsCoreApi/appsettings.json
-
+CreativeHandsCoreApi/appsettings.Development.json
 MarketGeneral/bin/
 MarketGeneral/obj/
 # IDEs and editors

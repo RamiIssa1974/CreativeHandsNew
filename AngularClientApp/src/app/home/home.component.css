@@ -1,7 +1,11 @@
 body {
 }
+.main-banner{  
+  width: 100%;
+  text-align: center;
+}
 .main-banner img{
-  margin-top: 10px;
+  margin-top: 0px;  
 }
 @media only screen and (max-width: 600px) {
   .main-banner{

@@ -3,7 +3,7 @@
 .product-available-colours .product-colour{width:25px;height:25px;border-radius:5px;display:inline-block;margin:2px;}
 .product-available-colours .product-colour.selected {border:2px solid black;position:relative;}
 .product-available-colours .product-colour.selected:after{position:absolute;top:0px;left:4px;font-size:14px; font-family:'FontAwesome';content:'\f00c';color:white;}
-.product-list{position:relative;width:100%;min-height:600px;top:45px;}
+.product-list{position:relative;width:100%;min-height:600px;}
 .title {text-align: right;width:96%;display: flex;}
 .empty-seaarch {text-align: right;color: red;font-size: 20px;border: 3px solid gray;padding: 20px;box-shadow: lightgray 5px 10px;border-radius: 7px;}
 .added-to-cart-message {text-align: center;border: 2px double green;border-radius: 10px;padding: 20px;position: fixed;width: 30%;top: 10%;left: 35%;z-index: 1;background-color: lightblue;color: darkblue;}
