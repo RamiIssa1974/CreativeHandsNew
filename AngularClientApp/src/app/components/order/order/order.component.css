@@ -3,7 +3,7 @@
 .waiting-image {position: absolute;top: 50%;left: 45%;}
 .empty-cart-message {
     text-align:right;
-  border: 5px solid orange;
+  border: 2px solid orange;
   width: 90%;
   margin-top: 5%;
   margin-right: 5%;
@@ -13,7 +13,9 @@
   -webkit-box-shadow: 0 10px 6px -6px #777;
   -moz-box-shadow: 0 10px 6px -6px #777;
   box-shadow: 0 10px 6px -6px #777;
+  color: aliceblue;
 }
+.empty-cart-message a{color:#0dcaf0;}
 .sent-order-message {border: 5px solid #20ef7c;width: 50%;margin-top: 5%;margin-right: 12.5%;padding: 50px;text-align: right;border-radius: 10px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 10px 6px -6px #777;position: fixed;z-index: 1;background-color: aliceblue;}
 .order-info {background-color: aliceblue;border: 1px solid black;width: 100%;text-align: right;padding: 10px;}
 .order-info.small-view {padding:0 10px;}

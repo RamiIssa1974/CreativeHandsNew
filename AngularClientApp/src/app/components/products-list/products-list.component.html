@@ -1,4 +1,7 @@
 <div class="product-list">
+  <div class="overlay" [hidden]="!isLoading">
+    <img class="waiting-image" src="/assets/Images/loading.gif" />
+  </div>
   <div class="modal-backdrop"></div>
   <!-- <app-product-details [product]="selectedProduct"></app-product-details> -->
   <app-product-details *ngIf="selectedProduct" [product]="selectedProduct"

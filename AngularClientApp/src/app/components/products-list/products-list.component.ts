@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductsListComponent implements OnInit {
   //selectedProduct: IProduct = createDefaultProduct();
   selectedProduct: IProduct | null = null;
-
+  isLoading = true;
   CategoryName: string = "";
   categoryId: number = 6;
   emptySearchMessage: string = "لم يتم العثور على كلمة البحث";
@@ -63,7 +63,8 @@ export class ProductsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {      
+    this.route.params.subscribe(params => {   
+      console.log("products listngOnInit")   
       const idParam = params['id'];
       this.categoryId = isNaN(+idParam) ? -1 : +idParam;
 
@@ -79,8 +80,12 @@ export class ProductsListComponent implements OnInit {
           this.products = products;
           this.filteredProducts = this.products;
           this.showEmptySearch = !this.filteredProducts || !this.filteredProducts.length;
+          this.isLoading=false;
         },
-        error: err => this.errorMessage = err
+        error: err => {
+          this.errorMessage = err;
+          this.isLoading=false;
+        }
       });
     });
     this.orderService.setShowCart(true);
