@@ -89,6 +89,7 @@
 .save-and-send .fa.fa-trash { font-size:21px; }
 .save-and-send .order-additional-data {text-align:right; }
 .save-and-send .buttons div {display:inline-block;}
+.save-and-send .buttons .buttons-2 a {color: aliceblue;}
 .save-and-send .order-additional-data .discount {display:inline-block;margin-left:10px;border: 1px solid orange; padding:10px 10px 5px 10px; border-radius:5px 5px 0px 0px;}
 .save-and-send .order-additional-data .discount label {display:inline;font-weight:bold;}
 .save-and-send .order-additional-data .discount #discountPercentId,.save-and-send .order-additional-data .discount #discountId {display:inline-block; width:70px;margin-right:5px;padding:5px}
@@ -116,10 +117,13 @@
   padding: 10px;
   background-color: honeydew;
 }
+  .send-order .form-group.row.first-row{margin-right: 92px;}
+  .send-order .form-group.row.second-row{margin-right: 92px;}
+  .send-order .form-group.row.third-row{margin-top: 32px;}
   .send-order .customer-name{width:25%;margin-left:10px;}
   .send-order .customer-tel{width:25%;margin-left:10px;}
   .send-order .customer-address{width:25%}
-  .send-order .customer-note{width:50%;margin-right:100px}
+  .send-order .customer-note{width:50%;margin-right:10px}
   .send-order .send-order-info{ margin-right:100px; color:green; display:block;}
   .send-order .send-order-info.red{color:red;}
   .submit-btn-div{margin: 12px 86px 0 0;}
@@ -163,7 +167,10 @@
         background-color: honeydew;
         margin-bottom: 20px;
       }
-
+      .send-order .form-group.row.first-row,
+      .send-order .form-group.row.second-row,
+      .send-order .form-group.row.third-row{margin-right: 0px;}
+      
         .send-order .customer-name {
           width: 100%;
           margin-left: 10px;
@@ -195,5 +202,6 @@
           margin-top: 10px;
           padding: 12px;
         }
+
     }
 

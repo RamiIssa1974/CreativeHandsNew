@@ -3,7 +3,7 @@ body, html {
   overflow-x: hidden;
   position: relative;
   background-color:#0c5585c2; /*#ecdada;*/
-  min-height: 600px;
+  min-height: 800px;
 }
 .container{margin-top: 45px;}
 /* Provide sufficient contrast against white background */

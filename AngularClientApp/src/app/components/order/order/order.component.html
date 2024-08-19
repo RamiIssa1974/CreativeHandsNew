@@ -132,14 +132,14 @@
       </div>
     </div>
     <div class="buttons">
-      <div class="buttons-1" *ngIf="order && order.StatusId==1">
-        <a class="" [routerLink]="['/']">متابعة المشتريات</a>
-        <button class="btn btn-primary m-2 empty-cart" type="button" title="افرغ السله" [disabled]="!isAdmin && 1==2"
+      <div class="buttons-1" *ngIf="order && order.StatusId==1">        
+        <button class="btn btn-primary m-1 empty-cart" type="button" title="افرغ السله" [disabled]="!isAdmin && 1==2"
           (click)="emptyTheCart()">افرغ السله <i class="fa fa-trash" aria-hidden="true"></i></button>
       </div>
       <div class="buttons-2">
-        <button class="btn btn-primary m-2" type="button" title="حفظ" [disabled]="!isAdmin && 1==2"
+        <button class="btn btn-primary m-1" type="button" title="حفظ" [disabled]="!isAdmin && 1==2"
           (click)="saveOrder()">حفظ</button>
+          <a class="" [routerLink]="['/']">متابعة المشتريات</a>
       </div>
     </div>
   </div>
@@ -149,7 +149,7 @@
     <h4>ارسال طلبيه</h4>
     <form novalidate (ngSubmit)="sendOrder()" [formGroup]="sendOrderForm">
       <div class="card-body">
-        <div class="form-group row">
+        <div class="form-group row first-row">
           <div class="customer-name">
             <label class="data-label" for="nameId">الاسم:</label>
             <input id="nameId" class="form-control" formControlName="CustomerName"
@@ -167,15 +167,15 @@
           </div>
 
         </div>
-        <div class="form-group row">
+        <div class="form-group row second-row">
           <label class="data-label" for="noteId">ملاحظات:</label>
           <textarea id="noteId" class="customer-note form-control" formControlName="CustomerNote"
             [ngClass]="{'is-invalid': (customerNote.touched || customerNote.dirty) && !customerNote.valid }"></textarea>
         </div>
-        <div class="form-group row">
+        <div class="form-group row third-row">
           <div>
             <span class="send-order-info">يسرنا اختيارك لنا</span>
-            <span class="send-order-info">بالضغط على زر ارسال سيتم حفظ طلبيتك في الجهاز</span>
+            <span class="send-order-info">بالضغط على زر ارسال سيتم حفظ طلبيتك في النظام</span>
             <span class="send-order-info"> أنت غير مجبر على الشراء ويمكنك تغيير او الغاء الطلبيه في كل مرحله</span>
             <span class="send-order-info">احد مندوبينا سيتواصل معك قريبا لاتمام الطلبيه</span>
             <span class="send-order-info red ">السعر لا يشمل خدمة التوصيل</span>

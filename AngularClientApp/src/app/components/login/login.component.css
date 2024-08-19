@@ -7,8 +7,7 @@
     margin-right:40px;
 }
 .row.buttons{margin: 10px;}
-@media only screen and (max-width: 600px) {
-  
+@media only screen and (max-width: 600px) {  
   .main-frame {
     width: 95%;
     margin: auto;

@@ -59,7 +59,7 @@
   .purchase-info .row ul {
     width: 70%;
   }
-  .form-group.row .title{ width:100%;margin:auto;text-align:center;font-weight:bold;font-size:x-large;color:brown;}
+  .form-group.row .title{ width:100%;margin:auto;text-align:center;font-weight:bold;font-size:x-large;color:brown;}  
   .dropdown-select i {position: absolute;left: 12px;top: 12px;font-size: 20px;}
   .status-id-label {margin-left: 10px;font-weight: bold;display:flex;}
   .dropdown-select {display: inline-block;position: relative;font-family: Arial;margin-left: 10px;}
