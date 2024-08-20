@@ -1,5 +1,5 @@
-<div>
-  {{InvalidControls()}}
+<div class="title">
+  <h1>اضافة منتج</h1>
 </div>
 <form novalidate (ngSubmit)="saveProduct()" [formGroup]="productForm">
   <div class="overlay" *ngIf="isLoading">
@@ -73,15 +73,17 @@
                 style="width:20px;height:20px;" /></div>
           </div>
         </div>
-        <div class="add-variation-item">
-          <i class="fa fa-plus-circle" (click)="addVariation(productVariationPrice,productVariationDescription)"></i>
+        <div class="add-variation-form-controls">
+          <div class="add-variation-item plus-icon">
+            <i class="fa fa-plus-circle" (click)="addVariation(productVariationPrice,productVariationDescription)"></i>
+          </div>
+          <label for="productVariationDescriptionId" class="data-label desc">الوصف:</label>
+          <input id="productVariationDescriptionId" #productVariationDescription type="text"
+            class="product-variation-description form-control" />
+          <label form="productVariationPriceId" class="data-label price">السعر:</label>
+          <input id="productVariationPriceId" #productVariationPrice type="text"
+            class="product-variation-price form-control" />
         </div>
-        <label for="productVariationDescriptionId" class="data-label">الوصف:</label>
-        <input id="productVariationDescriptionId" #productVariationDescription type="text"
-          class="product-variation-description form-control" />
-        <label form="productVariationPriceId" class="data-label">السعر:</label>
-        <input id="productVariationPriceId" #productVariationPrice type="text"
-          class="product-variation-price form-control" />
       </div>
 
       <div class="product-available-colours">
@@ -116,7 +118,7 @@
         <div class="categories">
           <ul>
             <li class="category" *ngFor="let cat of categories;let index=index">
-              <label for="cat{{index}}" class="container">
+              <label for="cat{{index}}">
                 <input id="cat{{index}}" name="cat{{index}}" type="checkbox" title="{{cat.Name}}" value="{{cat.Id}}"
                   [(checked)]="cat.IsBelongToProduct" [ngClass]="{'checked': cat.IsBelongToProduct === true}"
                   (change)="onCatChange($event,cat.Id)" />

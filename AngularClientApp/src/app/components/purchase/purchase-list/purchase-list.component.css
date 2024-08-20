@@ -1,4 +1,4 @@
-h1 {text-align: right;}
+h1 {text-align: right;color: aliceblue;}
 
 .overlay {background: #e9e9e9;position: fixed;top: 0;right: 0;bottom: 0;left: 0;opacity: 0.5;z-index: 1;}
 .waiting-image {position: absolute;top: 50%;left: 45%;}
