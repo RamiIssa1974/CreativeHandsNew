@@ -39,7 +39,7 @@
             <a class="nav-link text-dark" [routerLink]="['/add-video']">اضافة فيديو</a>
           </li>
           <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
-            <a class="nav-link text-dark" [routerLink]="['/orders-list']">قائمة الطلبيات</a>
+            <a class="nav-link text-dark" [routerLink]="['order/orders-list']">قائمة الطلبيات</a>
           </li>
           <li *ngIf="isLoggedIn && isAdmin" class="nav-item" [routerLinkActive]="['link-active']" (click)="toggle()">
             <a class="nav-link text-dark" [routerLink]="['/add-product']">اضافة منتج</a>

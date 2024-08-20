@@ -20,4 +20,3 @@ describe('OrderDetailsComponent', function () {
         expect(component).toBeTruthy();
     });
 });
-//# sourceMappingURL=order-details.component.spec.js.map

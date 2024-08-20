@@ -24,12 +24,13 @@ import { AddEditProviderComponent } from './components/purchase/add-edit-provide
 import { VideosComponent } from './components/videos/videos.component';
 import { AddVideoComponent } from './components/add-video/add-video.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { AppRoutingModule } from './app-routing.module';
  
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,    
+    HomeComponent,
     AddEditProductComponent,
     ProductsListComponent,
     FileUploadComponent,
@@ -41,37 +42,18 @@ import { ColorPickerModule } from 'ngx-color-picker';
     AddEditPurchaseComponent,
     AddEditProviderComponent,
     VideosComponent,
-    AddVideoComponent    
+    AddVideoComponent
   ],
   imports: [
-    OrderModule,
-    ColorPickerModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,   
-    CommonModule, 
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },      
-      { path: 'login', component: LoginComponent },
-      { path: 'add-product', component: AddEditProductComponent },
-      { path: 'add-product/:id', component: AddEditProductComponent },
-      { path: 'products-list/:id', component: ProductsListComponent },
-      { path: 'products-list/:id/:search', component: ProductsListComponent },
-      { path: 'purchase-list', component: PurchaseListComponent },
-      { path: 'purchase', component: AddEditPurchaseComponent },
-      { path: 'purchase/:id', component: AddEditPurchaseComponent },
-      { path: 'provider', component: AddEditProviderComponent },
-      { path: 'provider/:id', component: AddEditProviderComponent },
-      { path: 'videos', component: VideosComponent },
-      { path: 'add-video', component: AddVideoComponent },
-      { path: 'add-video/id', component: AddVideoComponent },
-      { path: '**', redirectTo: 'index.html', pathMatch:'full' }
-    ], { useHash: true })
+    ReactiveFormsModule,
+    CommonModule,
+    ColorPickerModule,
+    AppRoutingModule // Use AppRoutingModule for routing
   ],
-  providers: [    
-  ],// [CookieService],
-
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

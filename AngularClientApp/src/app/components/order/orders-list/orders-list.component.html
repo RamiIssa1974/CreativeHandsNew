@@ -79,10 +79,10 @@
       </div>
     </div>
     <div class="order-col">
-      <a [routerLink]="['/order/',order.Id]" title="">
+      <a [routerLink]="['/order',order.Id]" title="">
         تفاصيل
       </a>
-      <a [routerLink]="['/order-details/',order.Id]" title="تعديل">
+      <a [routerLink]="['/order/order-details/',order.Id]" title="تعديل">
         <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
       </a>
     </div>
@@ -129,10 +129,10 @@
     <div class="order-item-detail">
       <span class="order-item-detail-lable">المبلغ:</span>
       <span class="order-item-detail-data"> {{ getOrderTotal(order) }}</span>
-      <a class="order-item-detail-lable more-details" [routerLink]="['/order/',order.Id]" title="">
+      <a class="order-item-detail-lable more-details" [routerLink]="['/order',order.Id]" title="">
         تفاصيل
       </a>
-      <a [routerLink]="['/order-details/',order.Id]" title="تعديل">
+      <a [routerLink]="['/order/order-details/',order.Id]" title="تعديل">
         <img src="/assets/Images/edit-icon.jpg" width="20" height="20" />
       </a>
     </div>

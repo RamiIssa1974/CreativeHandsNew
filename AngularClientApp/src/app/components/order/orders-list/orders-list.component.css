@@ -31,6 +31,7 @@
 .order-col:nth-child(6){width: 25%;}
 .order-col:nth-child(7) {width: 6.8%;}
 .order-col:nth-child(8) {width: 15.3%;}
+.order-col a{color: aliceblue;}
 .filter-div{text-align:right;margin-bottom:10px;background-color:beige;padding:10px; border:2px solid green;}
 .filter-div .filter-item { display:inline-block;}
 .filter-div label {margin-left: 10px;font-weight: bold;}
