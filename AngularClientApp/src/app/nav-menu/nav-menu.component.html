@@ -19,7 +19,7 @@
       <button class="search" type="button" title="بحث منتجات" (click)="updateFilterVal()"><i class="fa fa-search"></i></button>
     </div>
     <div class="cart upper-bar-item" *ngIf="showCartIcon">
-      <a [routerLink]="['/cart/']">
+      <a [routerLink]="['order/cart/']">
         <div class="cart-quantity">{{cartQuantity}}</div>
         <div>
           <img width="28" height="24" src="/assets/Images/cart.png" alt="الى عجله المشتريات" title="الى عجله المشتريات"/>
