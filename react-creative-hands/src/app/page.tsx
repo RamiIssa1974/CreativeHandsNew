@@ -1,9 +1,43 @@
- 
+﻿'use client';
 
-export default function Home() {
-  return (
-      <div>
-          <h1>Hii this is the main page</h1>
-    </div>
-  );
+import React, { useEffect, useState } from 'react';
+import { fetchCategories } from '@/services/productService';
+import CategoryCard from '@/components/CategoryCard';
+import './styles/HomePage.css'; // Import CSS file
+import { Category } from '../data/Category';
+ 
+export default function HomePage() {
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>('');
+
+    useEffect(() => {
+        async function loadCategories() {
+            try {
+                const data = await fetchCategories();
+                console.log("categories: ", data)
+                setCategories(data);
+            } catch (err: any) {
+                setError(err.message || 'Something went wrong');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadCategories();
+    }, []);
+
+    if (loading) return <p className="page-title">Loading categories...</p>;
+    if (error) return <p className="page-title">{error}</p>;
+
+    return (
+        <main className="main-container">
+            <h1 className="page-title">الفئات</h1>
+            <div className="categories-grid">
+                {categories.map((category) => (
+                    <CategoryCard key={category.Id} Id={category.Id} Name={category.Name} />
+                ))}
+            </div>
+        </main>
+    );
 }

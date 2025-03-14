@@ -14,6 +14,29 @@ packages/
 *.log
 *.zip
 
+# Node modules
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# System files (optional)
+.DS_Store
+Thumbs.db
+
+
 # dependencies
 AngularClientApp/.angular/
 AngularClientApp/.vscode/

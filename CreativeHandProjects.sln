@@ -12,6 +12,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "react-creative-hands", "react-creative-hands", "{B5384AB2-1C91-43C6-9085-8B79A880EC0E}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "react-creative-hands", "react-creative-hands\", "{E0716BE8-3667-4926-9B7B-D42604C817D1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.VirtualPath = "/localhost_58324"
+		Debug.AspNetCompiler.PhysicalPath = "react-creative-hands\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58324\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_58324"
+		Release.AspNetCompiler.PhysicalPath = "react-creative-hands\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58324\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "58324"
+		SlnRelativePath = "react-creative-hands\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +48,16 @@ Global
 		{2725978B-FCD9-4586-A0D5-E59D02E40363}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2725978B-FCD9-4586-A0D5-E59D02E40363}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2725978B-FCD9-4586-A0D5-E59D02E40363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0716BE8-3667-4926-9B7B-D42604C817D1} = {B5384AB2-1C91-43C6-9085-8B79A880EC0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCD31304-3CDB-41D5-89E4-EC4B28608039}
