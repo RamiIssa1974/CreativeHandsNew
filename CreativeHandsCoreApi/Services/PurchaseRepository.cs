@@ -51,8 +51,8 @@ namespace CreativeHandsCoreApi.Services
             {
                 DateTime purchaseCreateDate = DateTime.Now;
                 DateTime.TryParseExact(purchase.CreateDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.None, out purchaseCreateDate);
-                    //new DateTime(int.Parse(purchase.CreateDate.Split('/')[2]), int.Parse(purchase.CreateDate.Split('/')[1]), int.Parse(purchase.CreateDate.Split('/')[0]));
-                 
+                //new DateTime(int.Parse(purchase.CreateDate.Split('/')[2]), int.Parse(purchase.CreateDate.Split('/')[1]), int.Parse(purchase.CreateDate.Split('/')[0]));
+
 
 
                 var dbPurchase = _context.Purchase.FirstOrDefault(o => o.Id == purchase.Id);
@@ -137,6 +137,7 @@ namespace CreativeHandsCoreApi.Services
                 else
                 {
                     dbProvider = _mapper.Map<SqlProvider>(provider);
+                    _context.Provider.Add(dbProvider);
                 }
                 _context.SaveChanges();
                 return dbProvider.Id;
@@ -172,8 +173,8 @@ namespace CreativeHandsCoreApi.Services
         {
             try
             {
-                var provider = _context.Provider.FirstOrDefault(pr=>pr.Id == id);
-                if (provider !=null)
+                var provider = _context.Provider.FirstOrDefault(pr => pr.Id == id);
+                if (provider != null)
                 {
                     var dataModel = _mapper.Map<ProviderModel>(provider);
                     return dataModel;
@@ -186,6 +187,32 @@ namespace CreativeHandsCoreApi.Services
                 throw;
             }
         }
+
+
+        public async Task<bool> DeleteProvider(int providerId)
+        {
+            try
+            {
+                var provider = await _context.Provider
+                    .FirstOrDefaultAsync(p => p.Id == providerId);
+
+                if (provider == null)
+                {
+                    return false;
+                }
+
+                _context.Provider.Remove(provider);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("PurchaseRepository.DeleteProvider", null, -1, "", ex.Message, $"providerId: {providerId}");
+                return false;
+            }
+        }
+
     }
 }
 

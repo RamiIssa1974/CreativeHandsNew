@@ -1,0 +1,17 @@
+﻿.products-list-container {
+    padding: 2rem;
+    direction: rtl;
+}
+
+.category-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+@media (max-width: 600px) {
+    .products-list-container {
+        padding: 0;
+        direction: rtl;
+    }
+}

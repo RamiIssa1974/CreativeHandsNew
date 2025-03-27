@@ -17,5 +17,6 @@ namespace CreativeHandsCoreApi.Services
 
         Task<int> SaveProduct(SaveProductRequest request);
         Task<List<ProductModel>> GetAllProducts();
+        Task<bool> DeleteProduct(int productId);
     }
 }

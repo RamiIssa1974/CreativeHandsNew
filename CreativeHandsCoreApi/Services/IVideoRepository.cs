@@ -6,7 +6,8 @@ using MarketCoreGeneral.Responses;
 namespace CreativeHandsCoreApi.Services
 {
     public interface IVideoRepository
-    {        
+    {
+        Task<bool> DeleteVideo(int videoId);
         Task<IEnumerable<VideoModel>> GetVideos(VideoModel purchaseId);
 
         Task<UploadFilesResponse> SaveVideo(IFormFile file, VideoModel request);         

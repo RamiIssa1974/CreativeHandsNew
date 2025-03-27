@@ -1,0 +1,176 @@
+﻿.desktop-table {
+    display: block;
+}
+
+.mobile-cards {
+    display: none;
+}
+
+.manage-orders-container {
+    padding: 20px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .orders-table thead {
+        background-color: #4CAF50; /* A strong green header */
+        color: white;
+    }
+
+        .orders-table thead th {
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+
+    .orders-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+
+
+select {
+    padding: 5px;
+}
+
+.view-details-link {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+    .view-details-link:hover {
+        background-color: #45a049;
+    }
+
+.orders-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light grey */
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background-color: #ffffff; /* White */
+}
+
+.orders-table tbody tr:hover {
+    background-color: #e6f7ff; /* Light blue highlight on hover */
+}
+
+.orders-table, .orders-table th, .orders-table td {
+    border: 1px solid #ddd;
+}
+
+.orders-table {
+    border-collapse: collapse;
+}
+
+    .orders-table th, .orders-table td {
+        padding: 8px;
+    }
+
+.filters-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-input {
+    padding: 8px;
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.filter-select {
+    padding: 8px;
+    min-width: 200px;
+}
+.orders-table th {
+    cursor: pointer;
+    user-select: none;
+}
+
+    .orders-table th:hover {
+        background-color: #f1f1f1;
+    }
+@media (max-width: 768px) {
+    .desktop-table {
+        display: none;
+    }
+
+    .mobile-cards {
+        display: block;
+    }
+
+    .filters-container {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .filter-input {
+        padding: 8px;
+        flex-grow: 1;
+        width: 100px;
+        min-width:100px;
+    }
+
+    .filter-select {
+        padding: 8px;
+        width: 80px;
+        min-width: 80px;
+    }
+
+    /* Style for cards */
+    .order-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+        .order-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .order-card p {
+            margin: 4px 0;
+        }
+
+    .order-card-actions {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .order-card-actions select {
+            padding: 6px;
+        }
+
+        .order-card-actions button {
+            padding: 6px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .order-card-actions button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+}

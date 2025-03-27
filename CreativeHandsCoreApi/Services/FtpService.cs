@@ -6,6 +6,7 @@ using MarketCoreGeneral.Requests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 using System.Net;
 
 namespace CreativeHandsCoreApi.Services
@@ -150,7 +151,113 @@ namespace CreativeHandsCoreApi.Services
                 return "";
             }
         }
-        
+
+        public async Task<bool> DeleteFileFromFTP(string fileName, string folder)
+        {
+            string ftpUrl = _ftpSettings.UploadUrl + folder; // نفس URL الخاص بالرفع
+            string ftpUserName = _ftpSettings.UserName;
+            string ftpPassword = _ftpSettings.Password;
+
+            try
+            {
+                var uriString = $"{ftpUrl}/{fileName}";
+
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uriString);
+                request.Method = WebRequestMethods.Ftp.DeleteFile;
+                request.Credentials = new NetworkCredential(ftpUserName, ftpPassword);
+                request.UsePassive = true;
+                request.UseBinary = true;
+                request.KeepAlive = false;
+                request.EnableSsl = false;
+
+                using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
+                {
+                    _logger.LogInformation($" {fileName} was deleted successfuly: {response.StatusDescription}");
+                    return true;
+                }
+            }
+            catch (WebException e)
+            {
+                var statusDescription = ((FtpWebResponse)e.Response)?.StatusDescription ?? "No Response";
+                _logger.LogError($"Error deleting the file: {fileName} from the FTP. status: {statusDescription}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Exception  occured while deleting the file: {fileName}  from FTP: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<List<string>> DeleteFilesFromFTP(List<string> fileNames, string folder, int maxRetries = 3)
+        {
+            var failedFiles = new ConcurrentBag<string>();
+
+            // Run tasks in parallel
+            var deleteTasks = fileNames.Select(fileName =>
+                Task.Run(async () =>
+                {
+                    bool deleted = await RetryAsync(() => DeleteFileFromFTP(fileName, folder), maxRetries);
+
+                    if (!deleted)
+                    {
+                        failedFiles.Add(fileName);
+                        _logger.LogWarning($"❌ failed to delete {fileName} after: {maxRetries} tries.");
+                    }
+                })
+            );
+
+            await Task.WhenAll(deleteTasks);
+
+            // Return failed files as a list
+            return failedFiles.ToList();
+        }
+        private async Task<bool> RetryAsync(Func<Task<bool>> action, int maxRetries, int delayMilliseconds = 1000)
+        {
+            int attempt = 0;
+
+            while (attempt < maxRetries)
+            {
+                attempt++;
+
+                try
+                {
+                    bool result = await action();
+
+                    if (result)
+                    {
+                        return true; // Success
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"❌ attempt {attempt} failed with error: {ex.Message}");
+                }
+
+                if (attempt < maxRetries)
+                {
+                    await Task.Delay(delayMilliseconds);
+                }
+            }
+
+            return false; // Failed after max retries
+        }
+
+        //public async Task<List<string>> DeleteFilesFromFTP(List<string> fileNames, string folder)
+        //{
+        //    var failedFiles = new List<string>();
+
+        //    foreach (var fileName in fileNames)
+        //    {
+        //        bool deleted = await DeleteFileFromFTP(fileName, folder);
+        //        if (!deleted)
+        //        {
+        //            failedFiles.Add(fileName);
+        //        }
+        //    }
+
+        //    return failedFiles;
+        //}
     }
 }
 

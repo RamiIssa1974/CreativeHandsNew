@@ -5,7 +5,9 @@ using CreativeHandsCoreApi.Entities.Sql.Video;
 using MarketCoreGeneral.Models.Video;
 using MarketCoreGeneral.Responses;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace CreativeHandsCoreApi.Services
 {
@@ -64,26 +66,47 @@ namespace CreativeHandsCoreApi.Services
                 var response = new UploadFilesResponse();
                 response.UploadedImages = new List<string>();
 
+                var trimedFileName = Helpers.ToValidCamelCaseFileName(request.Name);
+
+                string fileNameExtension = Path.GetExtension(file.FileName);
+                var fileName = trimedFileName + fileNameExtension;
+
+
                 if (request.Id <= 0)
                 {
-                    var sqlVideo = new SqlVideo() { Name = request.Name, Title = request.Title, Description = request.Description };
+                    var sqlVideo = new SqlVideo() { 
+                        Name = trimedFileName, 
+                        Extension = fileNameExtension.TrimStart('.'),
+                        Title = request.Title, 
+                        Description = request.Description };
                     _context.Video.Add(sqlVideo);
                     _context.SaveChanges();
                     videoId = sqlVideo.Id;
 
                 }
+                else
+                {
+                    var existingVideo = _context.Video.FirstOrDefault(v => v.Id == request.Id);
+                    if (existingVideo!= null)
+                    {
+                        existingVideo.Name = request.Name;
+                        existingVideo.Title = request.Title;
+                        existingVideo.Description = request.Description;
+                        existingVideo.Extension = request.Extension;
+                        _context.SaveChanges();
+                        videoId = existingVideo.Id;
+                    }                    
+                }
                 response.VideoId = videoId;
 
-                string fileNameExtension = Path.GetExtension(file.FileName);                
-                var fileName = videoId + fileNameExtension;
-
+                
                 var uploadedFileName = await _ftpService.UploadToFTP(file, fileName, "videos");
 
                 if (uploadedFileName != null)
                 {
                     response.UploadedImages.Add(uploadedFileName);
                 }
-
+                  
                 //Crop(Width: 140, Height: 100, streamImg: postedFile.InputStream, "thumb." + uploadedFileName);
                 return response;
             }
@@ -94,5 +117,39 @@ namespace CreativeHandsCoreApi.Services
                 throw;
             }
         }
+         
+        public async Task<bool> DeleteVideo(int videoId)
+        {
+            try
+            {
+                var video = await _context.Video
+                    .FirstOrDefaultAsync(p => p.Id == videoId);
+
+                if (video == null)
+                {
+                    return false;
+                }
+                var filename = video.Name + "."+ video.Extension;
+                _context.Video.Remove(video);
+                await _context.SaveChangesAsync();
+                if (filename != null)
+                {
+                    var failedFiles = await _ftpService.DeleteFilesFromFTP([filename], "Videos");
+
+                    if (failedFiles.Any())
+                    {
+                        _logger.LogWarning($"⚠️ some images failed to delete from FTP: {string.Join(", ", failedFiles)}");
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("VideoRepository.DeleteVideo", null, -1, "", ex.Message, $", videoId: {videoId}");
+                return false;
+            }
+        }
+
     }
 }

@@ -1,0 +1,141 @@
+﻿/* === GENERAL MENU STYLES === */
+.menu {
+    position: relative;
+    z-index: 20;
+}
+
+.menu-list {
+    list-style: none; /* ✅ No bullets */
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item {
+    list-style: none;
+    position:relative;
+}
+
+/* === MENU LINKS & BUTTONS === */
+.menu-link,
+.menu-button {
+    display: block;
+    padding: 1rem;
+    color: #fff;
+    text-align: left; /* ✅ RTL alignment */
+    text-decoration: none;
+    border-bottom: 1px solid #444;
+    background-color: #333;
+    cursor: pointer;
+}
+
+    .menu-link:hover,
+    .menu-button:hover {
+        background-color: #444;
+    }
+
+/* === DESKTOP MENU === */
+.menu-list.desktop {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+    .menu-list.desktop .submenu-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #555;
+        min-width: 200px;
+        z-index: 999;
+    }
+
+    .menu-list.desktop .menu-item:hover .submenu-list {
+        display: block;
+    }
+
+.submenu-item {
+    border-bottom: 1px solid #444;
+}
+
+    .submenu-item a {
+        display: block;
+        padding: 0.75rem 1rem;
+        color: #fff;
+        text-align: left;
+        text-decoration: none;
+    }
+
+        .submenu-item a:hover {
+            background-color: #666;
+        }
+
+/* === MOBILE MENU === */
+.hamburger {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.menu-list.mobile {
+    display: none;
+    flex-direction: column;
+    background-color: #333;
+    position: absolute;
+    top: 100%;
+    right: 0; /* ✅ Menu opens from the right */
+    left: 0;
+    width: 250px;
+    z-index: 20;
+    border: 1px solid #444;
+    transition: all 0.3s ease;
+}
+
+    .menu-list.mobile.open {
+        display: flex;
+    }
+
+    .menu-list.mobile .menu-item {
+        border-bottom: 1px solid #444;        
+    }
+
+    .menu-list.mobile .menu-link,
+    .menu-list.mobile .menu-button {
+        text-align: left; /*RTL alignment */
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .menu-list.mobile .submenu-list {
+        background-color: #444;
+    }
+
+    .menu-list.mobile .submenu-item a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        text-align: left;
+        color: #fff;
+        text-decoration: none;
+    }
+
+        .menu-list.mobile .submenu-item a:hover {
+            background-color: #555;
+        }
+
+/* === RESPONSIVE BREAKPOINT === */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none;
+    }
+
+    .menu-list.desktop {
+        display: flex;
+    }
+
+    .menu-list.mobile {
+        display: none !important;
+    }
+}

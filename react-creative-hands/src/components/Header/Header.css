@@ -1,0 +1,161 @@
+﻿.header-bar {
+    display: flex;
+    justify-content: space-between; /* Pushes left and right containers apart */
+    align-items: center;
+    padding: 0 1rem;
+    background-color: #333;
+    color: #fff;
+}
+/* === BANNER CONTAINER === */
+.banner-container {
+    width: 100%;
+    background-color: #f8f8f8;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.block-text {
+    display: flex;
+    gap: 5px;
+}
+
+.letter-block {
+    background-color: #8ecae6;
+    color: white;
+    font-weight: bold;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+    .letter-block:nth-child(5n+1) {
+        background-color: #ffb703; /* Yellow-orange */
+    }
+
+    .letter-block:nth-child(5n+2) {
+        background-color: #fb8500; /* Orange */
+    }
+
+    .letter-block:nth-child(5n+3) {
+        background-color: #219ebc; /* Blue */
+    }
+
+    .letter-block:nth-child(5n+4) {
+        background-color: #8ecae6; /* Light blue */
+    }
+
+    .letter-block:nth-child(5n+5) {
+        background-color: #6a0572; /* 🌑 Dark purple (adds contrast) */
+    }
+
+
+    .letter-block:hover {
+        transform: scale(1.1);
+    }
+
+
+.sun-icon {
+    font-size: 48px;
+    color: #ffb703;
+    animation: rotateSun 20s linear infinite;
+}
+
+@keyframes rotateSun {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+/* === SEARCH CONTAINER (RIGHT SIDE) === */
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.menu-container {
+    display: flex;
+    align-items: center;
+}
+
+.right-container {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem; /* Space between elements */
+}
+
+    .right-container > * {
+        display: flex;
+        align-items: center;
+    }
+/* === MOBILE === */
+@media (max-width: 768px) {
+    .banner-container{
+        display: none;
+    }
+
+    .banner-image.desktop-banner {
+        display: none;
+    }
+
+    .mobile-banner {
+        display: block;
+        background-image: url('http://creativehandsco.com/assets/Images/CreativeHandsLogoMobile.jpg');        
+        background-position: center;
+        background-size: contain;
+        height: 100px;
+        width: 100%;
+    }
+
+    .header-bar {
+        display: flex;
+        justify-content: space-between; /* Pushes left and right containers apart */
+        align-items: center;
+        padding: 0 0.2rem;
+    }
+
+    .desktop-banner {
+        display: none;
+    }
+
+    .mobile-banner {
+        display: block;
+    }
+
+    .search-button {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .logout-icon-container {
+        margin-left: 0;
+    }
+
+    .banner-image {
+        max-height: 80px;
+    }
+}
+
+/* === DESKTOP === */
+@media (min-width: 769px) {
+    .mobile-banner {
+        display: none;
+    }
+}

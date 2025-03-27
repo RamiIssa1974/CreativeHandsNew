@@ -15,7 +15,7 @@ export default function HomePage() {
         async function loadCategories() {
             try {
                 const data = await fetchCategories();
-                console.log("categories: ", data)
+                //console.log("categories: ", data)
                 setCategories(data);
             } catch (err: any) {
                 setError(err.message || 'Something went wrong');
@@ -26,16 +26,23 @@ export default function HomePage() {
 
         loadCategories();
     }, []);
-
-    if (loading) return <p className="page-title">Loading categories...</p>;
+    
+    if (loading) {
+        return (
+            <div className="page-loading-container">
+                <div className="spinner"></div>
+                <p>جاري تحميل الفئات...</p>
+            </div>
+        );
+    }
     if (error) return <p className="page-title">{error}</p>;
 
     return (
         <main className="main-container">
             <h1 className="page-title">الفئات</h1>
             <div className="categories-grid">
-                {categories.map((category) => (
-                    <CategoryCard key={category.Id} Id={category.Id} Name={category.Name} />
+                {categories.map((category,index) => (
+                    <CategoryCard key={category.Id} id={category.Id} name={category.Name} index={index} />
                 ))}
             </div>
         </main>

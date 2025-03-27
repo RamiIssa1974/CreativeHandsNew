@@ -11,7 +11,10 @@ namespace CreativeHandsCoreApi.Services
         Task<int> AddToCart(AddToCartRequest request);
         Task<bool> SendOrder(SendOrderRequest request);
         Task<int> SaveOrder(OrderModel saveOrder);
+        Task<int> SaveOrderItem(SaveOrderItemRequest orderItem);
         Task<List<OrderModel>> GetOrders(GetOrderRequest request);
         Task<OrderModel?> GetEmptyCart(string userId);
+        Task<int> MigrateAnonymousCartToUser(MigrateAnonymousCartToUserRequest request);
+        Task<bool> DeleteOrderItem(int id);
     }
 }

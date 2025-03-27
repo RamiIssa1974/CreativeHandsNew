@@ -1,0 +1,497 @@
+﻿/* Main container: RTL and responsive */
+.add-product-page-container {
+    direction: rtl;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+    .add-product-page-container h1 {
+        text-align: center;
+    }
+
+.add-product-form {
+    display: grid;
+    gap: 20px;
+}
+
+/* Section wrapper styling */
+.section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+/* Form inputs */
+.add-product-form label {
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.add-product-form input,
+.add-product-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.add-product-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between price and sale price */
+    flex-wrap: wrap; /* Optional for mobile */
+}
+
+.price-input,
+.sale-price-input {
+    flex: 1; /* Both inputs take equal width */
+    display: flex;
+    flex-direction: column;
+}
+
+    .price-input label,
+    .sale-price-input label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+.barcode-quantity-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between barcode and quantity */
+    flex-wrap: wrap; /* Stack on small screens if needed */
+}
+
+.barcode-input,
+.quantity-input {
+    flex: 1; /* Equal width */
+    display: flex;
+    flex-direction: column;
+}
+
+    .barcode-input label,
+    .quantity-input label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+.add-product-form button {
+    padding: 0.5rem 0.5rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+    .add-product-form button:hover {
+        background-color: #45a049;
+    }
+
+ 
+ 
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .category-item:hover {
+        background-color: #f0f0f0;
+    }
+
+    .category-item input {
+        width: 18px;
+        height: 18px;
+    }
+
+/* Colors section */
+.color-picker-grid {
+    direction:ltr;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px;
+    align-items: start;
+}
+
+/* Left Column: Add Button + Selected Colors */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-color-button-container button {
+    padding: 8px 16px;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .add-color-button-container button:hover {
+        background-color: #1976d2;
+    }
+
+/* Selected Colors Styling */
+.selected-colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.selected-color-container {
+    position: relative;
+}
+
+.color-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    border: 2px solid #333;
+    transition: transform 0.2s, opacity 0.3s;
+}
+
+    .color-box:hover {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+
+.delete-icon {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #333;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+    .delete-icon:hover {
+        background-color: #ffcccc;
+        color: red;
+    }
+
+/* Right Column: Color Picker */
+.right-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional Responsive Design */
+@media (max-width: 768px) {
+    .color-picker-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .left-column,
+    .right-column {
+        width: 100%;
+    }
+}
+
+
+.color-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    border: 2px solid #333;
+    transition: transform 0.2s, opacity 0.3s;
+}
+
+    .color-box:hover {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+
+.delete-icon {
+    position: absolute;
+    top: -8px;
+    left: -8px; /* Because it's RTL */
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #333;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+    .delete-icon:hover {
+        background-color: #ffcccc;
+        color: red;
+    }
+.section-variations {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.add-variation-button {
+    width: fit-content;
+    padding: 8px 16px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .add-variation-button:hover {
+        background-color: #1976d2;
+    }
+
+.variations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.variation-item {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 5px;    
+    gap: 10px;
+    align-items: center;
+}
+
+    .variation-item label {
+        font-weight: bold;
+        margin:0 5px 0 5px;
+    }
+
+    .variation-item input {
+        padding: 0.4rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .variation-item .variation-item-price {
+        width:70px;
+    }
+    .variation-item .variation-item-description {
+        width: 145px;
+    }
+
+.add-product-form button.delete-variation-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right:5px;
+}
+
+    .delete-variation-button:hover {
+        background-color: #d32f2f;
+    }
+
+.section-title-with-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.info-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.info-icon {
+    font-size: 18px;
+    color: #555;
+}
+
+    .info-icon:hover {
+        color: #2196f3;
+    }
+
+.info-tooltip {
+    display: none;
+    position: absolute;
+    top: 25px; /* below the icon */
+    right: 0; /* because RTL */
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 250px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    font-size: 14px;
+    text-align: right;
+}
+
+/* Show tooltip on hover or focus */
+.info-icon-wrapper:hover .info-tooltip,
+.info-icon-wrapper:focus .info-tooltip {
+    display: block;
+}
+/*section-images *******************************************************************************************/
+.section-images {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.image-upload-wrapper {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.image-upload-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #2196f3;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .image-upload-button:hover {
+        background-color: #1976d2;
+    }
+
+.image-preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: visible; /* ✅ Allow content outside */
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.delete-image-icon {
+    position: absolute;
+    top: -8px;
+    right: -8px; /* RTL placement */
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #333;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    color: #f44336;
+}
+
+    .delete-image-icon:hover {
+        background-color: #f44336;
+        color: #fff;
+    }
+
+
+/* Mobile Layout */
+@media (max-width: 1024px) {
+    .add-product-page-container{
+        padding:0;
+    }
+    .section{
+        padding:0px;
+    }
+    .add-product-form {
+        display: flex;
+        flex-direction: column;
+    }
+    .variation-item .variation-item-description {
+        width: 115px;
+    }
+     
+}
+
+/* Desktop Layout */
+@media (min-width: 1025px) {
+    .add-product-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two columns: left and right */
+        /* ✅ Flipped areas for RTL */
+        grid-template-areas:
+            "inputs images"            
+            "colors variations"
+            "categories categories"
+            "submit submit";
+        gap: 30px;
+    }
+
+    /* ✅ Keep areas mapped correctly */
+    .section-basic-info {
+        grid-area: inputs;
+    }
+
+    .section-images {
+        grid-area: images;
+    }
+
+    .section-variations {
+        grid-area: variations;
+    }
+
+    .section-colors {
+        grid-area: colors;
+    }
+
+    .section-categories {
+        grid-area: categories;
+    }
+
+    .section-submit {
+        grid-area: submit;
+        text-align: center;
+    }
+
+    .section {
+        min-height: 200px;
+    }
+}

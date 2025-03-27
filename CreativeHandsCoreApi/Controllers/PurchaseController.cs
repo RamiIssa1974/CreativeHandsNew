@@ -151,7 +151,7 @@ namespace CreativeHandsCoreApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetProviderById/{id}")]
         public async Task<ActionResult<ProviderModel>> GetProviderById(int id)
         {
             var provider = await _repository.GetProviderById(id);
@@ -200,5 +200,30 @@ namespace CreativeHandsCoreApi.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("DeleteProvider/{ProviderId}")]
+        public async Task<IActionResult> DeleteProvider(int ProviderId)
+        {
+            try
+            {
+                Console.WriteLine($"Deleting Provider ID: {ProviderId}");
+
+                var res = await _repository.DeleteProvider(ProviderId);
+
+                if (res)
+                {
+                    return Ok($"Provider with ID {ProviderId} deleted.");
+                }
+                else
+                {
+                    return BadRequest($"Provider with ID {ProviderId} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting Provider: {ex.Message}");
+                return StatusCode(500, "Internal server error, Deleting Provider: " + ProviderId);
+            }
+        }
     }
 }

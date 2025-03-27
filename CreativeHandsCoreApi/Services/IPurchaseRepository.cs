@@ -11,5 +11,6 @@ namespace CreativeHandsCoreApi.Services
         Task<int> SaveProvider(ProviderModel provider);
         Task<IEnumerable<ProviderModel>> GetProviders();
         Task<ProviderModel> GetProviderById(int id);
+        Task<bool> DeleteProvider(int providerId);
     }
 }

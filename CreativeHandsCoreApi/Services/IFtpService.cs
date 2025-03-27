@@ -6,6 +6,8 @@ namespace CreativeHandsCoreApi.Services
     public interface IFtpService
     {
         Task<string> UploadToFTP(IFormFile fileToUpload, string fileName, string imagespath);
-        //Task<string> UploadPurchaseFileToFTP(IFormFile fileToUpload, int productId);
+        Task<bool> DeleteFileFromFTP(string fileName, string folder);
+
+        Task<List<string>> DeleteFilesFromFTP(List<string> fileNames, string folder, int maxRetries = 3);
     }
 }

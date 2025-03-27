@@ -1,0 +1,141 @@
+﻿
+/* === Container === */
+.video-container {
+    direction: rtl;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+    .video-container h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+.add-video-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* === Sections === */
+.section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+}
+
+    .section h2 {
+        margin-bottom: 15px;
+    }
+
+/* === Labels and Inputs === */
+.add-video-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.add-video-form input[type="text"],
+.add-video-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.add-video-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* === Upload Button === */
+.video-upload-wrapper {
+    margin-top: 10px;
+}
+
+.video-upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .video-upload-button:hover {
+        background-color: #1976d2;
+    }
+
+/* === Submit Button === */
+.section-submit button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .section-submit button:hover {
+        background-color: #45a049;
+    }
+
+/* === Loading Spinner === */
+.page-loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #ccc;
+    border-top: 5px solid #333;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+.video-preview {
+    margin-top: 15px;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    background: #f8f8f8;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+    .video-container {
+        padding: 10px;
+    }
+    .video-preview video{
+        width:300px;
+    }
+    .section {
+        padding: 15px;
+    }
+}

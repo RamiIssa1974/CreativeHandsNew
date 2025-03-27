@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "react-creative-hands", "rea
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "react-creative-hands", "react-creative-hands\", "{E0716BE8-3667-4926-9B7B-D42604C817D1}"
 	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_58324"
 		Debug.AspNetCompiler.PhysicalPath = "react-creative-hands\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58324\"

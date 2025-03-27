@@ -2,6 +2,7 @@
 using MarketCoreGeneral.Requests;
 using CreativeHandsCoreApi.Services;
 using MarketCoreGeneral.Models.Orders;
+using Microsoft.EntityFrameworkCore;
 
 namespace CreativeHandsCoreApi.Controllers
 {
@@ -97,7 +98,7 @@ namespace CreativeHandsCoreApi.Controllers
                 // בדיקה אם ההזמנות הן ריקות
                 if (orders == null || !orders.Any())
                 {
-                    return NotFound("No orders found."); // מחזיר תשובת 404 אם אין הזמנות
+                    return Ok(new List<OrderModel>()); // מחזיר תשובת 404 אם אין הזמנות
                 }
 
                 // החזרת ההזמנות בתשובת Ok
@@ -153,6 +154,38 @@ namespace CreativeHandsCoreApi.Controllers
                 return StatusCode(500, "An error occurred while saving the order.");
             }
         }
+        [HttpPost]
+        //[Route("Api/Orders/SaveOrderItem")]
+        [Route("SaveOrderItem")]
+        public async Task<IActionResult> SaveOrderItem([FromBody] SaveOrderItemRequest orderItem)
+        {
+            // בדיקת תקינות הבקשה
+            if (orderItem == null  )
+            {
+                return BadRequest("Invalid order item data."); // מחזיר תשובת 400 אם הבקשה לא תקינה
+            }
+            try
+            {                 
+                var orderItemId = await _ordersRepository.SaveOrderItem(orderItem);
+
+                // בדיקת תקינות מזהה ההזמנה שהוחזר
+                if (orderItemId <= 0)
+                {
+                    return StatusCode(500, "Failed to save the order item."); 
+                }
+
+                // החזרת מזהה ההזמנה בתשובת Ok
+                return Ok(orderItemId);
+            }
+            catch (Exception ex)
+            {
+                // רישום החריגה (אופציונלי)
+                // _logger.LogError(ex, "An error occurred while saving the order");
+
+                // החזרת תשובת 500 Internal Server Error עם הודעה
+                return StatusCode(500, "An error occurred while saving the order.");
+            }
+        }
 
         [HttpPost]
         //[Route("Api/Orders/ChangeOrderStatus")]
@@ -190,6 +223,29 @@ namespace CreativeHandsCoreApi.Controllers
         }
 
         [HttpPost]
+        [Route("ChangeOrderStatusByChangeOrderStatusRequest")]
+        public async Task<IActionResult> ChangeOrderStatusByChangeOrderStatusRequest([FromBody] ChangeOrderStatusRequest request)
+        {
+            if (request == null || request.Id <= 0)
+            {
+                return BadRequest("Invalid data");
+            }
+
+            var order = await _ordersRepository.GetOrderById(request.Id);
+
+            if (order == null)
+            {
+                return NotFound("Order not found");
+            }
+
+            order.StatusId = request.StatusId;
+
+            var updatedOrderId = await _ordersRepository.ChangeOrderStatus(order);
+
+            return Ok(updatedOrderId);
+        }
+
+        [HttpPost]
         //[Route("Api/Orders/SendOrder")]
         [Route("SendOrder")]
         public async Task<IActionResult> SendOrder(SendOrderRequest request)
@@ -221,6 +277,61 @@ namespace CreativeHandsCoreApi.Controllers
 
                 // Return 500 Internal Server Error with an error message
                 return StatusCode(500, "An error occurred while sending the order.");
+            }
+        }
+
+        [HttpPost]
+        //[Route("Api/Orders/migrate-cart")]
+        [Route("migrate-cart")]
+        public async Task<IActionResult> MigrateAnonymousCartToUser([FromBody] MigrateAnonymousCartToUserRequest request)
+        {
+            // בדיקת תקינות הבקשה
+            if (request == null || string.IsNullOrEmpty(request.CartToken) || string.IsNullOrEmpty(request.UserId))
+            {
+                return BadRequest("Invalid order data."); // מחזיר תשובת 400 אם הבקשה לא תקינה
+            }
+            try
+            {
+                // שמירה של ההזמנה מהמאגר
+                var orderId = await _ordersRepository.MigrateAnonymousCartToUser(request);
+
+                // בדיקת תקינות מזהה ההזמנה שהוחזר
+                if (orderId <= 0)
+                {
+                    return NotFound("No cart found to migrate"); // מחזיר תשובת 500 אם לא הצליח לשמור את ההזמנה
+                }
+
+                // החזרת מזהה ההזמנה בתשובת Ok
+                return Ok(orderId);
+            }
+            catch (Exception ex)
+            {
+                // רישום החריגה (אופציונלי)
+                // _logger.LogError(ex, "An error occurred while saving the order");
+
+                // החזרת תשובת 500 Internal Server Error עם הודעה
+                return StatusCode(500, "An error occurred while saving the order.");
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteOrderItem/{id}")]
+        public async Task<IActionResult> DeleteOrderItem(int id)
+        {
+            try
+            {
+                Console.WriteLine($"Deleting OrderItem ID: {id}");
+
+                var orderItemId = await _ordersRepository.DeleteOrderItem(id);
+
+                // Delete logic here (EF Core example)                
+
+                return Ok($"OrderItem with ID {id} deleted.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting OrderItem: {ex.Message}");
+                return StatusCode(500, "Internal server error, Deleting Order Item: " + id);
             }
         }
     }

@@ -23,13 +23,15 @@ namespace CreativeHandsCoreApi.Services
         private readonly CacheSettings _cacheSettings;
         private readonly HttpContent? httpContent;
         private readonly HttpClient httpClient;
+        private readonly IFtpService _ftpService;
         public ProductsRepository(IMemoryCache memoryCache,
             MarketContext context,
             ILogger<SqlMarketRepository> logger,
             IConfiguration configuration,
             IMapper mapper,
             IMailService mailer,
-            IOptions<CacheSettings> cacheSettings)
+            IOptions<CacheSettings> cacheSettings,
+            IFtpService ftpService)
         {
             _memoryCache = memoryCache;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,6 +40,7 @@ namespace CreativeHandsCoreApi.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _mailer = mailer;
             _cacheSettings = cacheSettings.Value;
+            _ftpService = ftpService;
         }
         public async Task<List<ProductColourModel>> GetAvailableColours()
         {
@@ -48,17 +51,45 @@ namespace CreativeHandsCoreApi.Services
 
         public async Task<List<ProductModel>> GetCachedProductsAsync(GetProductRequest request)
         {
+            List<ProductModel> products;
+
             if (_memoryCache.TryGetValue("cachedAllProducts", out List<ProductModel> cachedProducts))
-            {                
-                return cachedProducts;
+            {
+                products = cachedProducts;
             }
             else
-            {                
-                List<ProductModel> products = await GetAllProducts();
-                _memoryCache.Set("cachedAllProducts", products, TimeSpan.FromHours(_cacheSettings.AllProductsCacheHours)); 
-                return products;
+            {
+                products = await GetAllProducts();
+                _memoryCache.Set("cachedAllProducts", products, TimeSpan.FromHours(_cacheSettings.AllProductsCacheHours));
             }
+
+            // Apply filtering based on request
+            var filteredProducts = products.AsQueryable();
+
+            if (request != null)
+            {
+                if (request.Id > 0)
+                    filteredProducts = filteredProducts.Where(p => p.Id == request.Id);
+
+                if (!string.IsNullOrEmpty(request.Name))
+                    filteredProducts = filteredProducts.Where(p => p.Name.Contains(request.Name));
+
+                if (!string.IsNullOrEmpty(request.Description))
+                    filteredProducts = filteredProducts.Where(p => p.Description.Contains(request.Description));
+
+                if (!string.IsNullOrEmpty(request.Barcode))
+                    filteredProducts = filteredProducts.Where(p => p.Barcode == request.Barcode);
+
+                if (request.CategoryId > 0)
+                    filteredProducts = filteredProducts.Where(p => p.CategoriesIds.Contains(request.CategoryId));
+
+                if (request.SubCategoryId > 0)
+                    filteredProducts = filteredProducts.Where(p => p.CategoriesIds.Contains(request.SubCategoryId));
+            }
+
+            return filteredProducts.ToList();
         }
+
         public async Task<List<ProductModel>?> GetAllProducts()
         {
             var sqlProducts = _context.Product;
@@ -128,7 +159,7 @@ namespace CreativeHandsCoreApi.Services
                         UpdateProductVariations(dbProd.Id, product.ProductVariations);
                         UpdateProductImages(dbProd.Id, product.Images, product.UploadedImages);
 
-                        UpdateProductsCache(dbProd);
+                        await UpdateProductsCache(dbProd);
                     }
 
                     return product.Id;
@@ -153,7 +184,8 @@ namespace CreativeHandsCoreApi.Services
                     UpdateProductVariations(dbProd.Id, product.ProductVariations);
                     UpdateProductImages(dbProd.Id, product.Images, product.UploadedImages);
 
-                    UpdateProductsCache(dbProd);
+                    await UpdateProductsCache(dbProd);
+
                     return dbProd.Id;
                 }
                 else
@@ -170,23 +202,43 @@ namespace CreativeHandsCoreApi.Services
                 return -1;
             }
         }
-        private async void UpdateProductsCache(SqlProduct dbProd)
+        private async Task UpdateProductsCache(SqlProduct dbProd)
         {
-            var allProducts = await GetCachedProductsAsync(new GetProductRequest());
-            if (allProducts != null)
+            try
             {
+                var allProducts = await GetCachedProductsAsync(new GetProductRequest());
+
+                if (allProducts == null)
+                    return;
+                
                 var convertedProd = _mapper.Map<ProductModel>(dbProd);
 
                 var curProd = allProducts.FirstOrDefault(pr => pr.Id == dbProd.Id);
+
                 if (curProd != null)
                 {
-                    curProd = convertedProd;
+                    curProd.Id = convertedProd.Id;
+                    curProd.Price = convertedProd.Price;
+                    curProd.SalePrice = convertedProd.SalePrice;
+                    curProd.Barcode = convertedProd.Barcode;
+                    curProd.Name = convertedProd.Name;
+                    curProd.Description = convertedProd.Description;
+                    curProd.Categories = convertedProd.Categories;
+                    curProd.Images = convertedProd.Images;
+                    curProd.AvailableColours = convertedProd.AvailableColours;
+                    curProd.ProductVariations = convertedProd.ProductVariations;
+                    curProd.StockQuantity = convertedProd.StockQuantity;                   
                 }
                 else
                 {
                     allProducts.Add(convertedProd);
                 }
-                _memoryCache.Set("cachedAllProducts", allProducts, TimeSpan.FromMinutes(30)); // Cache for 30 minutes
+
+                _memoryCache.Set("cachedAllProducts", allProducts, TimeSpan.FromMinutes(30));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ UpdateProductsCache failed: {ex.Message}");
             }
         }
 
@@ -204,7 +256,7 @@ namespace CreativeHandsCoreApi.Services
                             _context.ProductAvailableColours.Add(new SqlProductAvailableColours { Code = colourCode, ProductId = productId });
                         }
                     }
-                    _context.ProductAvailableColours.RemoveRange(_context.ProductAvailableColours.Where(pc => !availableColours.Contains(pc.Code)));
+                    _context.ProductAvailableColours.RemoveRange(_context.ProductAvailableColours.Where(pc => pc.ProductId == productId && !availableColours.Contains(pc.Code)));
                     _context.SaveChanges();
                 }
             }
@@ -346,5 +398,127 @@ namespace CreativeHandsCoreApi.Services
                 }
             }
         }
+
+        public async Task<bool> DeleteProduct(int productId)
+        {            
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    List<string> fileNames = null;
+
+                    var product = await _context.Product
+                        .FirstOrDefaultAsync(p => p.Id == productId);
+
+                    if (product == null)
+                    {
+                        return false;  
+                    }
+                    var productCats = await _context.ProductCategory
+                       .Where(pc => pc.ProductId == productId)
+                       .ToListAsync();
+
+                    if (productCats.Any())
+                    {
+                        _context.ProductCategory.RemoveRange(productCats);
+                    }
+
+                    var productColors = await _context.ProductAvailableColours
+                        .Where(pc => pc.ProductId == productId)
+                        .ToListAsync();
+
+                    if (productColors.Any())
+                    {
+                        _context.ProductAvailableColours.RemoveRange(productColors);
+                    }
+                     
+                    var productVariations = await _context.ProductVariation
+                        .Where(pv => pv.ProductId == productId)
+                        .ToListAsync();
+
+                    if (productVariations.Any())
+                    {
+                        _context.ProductVariation.RemoveRange(productVariations);
+                    }
+                    
+                    var productImages = await _context.Image
+                        .Where(img => img.ProductId == productId)
+                        .ToListAsync();
+
+                    if (productImages.Any())
+                    {
+                        fileNames = productImages.Select(img => $"{img.Id}.{img.Extension}").ToList();
+                        _context.Image.RemoveRange(productImages);
+                    }
+                    await _context.SaveChangesAsync();
+                    //Delete product
+                    _context.Product.Remove(product);
+                     
+                    await _context.SaveChangesAsync();
+                    
+                    await transaction.CommitAsync();
+
+                    await UpdateProductsCache(product);
+
+                    if (fileNames != null)
+                    {
+                        var failedFiles = await _ftpService.DeleteFilesFromFTP(fileNames, "Images");
+
+                        if (failedFiles.Any())
+                        {
+                            _logger.LogWarning($"⚠️ some images failed to delete from FTP: {string.Join(", ", failedFiles)}");
+                        }
+
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {                    
+                    await transaction.RollbackAsync();
+
+                    _logger.LogError("ProductsRepository.DeleteProduct", null, -1, "", ex.Message, "productId: " + productId.ToString());
+                    throw;
+                }
+            }
+        }
+
+
+        //public async Task<bool> DeleteProduct(int productId)
+        //{
+        //    try
+        //    {
+        //        var product = await _context.Product.FirstOrDefaultAsync(oi => oi.Id == productId);
+        //        if (product == null)
+        //        {
+        //            return false;
+        //        }
+        //        var productColors = _context.ProductAvailableColours.Where(oic => oic.ProductId == productId);
+        //        if (productColors != null && productColors.Any())
+        //        {
+        //            _context.ProductAvailableColours.RemoveRange(productColors);                    
+        //        }
+
+        //        var productVariations = _context.ProductVariation.Where(oic => oic.ProductId == productId);
+        //        if (productVariations != null && productVariations.Any())
+        //        {
+        //            _context.ProductVariation.RemoveRange(productVariations);
+        //        }
+
+        //        var productImages = _context.Image.Where(oic => oic.ProductId == productId);
+        //        if (productImages != null && productImages.Any())
+        //        {
+        //            _context.Image.RemoveRange(productImages);
+        //        }
+
+        //        _context.Product.Remove(product);
+        //        await _context.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError("ProductsRepository.DeleteProduct", null, -1, "", ex.Message, "productId: " + productId.ToString());
+        //        throw;
+        //    }
+        //}
     }
 }

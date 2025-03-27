@@ -1,16 +1,66 @@
-﻿/* src/components/styles/CategoryCard.css */
-
-.category-card {
-	border: 1px solid #ccc;
-	border-radius: 10px;
+﻿.category-card {
+	border-radius: 12px;
 	padding: 1rem;
 	text-align: center;
-	background-color: #0066cc;
 	color: #fff;
 	cursor: pointer;
-	transition: background-color 0.3s ease;
+	width: 140px;
+	height: 140px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
-
-	.category-card:hover {
-		background-color: #005bb5;
+	.category-card .name {
+		font-size: 1rem;
+		font-weight: 600;
 	}
+	.category-card:hover {
+		transform: translateY(-6px) scale(1.03);
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+	}
+
+	.category-card .icon {
+		font-size: 2rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.category-card .name {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
+/* Add 6 color classes */
+.color-0 {
+	background-color: #e3f2fd;
+	color: #0d6efd;
+}
+/* Light Blue */
+.color-1 {
+	background-color: #e8f5e9;
+	color: #2e7d32;
+}
+/* Light Green */
+.color-2 {
+	background-color: #fff3e0;
+	color: #ef6c00;
+}
+/* Soft Orange */
+.color-3 {
+	background-color: #ede7f6;
+	color: #5e35b1;
+}
+/* Soft Purple */
+.color-4 {
+	background-color: #e0f7fa;
+	color: #00838f;
+}
+/* Aqua Blue */
+.color-5 {
+	background-color: #fce4ec;
+	color: #c2185b;
+}
+/* Soft Pink */
+

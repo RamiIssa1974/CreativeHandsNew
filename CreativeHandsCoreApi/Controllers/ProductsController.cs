@@ -85,7 +85,7 @@ namespace CreativeHandsCoreApi.Controllers
         public async Task<ActionResult<int>> SaveProduct([FromBody]SaveProductRequest request)
         {
             try
-            {
+            { 
                 // Validate the request (example: check if required fields are not null)
                 if (request == null)
                 {
@@ -227,6 +227,31 @@ namespace CreativeHandsCoreApi.Controllers
 
                 // Return 500 Internal Server Error with a message
                 return StatusCode(500, "An error occurred while retrieving available colours.");
+            }
+        }
+        [HttpDelete]
+        [Route("DeleteProduct/{ProductId}")]
+        public async Task<IActionResult> DeleteProduct(int ProductId)
+        {
+            try
+            {
+                Console.WriteLine($"Deleting Product ID: {ProductId}");
+
+                var res = await _productsRepository.DeleteProduct(ProductId);
+
+                if (res)
+                {
+                    return Ok($"Product with ID {ProductId} deleted.");
+                }
+                else
+                {
+                    return BadRequest($"Product with ID {ProductId} not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting Product: {ex.Message}");
+                return StatusCode(500, "Internal server error, Deleting Product: " + ProductId);
             }
         }
     }

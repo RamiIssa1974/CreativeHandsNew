@@ -36,11 +36,9 @@ namespace CreativeHandsCoreApi.Services.Mail
                     + sendOrderRequest.Customer?.Address != null ? @"From: {sendOrderRequest.Customer?.Address}," : string.Empty
                     + (!string.IsNullOrEmpty(customerNode) ? @"Notes:{customerNode}," : string.Empty)
                     + orderFinalPrice != null ? @"Price:{ orderFinalPrice}" : string.Empty;
-                
-                                                  
-
+                 
                 var baseUrl = _smsSettings.BaseUrl;
-                var token = _smsSettings.Token;
+                var token = _smsSettings.Token; 
                 var sellerTel = _smsSettings.SellerTel;
                 var siteTel = _smsSettings.SiteTel;
                 var maxSmsLength = _smsSettings.MaxSmsLength;

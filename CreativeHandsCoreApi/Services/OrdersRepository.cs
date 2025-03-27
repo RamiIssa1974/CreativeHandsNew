@@ -3,6 +3,7 @@ using CreativeHandsCoreApi.DbContexts;
 using CreativeHandsCoreApi.Entities.Sql.Customers;
 using CreativeHandsCoreApi.Entities.Sql.Orders;
 using CreativeHandsCoreApi.Services.Mail;
+using MarketCoreGeneral.Enums;
 using MarketCoreGeneral.Models.Orders;
 using MarketCoreGeneral.Requests;
 using Microsoft.EntityFrameworkCore;
@@ -208,9 +209,6 @@ namespace CreativeHandsCoreApi.Services
                     var orderCustomer = _context.Customer.FirstOrDefault(cust => cust.Id == order.CustomerId);
                     var globalUserId = 1;
                     if (orderCustomer != null && order.CustomerId != globalUserId)
-
-
-
                         if (orderCustomer != null)
                         {
                             orderCustomer.Name = request.CustomerName;
@@ -236,7 +234,7 @@ namespace CreativeHandsCoreApi.Services
                     order.StatusId = (int)MarketCoreGeneral.Enums.OrderStatusId.Accepted;
                     order.UserId = null;
                     _context.SaveChanges();
-                    if(request.Notes != null) order.Notes = request.Notes;
+                    if (request.Notes != null) order.Notes = request.Notes;
                     var orderModel = _mapper.Map<OrderModel>(order);
                     _mailer.SendSmsToSeller(orderModel);
                     return true;
@@ -363,6 +361,59 @@ namespace CreativeHandsCoreApi.Services
             }
         }
 
+        public async Task<int> SaveOrderItem(SaveOrderItemRequest saveOrderItem)
+        {
+            try
+            {
+                if (saveOrderItem.Id > 0)
+                {
+                    var dbOrderItem = _context.OrderItem.FirstOrDefault(oi => oi.Id == saveOrderItem.Id);
+                    if (dbOrderItem != null)
+                    {
+                        dbOrderItem.Quantity = saveOrderItem.Quantity;
+                        dbOrderItem.UnitPrice = saveOrderItem.UnitPrice;
+                        UpdateOrderItemColours(saveOrderItem.Id, saveOrderItem.Colours);
+                    }
+                    _context.SaveChanges();
+
+                    return saveOrderItem.Id;
+                }
+                else
+                {
+                    var dbOrderItem = _context.OrderItem.FirstOrDefault(oi => oi.OrderId == saveOrderItem.OrderId && oi.ProductId == saveOrderItem.ProductId);
+                    if (dbOrderItem != null)
+                    {
+                        dbOrderItem.Quantity += saveOrderItem.Quantity;
+                        dbOrderItem.UnitPrice = saveOrderItem.UnitPrice;
+                        UpdateOrderItemColours(saveOrderItem.Id, saveOrderItem.Colours);
+                        _context.SaveChanges();
+                        return dbOrderItem.Id;
+                    }
+                    else
+                    {
+                        var newOrderItem = new SqlOrderItem
+                        {
+                            Quantity = saveOrderItem.Quantity,
+                            UnitPrice = saveOrderItem.UnitPrice,
+                            OrderId = saveOrderItem.OrderId,
+                            ProductId = saveOrderItem.ProductId,
+                            Note = saveOrderItem.Note
+                        };
+                        _context.OrderItem.Add(newOrderItem);
+                        _context.SaveChanges();
+                        UpdateOrderItemColours(newOrderItem.Id, saveOrderItem.Colours);
+                        return newOrderItem.Id;
+                    }
+                    
+                }                
+            }
+            catch (Exception ex)
+            {
+                var requestData = JsonConvert.SerializeObject(saveOrderItem);
+                _logger.LogError("OrderServices.SaveOrderItem", null, -1, "", ex.Message, requestData);
+                return -1;
+            }
+        }
         public async Task<List<OrderModel>> GetOrders(GetOrderRequest request)
         {
 
@@ -425,12 +476,62 @@ namespace CreativeHandsCoreApi.Services
                 Customer = null,
                 CreateDate = DateTime.Now,
                 DeleveryPrice = 0,
-                Discount = 0,                
+                Discount = 0,
                 Notes = null,
                 OrderItems = new List<OrderItemModel>(),
                 StatusId = 1,//Cart
             };
             return Task.FromResult(emptyCart);
+        }
+
+        public async Task<int> MigrateAnonymousCartToUser(MigrateAnonymousCartToUserRequest request)
+        {
+            try
+            {
+                var dbOrder = _context.Order
+                    .FirstOrDefault(o => (o.UserId == request.CartToken || o.UserId == request.UserId)
+                                         && o.StatusId == (int)OrderStatusId.Cart);
+
+                if (dbOrder != null)
+                {
+                    dbOrder.UserId = request.UserId;
+                }
+
+                _context.SaveChanges();
+                return dbOrder != null ? dbOrder.Id : -1;
+            }
+            catch (Exception ex)
+            {
+                var requestData = JsonConvert.SerializeObject(request);
+                _logger.LogError("OrderServices.MigrateAnonymousCartToUser", null, -1, "", ex.Message, requestData);
+                return -1;
+            }
+        }
+
+        public async Task<bool> DeleteOrderItem(int id)
+        {
+            try
+            {
+                var orderItem = await _context.OrderItem.FirstOrDefaultAsync(oi => oi.Id == id);
+                if (orderItem == null)
+                {
+                    return false;
+                }
+                var itemColors = _context.OrderItemColour.Where(oic => oic.OrderItemId == id);
+                if(itemColors!=null && itemColors.Any())
+                {
+                    _context.OrderItemColour.RemoveRange(itemColors);
+                    await _context.SaveChangesAsync();
+                }
+                _context.OrderItem.Remove(orderItem);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("OrderServices.DeleteOrderItem", null, -1, "", ex.Message, "orderItemId: " + id.ToString());
+                throw;
+            }
         }
     }
 }

@@ -12,7 +12,6 @@ namespace MarketCoreGeneral.Models
         public string Token { get; set; }
         public string SellerTel { get; set; }
         public string SiteTel { get; set; }
-        public int MaxSmsLength { get; set; }
-        
+        public int MaxSmsLength { get; set; }        
     }
 }
