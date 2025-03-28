@@ -4,9 +4,10 @@ import { SaveProductRequest } from '../data/SaveProductRequest';
 import { UploadFilesResponse } from '../data/UploadFilesResponse';
 import { GetProductRequest } from '../data/Requests';
 
-const API_BASE_URL = 'http://localhost:7163/api/products';
-const API_UPLOAD_BASE_URL = 'http://localhost:7163/Api';
-
+//const API_BASE_URL = 'http://localhost:7163/api/products';
+//const API_UPLOAD_BASE_URL = 'http://localhost:7163/Api';
+const API_BASE_URL = 'http://194.36.89.39:7163/api/products';
+const API_UPLOAD_BASE_URL = 'http://194.36.89.39:7163/';
 export async function deleteProduct(productId: number): Promise<boolean> {
     try {
         const response = await fetch(`${API_BASE_URL}/DeleteProduct/${productId}`, {
@@ -198,7 +199,7 @@ export async function updateProduct(request: SaveProductRequest): Promise<number
 
 
 export async function fetchProductsByCategory(categoryId: number): Promise<Product[]> {
-    const res = await fetch('http://localhost:7163/api/products/GetProducts', {
+    const res = await fetch(API_BASE_URL+'/GetProducts', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

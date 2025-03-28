@@ -5,19 +5,19 @@ import { getVideos, saveVideo } from '@/services/videoService';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { Video } from '@/data/Video';
 
-const VideosListPage = () => {
-    const params = useParams();
+// (Paste your full component code here without change)
+const VideoListClient = () => {
     const searchParams = useSearchParams();
     const [loadingVideo, setLoadingVideo] = useState(false);
     const [id, setId] = useState(0);
     const [name, setName] = useState('');
-    const [extension, setExtension] = useState('');  
+    const [extension, setExtension] = useState('');
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
-    const [videoFile, setVideoFile] = useState<File | null>(null);    
+    const [videoFile, setVideoFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-    const idParam = params?.id;
+    const idParam = searchParams.get('videoId');
     const videoId = idParam ? Number(idParam) : 0;
 
     const modeParam = searchParams.get('mode');
@@ -59,7 +59,7 @@ const VideosListPage = () => {
     }, [previewUrl]);
 
 
-    
+
 
     async function handleSubmit(e: React.FormEvent): Promise<void> {
         e.preventDefault();
@@ -191,4 +191,5 @@ const VideosListPage = () => {
         </div>
     );
 }
-export default VideosListPage;
+
+export default VideoListClient;

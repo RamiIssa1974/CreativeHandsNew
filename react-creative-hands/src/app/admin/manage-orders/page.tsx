@@ -5,7 +5,7 @@ import { getStatusName, getStatusId, getOrderTotalPrice } from '@/utils/Helpers'
 import '@/app/styles/ManageOrdersPage.css';
 import { OrderModel } from '@/data/OrdelModel';
 import Link from 'next/link';
-import { AiOutlineArrowRight } from 'react-icons/ai';
+import { GetOrderRequest } from '@/data/Requests';
 
 const statusOptions = ['Cart', 'Accepted', 'Prepared', 'Sent', 'Paid', 'Canceled', 'Closed'];
 
@@ -24,12 +24,12 @@ const ManageOrders = () => {
     useEffect(() => {
         const loadOrders = async () => {
             try {
-                const request = {
-                    orderId: 0,
-                    customerId: 0,
-                    customerName: '',
-                    customerTel: '',
-                    statusId: 1, // Cart as default
+                const request: GetOrderRequest = {
+                    OrderId: 0,
+                    CustomerId: 0,
+                    CustomerName: '',
+                    CustomerTel: '',
+                    StatusId: 1, // Cart as default
                 };
 
                 const data = await fetchOrders(request);
@@ -110,16 +110,14 @@ const ManageOrders = () => {
         setSelectedStatus(statusId);
 
         try {
-            setLoading(true);
-
-            const request = {
-                orderId: 0,
-                customerId: 0,
-                customerName: '',
-                customerTel: '',
-                statusId: statusId === 0 ? 0 : statusId, // 0 means no filter
+            setLoading(true);             
+            const request: GetOrderRequest = {
+                OrderId: 0,
+                CustomerId: 0,
+                CustomerName: '',
+                CustomerTel: '',
+                StatusId: statusId === 0 ? 0 : statusId, // Cart as default
             };
-
             const data = await fetchOrders(request);
             setOrders(data);
         } catch (err: any) {
@@ -251,7 +249,7 @@ const ManageOrders = () => {
                                     </button>
                                 </td>
                                 <td>
-                                    <Link href={`/orders/order-details/${order.id}`}>
+                                    <Link href={`/orders/order-details?orderId=${order.id}`}>
                                         View Details ➡️
                                     </Link>
                                 </td>
@@ -295,7 +293,7 @@ const ManageOrders = () => {
                                 💾
                             </button>
 
-                            <Link href={`/orders/order-details/${order.id}`}>
+                            <Link href={`/orders/order-details?orderId=${order.id}`}>
                                 View Details ➡️
                             </Link>
                         </div>

@@ -5,13 +5,13 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { Product } from '@/data/Product';
 import { fetchProductsByCategory } from '@/services/productService';
 import './styles.css';
-import ProductsList from '../../../components/ProductsList';
+import ProductsList from '@/components/ProductsList';
 
-export default function ProductsListPage() {
-    const params = useParams();
+export default function ProductsListClient() {    
     const searchParams = useSearchParams();
-
-    const categoryId = Number(params.categoryId);
+     
+    const catParam = searchParams.get('categoryId');
+    const categoryId = Number(catParam);
     const categoryNameFromQuery = searchParams.get('name') || 'المنتجات';
 
     const [products, setProducts] = useState<Product[]>([]);

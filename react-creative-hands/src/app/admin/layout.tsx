@@ -22,7 +22,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/product/0" className="sidebar-link">
+                        <Link href="/admin/product?productId=0" className="sidebar-link">
                             <MdAddCircleOutline className="sidebar-icon" />
                             إضافة منتج
                         </Link>
@@ -34,7 +34,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/admin/provider/0" className="sidebar-link">
+                        <Link href="/admin/provider?providerId=0" className="sidebar-link">
                             <MdAddCircleOutline className="sidebar-icon" />
                             إضافة مزود
                         </Link>

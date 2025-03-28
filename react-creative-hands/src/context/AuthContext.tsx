@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const login = async (username: string, password: string): Promise<User> => {
         try {
-            const res = await fetch('http://localhost:7163/api/users/user-info', {
+            const res = await fetch('http://194.36.89.39:7163/api/users/user-info', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -26,7 +26,8 @@ builder.Services.AddCors(options =>
         policy =>
         {
             policy.WithOrigins("http://194.36.89.39",
-                                "http://creativehandsco.com", 
+                                "http://creativehandsco.com",
+                                "http://react.creativehandsco.com",
                                 "http://localhost:4200",
                                 "http://localhost:7163", 
                                 "http://localhost:3000")

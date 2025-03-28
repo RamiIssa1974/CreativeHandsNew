@@ -120,7 +120,7 @@
     background-color: #2196f3;
     color: white;
     border: none;
-    padding: 6px 10px;
+    padding: 6px 6px;
     border-radius: 4px;
     cursor: pointer;
 }
@@ -131,7 +131,7 @@
 
 .edit-button,
 .delete-button {
-    padding: 6px 10px;
+    padding: 6px 6px;
     margin-left: 5px;
     border-radius: 4px;
     cursor: pointer;

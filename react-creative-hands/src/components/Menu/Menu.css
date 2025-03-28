@@ -14,7 +14,11 @@
     list-style: none;
     position:relative;
 }
-
+.menu-icon {
+    margin-right: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+}
 /* === MENU LINKS & BUTTONS === */
 .menu-link,
 .menu-button {

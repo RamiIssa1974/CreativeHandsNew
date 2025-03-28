@@ -3,20 +3,21 @@
 import { HexColorPicker } from "react-colorful";
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
-import { fetchCategories, fetchProduct, saveProduct, updateProduct, uploadProductImages} from '@/services/productService';
+import {  useSearchParams, useRouter } from 'next/navigation';
+import { fetchCategories, fetchProduct, saveProduct, updateProduct, uploadProductImages } from '@/services/productService';
 import { Category } from '@/data/Category';
 import '@/app/styles/ProductPage.css';
 import { ProductVariationModel } from "@/data/ProductVariationModel";
 import { SaveProductRequest } from "@/data/SaveProductRequest";
 
-const ProductPage = () => {
+// (Paste your full component code here without change)
+const ProductClient = () => {
     const { user, isLoggedIn, loading } = useAuth();
     const router = useRouter();
-    const params = useParams();
+
     const searchParams = useSearchParams();
 
-    const idParam = params?.id;
+    const idParam = searchParams.get('productId');
     const id = idParam ? Number(idParam) : 0;
 
     const modeParam = searchParams.get('mode');
@@ -37,7 +38,7 @@ const ProductPage = () => {
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
-    const [salePrice, setSalePrice] = useState(0);
+    const [salePrice, setSalePrice] = useState<number | null>(0);
     const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [selectedColors, setSelectedColors] = useState<string[]>([]);
     const [stockQuantity, setStockQuantity] = useState(0);
@@ -387,4 +388,5 @@ const ProductPage = () => {
     );
 };
 
-export default ProductPage;
+
+export default ProductClient;

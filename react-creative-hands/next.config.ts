@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+﻿import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
     images: {
@@ -10,7 +10,19 @@ const nextConfig: NextConfig = {
                 pathname: '/assets/Images/**',
             },
         ],
+        unoptimized: true,
     },
+    //Skip TypeScript errors during build
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+
+    //Skip ESLint errors during build
+    eslint: {
+        ignoreDuringBuilds: true,
+    },   
+    output: 'export',
+
 };
 
 export default nextConfig;

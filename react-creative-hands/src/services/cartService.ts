@@ -4,8 +4,8 @@ import { SendOrderRequest } from '@/data/Requests';
 import { OrderItemResponse } from '@/data/Responses';
 import { CustomerDetails } from '@/data/CustomerDetails';
 
-const BASE_URL = 'http://localhost:7163/api/orders';
-
+//const BASE_URL = 'http://localhost:7163/api/orders';
+const BASE_URL = 'http://194.36.89.39:7163/api/orders';
 // Example of fetching userId/guestToken (optional logic)
 
 export const migrateCartToUser = async (cartToken: string, userId: string | number) => {
@@ -16,7 +16,7 @@ export const migrateCartToUser = async (cartToken: string, userId: string | numb
 
     console.log('Sending migrateCartToUser payload:', payload);
 
-    const res = await fetch('http://localhost:7163/api/orders/migrate-cart', {
+    const res = await fetch(BASE_URL+ '/migrate-cart', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -22,7 +22,7 @@ export default function OrderItemsTableMobile({
     imageSize,
 }: OrderItemsTableProps) {
     if (!items || items.length === 0) {
-        return <p>لا توجد منتجات</p>;
+        return <p>لالالا توجد منتجات</p>;
     }
 
     return (

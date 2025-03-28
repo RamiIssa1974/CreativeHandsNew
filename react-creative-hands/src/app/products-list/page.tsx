@@ -1,10 +1,10 @@
 ﻿import { Suspense } from 'react';
-import ProductsClient from './ProductsClient';
+import ProductsListClient from './ProductsListClient';
 
-export default function ProductsListWrapper() {
+export default function ProductsListPageWrapper() {
     return (
         <Suspense fallback={<p>جاري التحميل...</p>}>
-            <ProductsClient />
+            <ProductsListClient />
         </Suspense>
     );
 }

@@ -4,7 +4,8 @@ import { GetOrderRequest } from "@/data/Requests";
 import { mapClientItemToServer } from "@/utils/Helpers";
 
 // src/services/ordersService.ts                      
-const API_BASE_URL = 'http://localhost:7163/api/orders';
+//const API_BASE_URL = 'http://localhost:7163/api/orders';
+const API_BASE_URL = 'http://194.36.89.39:7163/api/orders';
 
 export async function deleteItem(itemId: number): Promise<boolean> {
     try {
@@ -26,8 +27,7 @@ export async function deleteItem(itemId: number): Promise<boolean> {
 }
 
 export async function saveItem(item: OrderItemModel): Promise<number | null> {
-    try {
-        //http://localhost:7163/api/orders/SaveOrderItem        
+    try {             
         const serverRequestItem = mapClientItemToServer(item);
 
         const response = await fetch(API_BASE_URL + "/SaveOrderItem", {
@@ -74,17 +74,11 @@ export async function saveOrder(order: OrderModel): Promise<boolean> {
 }
 
 export async function fetchOrders(request: GetOrderRequest): Promise<OrderModel[]> {
-    const req = {
-        OrderId: request.orderId,
-        CustomerId: request.customerId,
-        CustomerName: request.customerName,
-        CustomerTel: request.customerTel,
-        StatusId: request.statusId,
-    };
+     
     const res = await fetch(API_BASE_URL + '/Orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(req),
+        body: JSON.stringify(request),
     });
 
     if (!res.ok) throw new Error('Failed to fetch orders');

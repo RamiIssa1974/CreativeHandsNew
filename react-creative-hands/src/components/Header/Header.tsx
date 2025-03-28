@@ -9,7 +9,7 @@ import { Category } from '@/data/Category';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from './LogoutIcon';
-import { MenuItem } from '../../data/MenuItem';
+import { Home, ShoppingCart, Video, Info, LogIn, LayoutDashboard, Package, Plus, Truck, UserPlus, Film } from 'lucide-react';
 
 const Header: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -29,38 +29,39 @@ const Header: React.FC = () => {
 
         loadCategories();
     }, []);
-
-    const menuItems: MenuItem[] = [
-        { name: 'الرئيسية', href: '/' },
+    
+    const menuItems = [
+        { name: 'الرئيسية', href: '/', icon: <Home size={18} /> },
         {
             name: 'الفئات',
             submenu: categories.map((category) => ({
                 id: category.Id,
                 name: category.Name,
-                href: `/products-list/${category.Id}?name=${encodeURIComponent(category.Name)}`,
+                href: `/products-list?categoryId=${category.Id}&name=${encodeURIComponent(category.Name)}`,
             })),
+            icon: <Package size={18} />,
         },
-        { name: 'حول', href: '/about' },
-        { name: 'سلة المشتريات', href: '/Cart' },
-        { name: 'فيديوهات', href: '/videos-list' },
+        { name: 'حول', href: '/about', icon: <Info size={18} /> },
+        { name: 'سلة المشتريات', href: '/Cart', icon: <ShoppingCart size={18} /> },
+        { name: 'فيديوهات', href: '/videos-list', icon: <Video size={18} /> },
         ...(isLoggedIn && user?.isAdmin
             ? [
                 {
                     name: 'الإدارة',
+                    icon: <LayoutDashboard size={18} />,
                     submenu: [
-                        { id: 1000, name: 'إدارة الطلبات', href: '/admin/manage-orders' },
-                        { id: 1001, name: 'إدارة المنتجات', href: '/admin/manage-products' },
-                        { id: 1002, name: 'إضافة منتج', href: '/admin/product/0' },
-                        { id: 1003, name: 'إدارة المزودين', href: '/admin/manage-providers' },
-                        { id: 1004, name: 'إضافة مزود', href: '/admin/provider/0' },
-                        { id: 1005, name: 'اضافة فيديو', href: '/admin/video/0' },
-                        // Add more admin links here later
+                        { id: 1000, name: 'إدارة الطلبات', href: '/admin/manage-orders', icon: <Package size={16} /> },
+                        { id: 1001, name: 'إدارة المنتجات', href: '/admin/manage-products', icon: <Package size={16} /> },
+                        { id: 1002, name: 'إضافة منتج', href: '/admin/product?productId=0', icon: <Plus size={16} /> },
+                        { id: 1003, name: 'إدارة المزودين', href: '/admin/manage-providers', icon: <Truck size={16} /> },
+                        { id: 1004, name: 'إضافة مزود', href: '/admin/provider?providerId=0', icon: <UserPlus size={16} /> },
+                        { id: 1005, name: 'اضافة فيديو', href: '/admin/video?videoId=0', icon: <Film size={16} /> },
                     ],
                 },
             ]
             : []),
         ...(!isLoggedIn
-            ? [{ name: 'تسجيل الدخول', href: '/login' }]
+            ? [{ name: 'تسجيل الدخول', href: '/login', icon: <LogIn size={18} /> }]
             : []),
     ];
 
@@ -91,7 +92,11 @@ const Header: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="banner-image mobile-banner"></div>
+            <Link href="/">
+                <div className="banner-image mobile-banner"></div>
+            </Link>
+            
+
 
             <div className="header-bar">
                 <div className="menu-container">

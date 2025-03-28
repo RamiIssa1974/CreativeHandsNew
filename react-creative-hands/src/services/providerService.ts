@@ -1,6 +1,7 @@
 ﻿import { ServerSiteProvider, SiteProvider } from '@/data/SiteProvider';
 
-const PROVIDERS_API_BASE_URL = 'http://localhost:7163/api/purchases';
+//const PROVIDERS_API_BASE_URL = 'http://localhost:7163/api/purchases';
+const PROVIDERS_API_BASE_URL = 'http://194.36.89.39:7163/api/purchases';
 
 export async function getProviderById(providerId: number): Promise<SiteProvider | null> {
     try {

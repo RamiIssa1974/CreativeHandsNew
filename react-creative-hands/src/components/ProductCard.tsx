@@ -1,4 +1,6 @@
-﻿import React, { useState } from 'react';
+﻿'use client';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Product } from '@/data/Product';
 import { getProductImageUrl, getDefaultProductImageUrl } from '@/utils/Helpers';

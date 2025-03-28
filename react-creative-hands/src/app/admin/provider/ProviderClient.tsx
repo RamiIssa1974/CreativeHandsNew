@@ -1,18 +1,18 @@
-﻿"use client";
+﻿'use client';
 
 import '@/app/styles/ProviderPage.css'
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { getProviderById, saveProvider } from '@/services/providerService';
 import { SiteProvider } from '@/data/SiteProvider';
 
-const ProviderPage = () => {
+// (Paste your full component code here without change)
+const ProviderClient = () => {
     const { user, isLoggedIn, loading } = useAuth();
     const router = useRouter();
-    const params = useParams();
     const searchParams = useSearchParams();
-    
+
     const [loadingProvider, setLoadingProvider] = useState(true);
 
     const [id, setId] = useState(0);
@@ -30,7 +30,7 @@ const ProviderPage = () => {
         router.push('/');
     }
 
-    const idParam = params?.id;
+    const idParam = searchParams.get('providerId');
     const providerId = idParam ? Number(idParam) : 0;
 
     const modeParam = searchParams.get('mode');
@@ -44,7 +44,7 @@ const ProviderPage = () => {
     useEffect(() => {
         const laodProvider = async () => {
             try {
-                
+
                 setLoadingProvider(true);
                 if (providerId > 0 && (isEditMode || isViewMode)) {
                     const prov = await getProviderById(providerId);
@@ -66,7 +66,7 @@ const ProviderPage = () => {
                 console.error("Error loading product:", error);
             } finally {
                 setLoadingProvider(false);
-            }            
+            }
         }
         laodProvider();
     }, [isViewMode, isEditMode, providerId]);
@@ -93,13 +93,13 @@ const ProviderPage = () => {
             email: email, // or Email
             isActive: isActive,
         };
-        
+
         try {
-            console.log("🔄 Saving provider...", _provider);            
+            console.log("🔄 Saving provider...", _provider);
 
 
             const provId = await saveProvider(_provider);
-             
+
 
             if (provId && provId > 0) {
                 console.log("Provider saved:", provId);
@@ -107,7 +107,7 @@ const ProviderPage = () => {
                 const successMessage = isEditMode ? '✅ تم تحديث المزود بنجاح!' : '✅ تم حفظ المزود بنجاح!';
                 alert(successMessage);
 
-                router.push('/admin/provider/' + provId + '?mode=view');
+                router.push('/admin/provider?providerId=' + provId + '&mode=view');
             } else {
                 console.error("Provider save returned invalid ID:", provId);
                 alert('❌ فشل أثناء حفظ المزود');
@@ -201,7 +201,6 @@ const ProviderPage = () => {
         </div>
     );
 
-}
+};
 
-export default ProviderPage;
-
+export default ProviderClient;

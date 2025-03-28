@@ -1,11 +1,12 @@
-﻿"use client";
+﻿
+"use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useSearchParams } from 'next/navigation';
 
-import CustomerHeader from "@/components/order/CustomerHeader";
-import OrderItemsTable from "@/components/order/OrderItemsTable";
-import OrderFooter from "@/components/order/OrderFooter";
+import CustomerHeader from "@/components/Order/CustomerHeader";
+import OrderItemsTable from "@/components/Order/OrderItemsTable";
+import OrderFooter from "@/components/Order/OrderFooter";
 import '@/app/styles/OrderDetailsPage.css';
 import { fetchOrders, saveOrder, saveItem, deleteItem } from "@/services/orderService";
 import { OrderModel } from "@/data/OrdelModel";
@@ -14,11 +15,13 @@ import { OrderItemModel } from "@/data/OrderItemModel";
 //import { getProducts } from "@/services/productService";
 import FastNewProduct from "@/components/Order/FastNewProduct";
 import OrderItemsTableMobile from "@/components/Order/OrderItemsTableMobile";
- 
-export default function OrderDetailsPage() {
-    const params = useParams();
 
-    const orderId = Number(params.orderId);
+// (Paste your full component code here without change)
+const OrderDetailsClient = () => {
+    const searchParams = useSearchParams();
+
+    const idParam = searchParams.get('orderId');
+    const orderId = Number(idParam);
     const [order, setOrder] = useState<OrderModel | null>(null);
     const [imageSize, setImageSize] = useState(100);
 
@@ -33,16 +36,16 @@ export default function OrderDetailsPage() {
     useEffect(() => {
         async function loadOrder() {
             const request: GetOrderRequest = {
-                orderId: orderId,
-                customerId: 0,
-                customerName: '',
-                customerTel: '',
-                statusId: 0
+                OrderId: orderId,
+                CustomerId: 0,
+                CustomerName: '',
+                CustomerTel: '',
+                StatusId: 0
             };
 
             try {
                 const orders = await fetchOrders(request);
-                
+
                 if (orders.length > 0) {
                     const selectedOrder = orders[0]; // Or however you pick the right one
                     console.log("selectedOrder: ", orders[0]);
@@ -158,7 +161,7 @@ export default function OrderDetailsPage() {
             alert("✅ تم حذف المنتج بنجاح");
         } else {
             alert("❌ فشل في حذف المنتج");
-        }       
+        }
     };
 
     const handleSaveItem = async (item: OrderItemModel) => {
@@ -170,7 +173,7 @@ export default function OrderDetailsPage() {
             alert(`فشل في حفظ العنصر ${item.productName} ❌`);
         }
     };
-    
+
     if (!order) {
         return (
             <div className="page-loading-container">
@@ -224,7 +227,7 @@ export default function OrderDetailsPage() {
                 discountMode={discountMode}
                 finalTotal={finalTotal}
                 toggleDiscountMode={toggleDiscountMode}
-                onSave={handleSaveOrder }
+                onSave={handleSaveOrder}
             />
             <FastNewProduct
                 onAddProduct={(newItem) => {
@@ -249,8 +252,10 @@ export default function OrderDetailsPage() {
 
                     });
                 }}
-                orderId={orderId }
+                orderId={orderId}
             />
         </div>
     );
-}
+};
+
+export default OrderDetailsClient;

@@ -59,7 +59,7 @@ const VideosListPage = () => {
             });
     }
     function handleEditVideo(videioId: number) {
-        router.push(`/admin/video/${videioId}?mode=edit`);
+        router.push(`/admin/video?videoId=${videioId}&mode=edit`);
     }
     return (
         <div className='vedios-container'>        

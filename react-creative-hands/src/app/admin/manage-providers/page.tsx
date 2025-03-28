@@ -44,7 +44,7 @@ const ManageProviders = () => {
     }  
 
     function handleEditProvider(id: any): void {
-        router.push(`/admin/provider/${id}`);
+        router.push(`/admin/provider?providerId=${id}`);
     }
 
     
@@ -70,7 +70,7 @@ const ManageProviders = () => {
 
 
     function handleAddProvider(): void {
-        router.push(`/admin/provider/0`);
+        router.push(`/admin/provider?providerId=0`);
     }
 
     const filteredProviders = providers.filter(p => {
@@ -115,7 +115,7 @@ const ManageProviders = () => {
                     <tbody>
                         {filteredProviders.length === 0 ? (
                             <tr>
-                                <td colSpan={7}>لا توجد منتجات</td>
+                                <td colSpan={7}>لم يتم العثور على المزودين</td>
                             </tr>
                         ) : (
                             filteredProviders.map(prov => (

@@ -43,7 +43,7 @@ interface CategoryCardProps {
 const CategoryCard: React.FC<CategoryCardProps> = ({ id, name, index }) => {
     const icon = iconMap[name] || <FaBoxes />; 
     return (
-        <Link href={`/products-list/${id}?name=${encodeURIComponent(name)}`}>
+        <Link href={`/products-list?categoryId=${id}&name=${encodeURIComponent(name)}`}>
             <div className={`category-card color-${index % 6}`}>
                 <div className="icon">{icon}</div>
                 <div className="name">{name}</div>

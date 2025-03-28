@@ -1,7 +1,8 @@
 ﻿
 import { ServerVideo, Video } from '../data/Video';
 
-const VIDEOS_API_BASE_URL = 'http://localhost:7163/api/video';
+//const VIDEOS_API_BASE_URL = 'http://localhost:7163/api/video';
+const VIDEOS_API_BASE_URL = 'http://194.36.89.39:7163/api/video';
 //const API_UPLOAD_BASE_URL = 'http://localhost:7163/Api';
 
 export async function saveVideo(videoData: Video, fileToUpload: File): Promise<number | null> {

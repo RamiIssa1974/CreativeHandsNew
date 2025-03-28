@@ -9,7 +9,7 @@ interface ProductsListProps {
 
 const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
     if (!products || products.length === 0) {
-        return <p className="no-products-text">لا توجد منتجات</p>;
+        return <p className="no-products-text">لالالالا توجد منتجات</p>;
     }
 
     return (
