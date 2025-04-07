@@ -92,26 +92,74 @@ namespace CreativeHandsCoreApi.Services
 
             return response;
         }
-        //install this package if you wanna use this function: System.Drawing.Common
-        //public void Crop(int Width, int Height, Stream streamImg, string saveFilePath)
-        //{
-        //    Bitmap sourceImage = new Bitmap(streamImg);
-        //    using (Bitmap objBitmap = new Bitmap(Width, Height))
-        //    {
-        //        objBitmap.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
-        //        using (Graphics objGraphics = Graphics.FromImage(objBitmap))
-        //        {
-        //            // Set the graphic format for better result cropping   
-        //            objGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-        //            objGraphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-        //            objGraphics.DrawImage(sourceImage, 0, 0, Width, Height);
+        public async Task<UploadFilesResponse> UploadUmbracoFiles(List<IFormFile> files, int productId)
+        {
+            var response = new UploadFilesResponse
+            {
+                ProductId = productId,
+                UploadedImages = new List<string>()
+            };
 
-        //            // Save the file path, note we use png format to support png file  
-        //            //var uploadedFileName = GeneralFunctions.UploadToFTP(objBitmap, 10000);
-        //            objBitmap.Save(saveFilePath);
-        //        }
-        //    }
-        //}
+            if (files == null || files.Count == 0)
+            {
+                return response;
+            }
+
+            // ✅ Step 1: Delete existing images for this product from FTP
+            // We'll assume naming format is: prod_{productId}_*.ext
+            var productPrefix = $"prod_{productId}_";
+            var existingFiles = await _ftpService.ListFilesFromFTP("Images/Umbraco", productId);
+
+            var productFiles = existingFiles
+                .Where(f => f.StartsWith(productPrefix, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            if (productFiles.Any())
+            {
+                var failedDeletes = await _ftpService.DeleteFilesFromFTP(productFiles, "Images/Umbraco");
+                // Optional: Log any failed deletions
+            }
+
+            // ✅ Step 2: Upload new files with formatted names
+            int i = 1;
+            foreach (var file in files)
+            {
+                var ext = Path.GetExtension(file.FileName);
+                var newFileName = $"prod_{productId}_{i++}{ext}";
+
+                var uploadedFileName = await _ftpService.UploadToFTP(file, newFileName, "Images/Umbraco");
+
+                if (uploadedFileName != null)
+                {
+                    response.UploadedImages.Add(uploadedFileName);
+                }
+            }
+
+            return response;
+        }
+
+        public async Task<UploadFilesResponse> UploadUmbracoFilesOld(List<IFormFile> files, int productId)
+        {
+            if (files == null || files.Count == 0)
+            {
+                return new UploadFilesResponse() { ProductId = -1, PurchaseId = -1, UploadedImages = null, VideoId = -1 };
+            }
+            var response = new UploadFilesResponse();
+            response.UploadedImages = new List<string>();
+             
+            response.ProductId = productId;
+            foreach (var file in files)
+            {                 
+                var uploadedFileName = await _ftpService.UploadToFTP(file, file.FileName, "Images/Umbraco");
+
+                if (uploadedFileName != null)
+                {
+                    response.UploadedImages.Add(uploadedFileName);
+                }
+            }
+            //Crop(Width: 140, Height: 100, streamImg: postedFile.InputStream, "thumb." + uploadedFileName);
+            return response;
+        }         
     }
 }

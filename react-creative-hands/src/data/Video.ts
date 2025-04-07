@@ -8,7 +8,7 @@
 
 export interface ServerVideo {
     Id: number;
-    Name: string;   
+    VideoName: string;   
     Extension: string; 
     Description: string;
     Title: string;    

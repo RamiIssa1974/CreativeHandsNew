@@ -37,7 +37,7 @@ namespace CreativeHandsCoreApi.Services
             try
             {
                 var _videos = _context.Video.Where(rq => (request.Id == -1 || rq.Id == request.Id)
-                                                            && (string.IsNullOrEmpty(request.Name) || rq.Name.Contains(request.Name))
+                                                            && (string.IsNullOrEmpty(request.VideoName) || rq.Name.Contains(request.VideoName))
                                                             && (string.IsNullOrEmpty(request.Title) || rq.Title.Contains(request.Title))
                                                             && (string.IsNullOrEmpty(request.Description) || rq.Description.Contains(request.Description))).ToList();
                 if (_videos != null && _videos.Any())
@@ -66,7 +66,7 @@ namespace CreativeHandsCoreApi.Services
                 var response = new UploadFilesResponse();
                 response.UploadedImages = new List<string>();
 
-                var trimedFileName = Helpers.ToValidCamelCaseFileName(request.Name);
+                var trimedFileName = Helpers.ToValidCamelCaseFileName(request.VideoName);
 
                 string fileNameExtension = Path.GetExtension(file.FileName);
                 var fileName = trimedFileName + fileNameExtension;
@@ -89,7 +89,7 @@ namespace CreativeHandsCoreApi.Services
                     var existingVideo = _context.Video.FirstOrDefault(v => v.Id == request.Id);
                     if (existingVideo!= null)
                     {
-                        existingVideo.Name = request.Name;
+                        existingVideo.Name = request.VideoName;
                         existingVideo.Title = request.Title;
                         existingVideo.Description = request.Description;
                         existingVideo.Extension = request.Extension;

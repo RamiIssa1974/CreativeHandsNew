@@ -91,7 +91,6 @@ namespace CreativeHandsCoreApi.Services
             }
         }
 
-
         public async Task<string> UploadPurchaseFileToFTP(IFormFile fileToUpload, int purchaseId)
         {
             var fileName = "";
@@ -243,21 +242,45 @@ namespace CreativeHandsCoreApi.Services
             return false; // Failed after max retries
         }
 
-        //public async Task<List<string>> DeleteFilesFromFTP(List<string> fileNames, string folder)
-        //{
-        //    var failedFiles = new List<string>();
+        public async Task<List<string>> ListFilesFromFTP(string folder, int productId)
+        {
+            var matchingFiles = new List<string>();
 
-        //    foreach (var fileName in fileNames)
-        //    {
-        //        bool deleted = await DeleteFileFromFTP(fileName, folder);
-        //        if (!deleted)
-        //        {
-        //            failedFiles.Add(fileName);
-        //        }
-        //    }
+            string ftpUrl = _ftpSettings.UploadUrl + folder;
+            string ftpUserName = _ftpSettings.UserName;
+            string ftpPassword = _ftpSettings.Password;
 
-        //    return failedFiles;
-        //}
+            try
+            {
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpUrl);
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                request.Credentials = new NetworkCredential(ftpUserName, ftpPassword);
+                request.UsePassive = true;
+                request.UseBinary = true;
+                request.KeepAlive = false;
+                request.EnableSsl = false;
+
+                using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        var fileName = await reader.ReadLineAsync();
+                        if (!string.IsNullOrWhiteSpace(fileName) &&
+                            fileName.StartsWith($"prod_{productId}_", StringComparison.OrdinalIgnoreCase))
+                        {
+                            matchingFiles.Add(fileName);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"❌ Failed to list FTP files from folder '{folder}': {ex.Message}");
+            }
+
+            return matchingFiles;
+        }
     }
 }
 

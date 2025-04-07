@@ -99,6 +99,40 @@ namespace CreativeHandsCoreApi.Controllers
             }
         }
 
+        [HttpPost]
+        //[Route("Api/UploadFiles")]
+        [Route("Api/UploadFilesFromUmbraco")]
+        //public async Task<ActionResult<UploadFilesResponse>> UploadFile([FromForm] IFormFile file, [FromForm] int productId)
+        public async Task<ActionResult<UploadFilesResponse>> UploadFilesFromUmbraco([FromForm] List<IFormFile> files, [FromForm] int productId)
+        {
+            var response = new UploadFilesResponse();
+            if (files == null || files.Count == 0 || files[0].Length == 0)
+            {
+                return BadRequest("No files were uploaded.");
+            }
+             
+            response.ProductId = productId;
+
+            try
+            {
+                //TO DO make it files and not only the first file
+                response = await _repository.UploadUmbracoFiles(files, productId);
+
+                if (response == null)
+                {
+                    return NotFound("Problem occured while Uploading the file.");
+                }
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                // _logger.LogError(ex, "An error occurred while uploading the file.");
+
+                return StatusCode(500, "An error occurred while uploading the file.");
+            }
+        }
 
     }
 }

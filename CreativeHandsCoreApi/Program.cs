@@ -28,9 +28,13 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://194.36.89.39",
                                 "http://creativehandsco.com",
                                 "http://react.creativehandsco.com",
+                                "http://umbraco.creativehandsco.com",
+                                "http://react-umbraco.creativehandsco.com",
+                                "http://umbraco-api.creativehandsco.com",
                                 "http://localhost:4200",
                                 "http://localhost:7163", 
-                                "http://localhost:3000")
+                                "http://localhost:3000", 
+                                "https://localhost:7065/")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });

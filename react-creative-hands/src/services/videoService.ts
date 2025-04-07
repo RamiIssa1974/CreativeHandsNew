@@ -44,7 +44,7 @@ export async function getVideos(videoId:number): Promise<Video[]> {
     try { 
         const request: ServerVideo = {
             Id: videoId,
-            Name: '',
+            VideoName: '',
             Description: '',
             Extension:'',
             Title: ''
@@ -86,7 +86,7 @@ export async function deleteVideo(videoId: number): Promise<boolean> {
 export function mapServerToClientVideo(sVideo: ServerVideo): Video {
     return {
         id: sVideo.Id,
-        name: sVideo.Name,         
+        name: sVideo.VideoName,         
         description: sVideo.Description,
         extension: sVideo.Extension,
         title: sVideo.Title,        
@@ -96,7 +96,7 @@ export function mapServerToClientVideo(sVideo: ServerVideo): Video {
 export function mapClientToServerVideo(clientVideo: Video): ServerVideo {
     return {
         Id: clientVideo.id,
-        Name: clientVideo.name,
+        VideoName: clientVideo.name,
         Extension: clientVideo.extension,
         Description: clientVideo.description, // or Description
         Title: clientVideo.title,        

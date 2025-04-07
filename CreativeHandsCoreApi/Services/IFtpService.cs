@@ -9,5 +9,6 @@ namespace CreativeHandsCoreApi.Services
         Task<bool> DeleteFileFromFTP(string fileName, string folder);
 
         Task<List<string>> DeleteFilesFromFTP(List<string> fileNames, string folder, int maxRetries = 3);
+         Task<List<string>> ListFilesFromFTP(string folder, int productId);
     }
 }
