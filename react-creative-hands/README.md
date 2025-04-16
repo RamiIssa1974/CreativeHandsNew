@@ -14,11 +14,10 @@ A full e-commerce platform for educational and art supplies. Includes product ca
 
 <h3>📸 Screenshots:</h3>
 
-<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/HomePage.jpg" width="620" height="320" alt="Login Page">
-<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/CateggoryPage.jpg" width="620" height="320" alt="Register Page">
-<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/ProductsManagement.jpg" width="620" height="320" alt="Reject Page">
-<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/EditProduct.jpg" width="620" height="320" alt="Finish Page">
-
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/master/ScreenShots/React/HomePage.jpg" width="620" height="320" alt="Home Page">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/master/ScreenShots/React/CateggoryPage.jpg" width="620" height="320" alt="Category Page">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/master/ScreenShots/React/ProductsManagement.jpg" width="620" height="320" alt="Products Management">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/master/ScreenShots/React/EditProduct.jpg" width="620" height="320" alt="Edit Product">
 
 
 
