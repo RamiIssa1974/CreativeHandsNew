@@ -1,3 +1,35 @@
+## 🛍️ Creative Hands – E-Commerce Platform (NextJs + .NET Core)
+
+**🔗 Live demo:** [react.creativehandsco.com](http://react.creativehandsco.com/)  
+**🖼️ Screenshot:**  
+![Creative Hands Screenshot](./aaebc995-cd79-4ee1-95bd-c8a955fce71f.png)  
+**🧰 Tech Stack:** Nexts.JS, .NET Core Web API, SQL Server, JWT Auth, REST  
+**💡 Description:**  
+A full e-commerce platform for educational and art supplies. Includes product categories, cart, admin panel, and Graph API integration for user management.
+
+**👨‍💻 My Work:**  
+- Built the entire backend in .NET Core with authentication and product APIs  
+- Developed React frontend with product filtering, cart handling, and RTL Arabic support  
+- Designed database structure and optimized queries
+
+<h3>📸 Screenshots:</h3>
+
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/HomePage.jpg" width="620" height="320" alt="Login Page">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/CateggoryPage.jpg" width="620" height="320" alt="Register Page">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/ProductsManagement.jpg" width="620" height="320" alt="Reject Page">
+<img src="https://raw.githubusercontent.com/RamiIssa1974/CreativeHandsNew/tree/master/ScreenShots/React/EditProduct.jpg" width="620" height="320" alt="Finish Page">
+
+
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
