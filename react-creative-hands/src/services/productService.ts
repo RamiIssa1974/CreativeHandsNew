@@ -4,7 +4,7 @@ import { Product } from '@/data/Product';
 import { SaveProductRequest } from '../data/SaveProductRequest';
 import { UploadFilesResponse } from '../data/UploadFilesResponse';
 import { GetProductRequest } from '../data/Requests';
- 
+
 export async function deleteProduct(productId: number): Promise<boolean> {
     try {
         await axiosAuth.delete(`products/DeleteProduct/${productId}`);
@@ -31,7 +31,7 @@ export async function uploadProductImages(files: File[], productId: number): Pro
     formData.append('productId', productId.toString());
 
     try {
-        const response = await axiosAuth.post(`$/UploadFiles`, formData, {
+        const response = await axiosAuth.post(`products/UploadFiles`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
         return response.data;
@@ -110,6 +110,17 @@ export async function fetchCategories(): Promise<Category[]> {
         console.error("Failed to fetch categories", error);
         throw error;
     }
+}
+
+export async function fetchProductsByCategory(categoryId: number): Promise<Product[]> {
+    return await getProducts({
+        Id: 0,
+        Name: '',
+        Description: '',
+        Barcode: '',
+        CategoryId: categoryId,
+        SubCategoryId: -1
+    });
 }
 
 function mapClientToServerSaveProductRequest(request: SaveProductRequest): any {
