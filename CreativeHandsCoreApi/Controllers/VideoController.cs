@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MarketCoreGeneral.Requests;
-using CreativeHandsCoreApi.Services;
-using MarketCoreGeneral.Models.Authintication;
-using MarketCoreGeneral.Models.Orders;
-using Microsoft.AspNetCore.Http;
 using MarketCoreGeneral.Models.Video;
 using MarketCoreGeneral.Responses;
+using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Authorization;
 
 namespace CreativeHandsCoreApi.Controllers
 {
-    [ApiController]    
+    [ApiController]
+    [ConditionalAuthorize]
     public class VideoController : ControllerBase
     {
         private readonly IVideoRepository _repository;

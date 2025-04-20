@@ -1,12 +1,9 @@
-﻿import { CartItem } from '@/data/CartItem';
-import { AddToCartRequest } from '@/data/Requests';
-import { SendOrderRequest } from '@/data/Requests';
+﻿import axiosAuth from '@/utils/axiosAuth';
+import { CartItem } from '@/data/CartItem';
+import { AddToCartRequest, SendOrderRequest } from '@/data/Requests';
 import { OrderItemResponse } from '@/data/Responses';
-import { CustomerDetails } from '@/data/CustomerDetails';
 
-//const BASE_URL = 'http://localhost:7163/api/orders';
-const BASE_URL = 'http://194.36.89.39:7163/api/orders';
-// Example of fetching userId/guestToken (optional logic)
+const BASE_URL = 'orders'; // Axios base is already set to /api/
 
 export const migrateCartToUser = async (cartToken: string, userId: string | number) => {
     const payload = {
@@ -14,72 +11,46 @@ export const migrateCartToUser = async (cartToken: string, userId: string | numb
         UserId: userId.toString(),
     };
 
-    console.log('Sending migrateCartToUser payload:', payload);
+    try {
+        const res = await axiosAuth.post(`${BASE_URL}/migrate-cart`, payload);
+        return res.data;
+    } catch (err: any) {
+        if (err.response?.status === 404) {
+            console.warn('No cart found to migrate.');
+            return null;
+        }
 
-    const res = await fetch(BASE_URL+ '/migrate-cart', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    });
-
-    const text = await res.text();
-    if (res.status === 404) {
-        console.warn('No cart found to migrate. This is normal if no anonymous cart exists.');
-        return null;  // Or any value you want to represent "no cart"
+        console.error('migrateCartToUser error:', err);
+        throw new Error(`Failed to migrate cart: ${err.response?.status}`);
     }
-    if (!res.ok) {
-        console.error('migrateCartToUser error:', text);
-        throw new Error(`Failed to migrate cart: ${res.status}`);
-    }
-
-    console.log('migrateCartToUser success:', text);
-
-    return JSON.parse(text);
 };
 
-
-
-/**
- * GET: Fetch cart from backend
- */
 export const fetchCartFromAPI = async (userId: string) => {
-    console.log('Loading cart for userId:', userId);
-    const res = await fetch(`${BASE_URL}/cart?userId=${userId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
-    //console.log('GetCart response:', res);
+    try {
+        const res = await axiosAuth.get(`${BASE_URL}/cart`, {
+            params: { userId }
+        });
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch cart');
+        const data = res.data;
+        return {
+            id: data.Id,
+            items: data.OrderItems.map((item: OrderItemResponse) => ({
+                productId: item.Product.Id,
+                productName: item.Product.Name,
+                quantity: item.Quantity,
+                price: item.UnitPrice,
+                selectedVariationId: item.ProductVariation?.Id || null,
+                selectedVariation: item.ProductVariation,
+                color: item.Colours?.[0] || '',
+            }))
+        };
+    } catch (error) {
+        console.error('Failed to fetch cart:', error);
+        throw error;
     }
-
-    const data = await res.json();
-    //console.log('GetCart response data:', data);
-    return {
-        id: data.Id,
-        items: data.OrderItems.map((item: OrderItemResponse) => ({
-            productId: item.Product.Id,
-            productName: item.Product.Name,
-            quantity: item.Quantity,
-            price: item.UnitPrice,
-            selectedVariationId: item.ProductVariation?.Id || null,
-            selectedVariation: item.ProductVariation,
-            color: item.Colours?.[0] || '',
-        })),
-    };
 };
 
-
-/**
- * POST: Add item to cart
- */
-export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, userId: string) => {    
-
+export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, userId: string) => {
     const payload: AddToCartRequest = {
         UserId: userId,
         ProductId: cartItem.productId,
@@ -93,42 +64,23 @@ export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, us
         OrderItemColours: cartItem.color ? [cartItem.color] : [],
     };
 
-    // Send item to backend ➔ add to cart
-    const res = await fetch(`${BASE_URL}/add-to-cart`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-        throw new Error('Failed to add item to cart');
+    try {
+        await axiosAuth.post(`${BASE_URL}/add-to-cart`, payload);
+        const updatedCart = await fetchCartFromAPI(userId);
+        return updatedCart;
+    } catch (error) {
+        console.error('Failed to add to cart:', error);
+        throw error;
     }
-
-    // Instead of parsing "data", fetch the full cart now!
-    const updatedCart = await fetchCartFromAPI(userId);
-
-    return updatedCart; // Return the full cart object!
 };
 
-/**
- * POST: Send order (checkout)
- */
 export const sendOrderAPI = async (request: SendOrderRequest) => {
-    const res = await fetch(`${BASE_URL}/SendOrder`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request),
-    });
-
-    if (!res.ok) {
-        const errorBody = await res.text();
-        console.error('Send order failed: ', errorBody);
+    try {
+        const res = await axiosAuth.post(`${BASE_URL}/SendOrder`, request);
+        return res.data;
+    } catch (err) {
+        const errorBody = err.response?.data ?? 'Unknown error';
+        console.error('Send order failed:', errorBody);
         throw new Error('Failed to send order');
     }
-
-    return res.json();
 };

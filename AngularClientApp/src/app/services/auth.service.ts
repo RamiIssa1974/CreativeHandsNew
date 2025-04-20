@@ -4,12 +4,13 @@ import { Observable, tap } from 'rxjs';
 import { IUser } from '../Model/IUser';
 import { IGetuserRequest } from '../Model/Requests/IGetUserRequest';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private getUserUrl = `${environment.baseApiUrl}api/users/user-info`;
+  private getUserUrl = `${environment.baseApiUrl}api/auth/login`;
   redirectUrl: string | undefined;
   currentUser: IUser | null = null;
 
@@ -54,8 +55,13 @@ export class AuthService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<IUser>(this.getUserUrl, searchParam, httpOptions);
+
+    return this.http.post<{ token: string, user: IUser }>(this.getUserUrl, searchParam, httpOptions)
+      .pipe(
+        map(response => response.user)
+      );
   }
+
 
   private setCookie(name: string, value: string, days: number): void {
     let expires = '';

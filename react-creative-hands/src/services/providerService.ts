@@ -1,23 +1,13 @@
-﻿import { ServerSiteProvider, SiteProvider } from '@/data/SiteProvider';
+﻿import axiosAuth from '@/utils/axiosAuth';
+import { ServerSiteProvider, SiteProvider } from '@/data/SiteProvider';
 
-//const PROVIDERS_API_BASE_URL = 'http://localhost:7163/api/purchases';
-const PROVIDERS_API_BASE_URL = 'http://194.36.89.39:7163/api/purchases';
+const BASE_URL = 'purchases';
 
 export async function getProviderById(providerId: number): Promise<SiteProvider | null> {
     try {
-        const response = await fetch(`${PROVIDERS_API_BASE_URL}/GetProviderById/${providerId}`, {
-            method: "GET",
-        });
-
-        if (!response.ok) {
-            console.error(`Get provider failed for ID: ${providerId}, Status:`, response.status);
-            return null;
-        }
-
-        const rawProvider: ServerSiteProvider = await response.json();
-        const siteProvider = mapServerToClientProvider(rawProvider);
-
-        return siteProvider;
+        const response = await axiosAuth.get(`${BASE_URL}/GetProviderById/${providerId}`);
+        const rawProvider: ServerSiteProvider = response.data;
+        return mapServerToClientProvider(rawProvider);
     } catch (error) {
         console.error("Get provider error:", error);
         return null;
@@ -29,23 +19,11 @@ export async function saveProvider(request: SiteProvider): Promise<number | null
         const mappedRequest = mapClientToServerProvider(request);
         console.log("📤 Sending request to server:", mappedRequest);
 
-        const response = await fetch(`${PROVIDERS_API_BASE_URL}/SaveProvider`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(mappedRequest)
-        });
+        const response = await axiosAuth.post(`${BASE_URL}/SaveProvider`, mappedRequest);
 
         console.log("📥 Got response status:", response.status);
 
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error("❌ Save provider failed", errText);
-            return null;
-        }
-
-        const providerId = await response.json();
-        console.log("✅ Response JSON (ID):", providerId);
-        return providerId;
+        return response.data as number;
     } catch (error) {
         console.error("❌ Save provider error", error);
         return null;
@@ -54,34 +32,19 @@ export async function saveProvider(request: SiteProvider): Promise<number | null
 
 export async function getProviders(): Promise<SiteProvider[]> {
     try {
-        const response = await fetch(`${PROVIDERS_API_BASE_URL}/GetProviders`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            console.error("Failed to fetch providers");
-            return [];
-        }
-
-        const rawProviders: ServerSiteProvider[] = await response.json();
-        const mappedProviders = rawProviders.map(mapServerToClientProvider);
-
-        return mappedProviders;
+        const response = await axiosAuth.get(`${BASE_URL}/GetProviders`);
+        const rawProviders: ServerSiteProvider[] = response.data;
+        return rawProviders.map(mapServerToClientProvider);
     } catch (error) {
         console.error("Error fetching providers", error);
         return [];
     }
 }
+
 export async function deleteProvider(providerId: number): Promise<boolean> {
     try {
-        const response = await fetch(`${PROVIDERS_API_BASE_URL}/DeleteProvider/${providerId}`, {
-            method: 'DELETE',
-        });
-
-        return response.ok;
+        const response = await axiosAuth.delete(`${BASE_URL}/DeleteProvider/${providerId}`);
+        return response.status === 200;
     } catch (error) {
         console.error("Delete provider error:", error);
         return false;
@@ -96,9 +59,9 @@ export function mapServerToClientProvider(sProvider: ServerSiteProvider): SitePr
         tel1: sProvider.Tel1,
         tel2: sProvider.Tel2,
         address: sProvider.Address,
-        description: sProvider.Description, // or Description
+        description: sProvider.Description,
         webSite: sProvider.WebSite,
-        email: sProvider.Email, // or Email
+        email: sProvider.Email,
         isActive: sProvider.IsActive,
     };
 }
@@ -111,10 +74,9 @@ export function mapClientToServerProvider(siteProvider: SiteProvider): ServerSit
         Tel1: siteProvider.tel1,
         Tel2: siteProvider.tel2,
         Address: siteProvider.address,
-        Description: siteProvider.description, // or Description
+        Description: siteProvider.description,
         WebSite: siteProvider.webSite,
-        Email: siteProvider.email, // or Email
+        Email: siteProvider.email,
         IsActive: siteProvider.isActive,
     };
 }
- 

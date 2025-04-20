@@ -1,0 +1,8 @@
+﻿namespace CreativeHandsCoreApi.Infrastructure.Entities.Products
+{
+    public class SqlCategory
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+}

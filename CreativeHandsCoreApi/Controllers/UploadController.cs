@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MarketCoreGeneral.Requests;
-using CreativeHandsCoreApi.Services;
-using MarketCoreGeneral.Models.Authintication;
 using MarketCoreGeneral.Models.Orders;
-using Microsoft.AspNetCore.Http;
 using MarketCoreGeneral.Responses;
+using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Authorization;
 
 namespace CreativeHandsCoreApi.Controllers
 {
     [ApiController]
+    [ConditionalAuthorize]
     public class UploadController : ControllerBase
     {
         private readonly IUploadRepository _repository;

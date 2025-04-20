@@ -1,10 +1,15 @@
-using CreativeHandsCoreApi.DbContexts;
-using CreativeHandsCoreApi.Services;
-using CreativeHandsCoreApi.Services.Mail;
+﻿using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Infrastructure.Persistence;
+using CreativeHandsCoreApi.Infrastructure.Repositories;
+using CreativeHandsCoreApi.Infrastructure.Services.Ftp;
+using CreativeHandsCoreApi.Infrastructure.Services.Mail;
 using MarketCoreGeneral.Models;
 using MarketCoreGeneral.Models.Authintication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -45,7 +50,69 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });  
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new() { Title = "CreativeHandsCoreApi", Version = "v1" });
+
+    // Add JWT Bearer authorization to Swagger
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Enter 'Bearer' [space] and then your token.\n\nExample: Bearer abc123xyz"
+    });
+
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+var configuration = builder.Configuration;
+var authEnabled = configuration.GetValue<bool>("Authentication:Enabled");
+
+// ✅ Only add JWT authentication if enabled
+if (authEnabled)
+{
+    var jwtSecret = configuration["Authentication:JwtSecret"];
+    var issuer = configuration["Authentication:Issuer"];
+    var audience = configuration["Authentication:Audience"];
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+        };
+    });
+
+    builder.Services.AddAuthorization();
+}
 
 builder.Services.AddDbContextPool<MarketContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(

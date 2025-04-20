@@ -1,97 +1,85 @@
 ﻿'use client';
 
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import jwtDecode from 'jwt-decode';
+import { useRouter } from 'next/navigation';
 import { User } from '../data/User';
 import { AuthContextType } from '../data/AuthContextType';
-import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    
     const [user, setUser] = useState<User | null>(null);
+    const [token, setToken] = useState<string | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
-    // Optional: Auto login if token exists (future JWT/localStorage logic)
+    const API_URI = 'http://localhost:7163/';
+
     useEffect(() => {
+        const storedToken = localStorage.getItem('token');
         const storedUser = localStorage.getItem('user');
 
-        if (storedUser) {
-            const parsedUser: User = JSON.parse(storedUser);
-            setUser(parsedUser);
+        if (storedToken && storedUser) {
+            setToken(storedToken);
+            setUser(JSON.parse(storedUser));
             setIsLoggedIn(true);
         }
 
         setLoading(false);
-    }, []); 
-
+    }, []);
 
     const login = async (username: string, password: string): Promise<User> => {
-        try {
-            const res = await fetch('http://194.36.89.39:7163/api/users/user-info', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
+        const res = await fetch(API_URI + 'api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
-            if (!res.ok) {
-                throw new Error('Login failed');
-            }
+        if (!res.ok) throw new Error('Login failed');
 
-            const data = await res.json();
+        const data = await res.json();
 
-            const loggedInUser: User = {
-                id: data.Id,
-                username: data.UserName,
-                fullName: data.FullName,
-                isAdmin: data.IsAdmin,
-            };
+        const token = data.token;
+        const user: User = {
+            id: data.user.Id,
+            username: data.user.UserName,
+            fullName: data.user.FullName,
+            isAdmin: data.user.IsAdmin
+        };
 
-            setUser(loggedInUser);
-            setIsLoggedIn(true);
-            localStorage.setItem('user', JSON.stringify(loggedInUser));
+        setToken(token);
+        setUser(user);
+        setIsLoggedIn(true);
 
-            const cartToken = localStorage.getItem('cartToken');
-            if (cartToken) {
-                localStorage.removeItem('cartToken');
-            }
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
 
-            return loggedInUser; // ✅ Return it here
-        } catch (error) {
-            console.error('Login error:', error);
-            throw error;
-        }
+        return user;
     };
 
     const logout = () => {
-        if (user?.id) {
-            localStorage.setItem('cartToken', user.id);
-        }
-
         setUser(null);
+        setToken(null);
         setIsLoggedIn(false);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
 
-        router.push('/'); // optional redirect
+        router.push('/');
     };
 
-
     return (
-        <AuthContext.Provider value={{ loading, isLoggedIn, user, login, logout }}>
-    { children }
-    </AuthContext.Provider>
-  );
+        <AuthContext.Provider value={{ loading, isLoggedIn, user, token, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-// Hook to use AuthContext
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used inside AuthProvider');
-    }
+    if (!context) throw new Error('useAuth must be used inside AuthProvider');
     return context;
 };

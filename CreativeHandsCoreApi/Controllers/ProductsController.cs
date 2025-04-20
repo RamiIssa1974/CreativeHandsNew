@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MarketCoreGeneral.Requests;
-using CreativeHandsCoreApi.Services;
 using MarketCoreGeneral.Models.Orders;
 using MarketCoreGeneral.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Authorization;
 
 
 namespace CreativeHandsCoreApi.Controllers
 {
     [ApiController]
     [Route("api/products")]
+    [ConditionalAuthorize]
 
     public class ProductsController : ControllerBase
     {

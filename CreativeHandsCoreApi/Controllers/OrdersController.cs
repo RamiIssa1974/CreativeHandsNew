@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MarketCoreGeneral.Requests;
-using CreativeHandsCoreApi.Services;
 using MarketCoreGeneral.Models.Orders;
 using Microsoft.EntityFrameworkCore;
+using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Authorization;
 
 namespace CreativeHandsCoreApi.Controllers
 {
@@ -82,6 +83,7 @@ namespace CreativeHandsCoreApi.Controllers
 
         [HttpPost]
         [Route("Orders")]
+        [ConditionalAuthorize]
         public async Task<IActionResult> GetOrders([FromBody] GetOrderRequest request)
         {
             // בדיקת תקינות הבקשה
@@ -116,6 +118,7 @@ namespace CreativeHandsCoreApi.Controllers
         //[Route("Api/Orders/AddToCart")]
         [HttpPost]
         [Route("add-to-cart")]
+        [ConditionalAuthorize]
         public async Task<ActionResult<int>> AddToCart([FromBody] AddToCartRequest request)
         {
             var orderItemId = await _ordersRepository.AddToCart(request);
@@ -124,6 +127,7 @@ namespace CreativeHandsCoreApi.Controllers
         [HttpPost]
         //[Route("Api/Orders/SaveOrder")]
         [Route("SaveOrder")]
+        [ConditionalAuthorize]
         public async Task<IActionResult> SaveOrder([FromBody] OrderModel order)
         {
             // בדיקת תקינות הבקשה
@@ -190,6 +194,7 @@ namespace CreativeHandsCoreApi.Controllers
         [HttpPost]
         //[Route("Api/Orders/ChangeOrderStatus")]
         [Route("ChangeOrderStatus")]
+        [ConditionalAuthorize]
         public async Task<IActionResult> ChangeOrderStatus([FromBody] OrderModel order)
         {
             // בדיקת תקינות הבקשה
@@ -224,6 +229,7 @@ namespace CreativeHandsCoreApi.Controllers
 
         [HttpPost]
         [Route("ChangeOrderStatusByChangeOrderStatusRequest")]
+        [ConditionalAuthorize]
         public async Task<IActionResult> ChangeOrderStatusByChangeOrderStatusRequest([FromBody] ChangeOrderStatusRequest request)
         {
             if (request == null || request.Id <= 0)
@@ -282,7 +288,7 @@ namespace CreativeHandsCoreApi.Controllers
 
         [HttpPost]
         //[Route("Api/Orders/migrate-cart")]
-        [Route("migrate-cart")]
+        [Route("migrate-cart")]        
         public async Task<IActionResult> MigrateAnonymousCartToUser([FromBody] MigrateAnonymousCartToUserRequest request)
         {
             // בדיקת תקינות הבקשה
@@ -316,6 +322,7 @@ namespace CreativeHandsCoreApi.Controllers
 
         [HttpDelete]
         [Route("DeleteOrderItem/{id}")]
+        [ConditionalAuthorize]
         public async Task<IActionResult> DeleteOrderItem(int id)
         {
             try

@@ -35,6 +35,31 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "react-creative-hands", "rea
 		SlnRelativePath = "react-creative-hands\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreativeHandsCoreApi.Domain", "CreativeHandsCoreApi.Domain\CreativeHandsCoreApi.Domain.csproj", "{50B6BA41-8BED-440F-8208-9EF452F8B0CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreativeHandsCoreApi.Infrastructure", "CreativeHandsCoreApi.Infrastructure\CreativeHandsCoreApi.Infrastructure.csproj", "{236CE2BA-D250-4165-BD96-F486862B00C7}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AngularClientApp", "AngularClientApp\", "{4E728E3A-5D3A-0FA9-FF50-FF2003340E2A}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_61514"
+		Debug.AspNetCompiler.PhysicalPath = "AngularClientApp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61514\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_61514"
+		Release.AspNetCompiler.PhysicalPath = "AngularClientApp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61514\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "61514"
+		SlnRelativePath = "AngularClientApp\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +78,18 @@ Global
 		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0716BE8-3667-4926-9B7B-D42604C817D1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{50B6BA41-8BED-440F-8208-9EF452F8B0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B6BA41-8BED-440F-8208-9EF452F8B0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B6BA41-8BED-440F-8208-9EF452F8B0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B6BA41-8BED-440F-8208-9EF452F8B0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{236CE2BA-D250-4165-BD96-F486862B00C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{236CE2BA-D250-4165-BD96-F486862B00C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{236CE2BA-D250-4165-BD96-F486862B00C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{236CE2BA-D250-4165-BD96-F486862B00C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E728E3A-5D3A-0FA9-FF50-FF2003340E2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E728E3A-5D3A-0FA9-FF50-FF2003340E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E728E3A-5D3A-0FA9-FF50-FF2003340E2A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E728E3A-5D3A-0FA9-FF50-FF2003340E2A}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

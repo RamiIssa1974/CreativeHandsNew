@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MarketCoreGeneral.Requests;
-using CreativeHandsCoreApi.Services;
-using MarketCoreGeneral.Models.Authintication;
 using MarketCoreGeneral.Models.Orders;
+using CreativeHandsCoreApi.Domain.Repositories;
+using CreativeHandsCoreApi.Authorization;
 
 namespace CreativeHandsCoreApi.Controllers
 {
     [ApiController]
     [Route("api/purchases")]
+    [ConditionalAuthorize]
     public class PurchaseController : ControllerBase
     {
         private readonly IPurchaseRepository _repository;
@@ -16,7 +17,7 @@ namespace CreativeHandsCoreApi.Controllers
         {
             _repository = repo;
         }
-        //[Route("Api/Users/GetUserInfo")]
+        
         [HttpPost]
         //[Route("Api/Purchases/GetPurchases")]
         [Route("GetPurchases")]
