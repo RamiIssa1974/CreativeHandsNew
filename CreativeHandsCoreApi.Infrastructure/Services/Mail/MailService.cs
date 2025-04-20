@@ -30,13 +30,15 @@ namespace CreativeHandsCoreApi.Infrastructure.Services.Mail
 
                 customerNode = customerNode.Length > 20 ? customerNode.Substring(0, 20) : customerNode;
 
-                var message = @"Order: http://creativehandsco.com/%23/order/{sendOrderRequest.Id} was opened "
-                    + sendOrderRequest.Customer?.Name!=null? @"by Customer:{sendOrderRequest.Customer?.Name},":string.Empty
-                    + sendOrderRequest.Customer?.Tel1 != null ? @"Tel:{ sendOrderRequest.Customer?.Tel1}," : string.Empty
-                    + sendOrderRequest.Customer?.Address != null ? @"From: {sendOrderRequest.Customer?.Address}," : string.Empty
-                    + (!string.IsNullOrEmpty(customerNode) ? @"Notes:{customerNode}," : string.Empty)
-                    + orderFinalPrice != null ? @"Price:{ orderFinalPrice}" : string.Empty;
-                 
+                  var message =
+                        $"Order: http://creativehandsco.com/order/{sendOrderRequest.Id} was opened " +
+                        (sendOrderRequest.Customer?.Name != null ? $"by Customer: {sendOrderRequest.Customer.Name}, " : string.Empty) +
+                        (sendOrderRequest.Customer?.Tel1 != null ? $"Tel: {sendOrderRequest.Customer.Tel1}, " : string.Empty) +
+                        (sendOrderRequest.Customer?.Address != null ? $"From: {sendOrderRequest.Customer.Address}, " : string.Empty) +
+                        (!string.IsNullOrEmpty(customerNode) ? $"Notes: {customerNode}, " : string.Empty) +
+                        (orderFinalPrice != null ? $"Price: {orderFinalPrice}" : string.Empty);
+
+
                 var baseUrl = _smsSettings.BaseUrl;
                 var token = _smsSettings.Token; 
                 var sellerTel = _smsSettings.SellerTel;
