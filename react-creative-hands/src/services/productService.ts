@@ -1,13 +1,14 @@
-﻿import axiosAuth from '@/utils/axiosAuth';
+﻿import pyAxiosAuth from '@/utils/pyAxiosAuth';
 import { Category } from '@/data/Category';
 import { Product } from '@/data/Product';
 import { SaveProductRequest } from '../data/SaveProductRequest';
 import { UploadFilesResponse } from '../data/UploadFilesResponse';
 import { GetProductRequest } from '../data/Requests';
+import { withMiddleware } from '../utils/withMiddleware';
 
 export async function deleteProduct(productId: number): Promise<boolean> {
     try {
-        await axiosAuth.delete(`products/DeleteProduct/${productId}`);
+        await pyAxiosAuth.delete(`products/DeleteProduct/${productId}`);
         return true;
     } catch (error) {
         console.error("Delete product error:", error);
@@ -17,7 +18,7 @@ export async function deleteProduct(productId: number): Promise<boolean> {
 
 export async function saveProduct(request: SaveProductRequest): Promise<number | null> {
     try {
-        const response = await axiosAuth.post('products/Product', mapClientToServerSaveProductRequest(request));
+        const response = await pyAxiosAuth.post('products/Product', mapClientToServerSaveProductRequest(request));
         return response.data;
     } catch (error) {
         console.error("Save product error:", error);
@@ -31,7 +32,7 @@ export async function uploadProductImages(files: File[], productId: number): Pro
     formData.append('productId', productId.toString());
 
     try {
-        const response = await axiosAuth.post(`products/UploadFiles`, formData, {
+        const response = await pyAxiosAuth.post(`products/UploadFiles`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
         return response.data;
@@ -42,29 +43,32 @@ export async function uploadProductImages(files: File[], productId: number): Pro
 }
 
 export async function getProducts(getProductRequest: GetProductRequest): Promise<Product[]> {
-    try {
-        const { data } = await axiosAuth.post('products/GetProducts', getProductRequest);
-        return data.map((p: any) => ({
-            id: p.Id,
-            name: p.Name,
-            price: p.Price,
-            salePrice: p.SalePrice,
-            barcode: p.Barcode,
-            description: p.Description,
-            stockQuantity: p.StockQuantity,
-            images: p.Images,
-            imagesIds: p.ImagesIds,
-            categories: p.Categories,
-            categoriesIds: p.CategoriesIds,
-            productVariations: p.ProductVariations,
-            productVariationsIds: p.ProductVariationsIds,
-            availableColours: p.AvailableColours,
-            availableColoursIds: p.AvailableColoursIds,
-        }));
-    } catch (error) {
-        console.error("Error fetching products", error);
-        return [];
-    }
+    return withMiddleware(async () => {
+
+        try {
+            const { data } = await pyAxiosAuth.post('products/GetProducts', getProductRequest);
+            return data.map((p: any) => ({
+                id: p.Id,
+                name: p.Name,
+                price: p.Price,
+                salePrice: p.SalePrice,
+                barcode: p.Barcode,
+                description: p.Description,
+                stockQuantity: p.StockQuantity,
+                images: p.Images,
+                imagesIds: p.ImagesIds,
+                categories: p.Categories,
+                categoriesIds: p.CategoriesIds,
+                productVariations: p.ProductVariations,
+                productVariationsIds: p.ProductVariationsIds,
+                availableColours: p.AvailableColours,
+                availableColoursIds: p.AvailableColoursIds,
+            }));
+        } catch (error) {
+            console.error("Error fetching products", error);
+            return [];
+        }
+    }, "Get Products");
 }
 
 export async function searchProducts(query: string): Promise<Product[]> {
@@ -101,7 +105,7 @@ export async function updateProduct(request: SaveProductRequest): Promise<number
 
 export async function fetchCategories(): Promise<Category[]> {
     try {
-        const { data } = await axiosAuth.get('products/Categories');
+        const { data } = await pyAxiosAuth.get('products/Categories');
         return data.map((item: any) => ({
             Id: item.Id,
             Name: item.Name,

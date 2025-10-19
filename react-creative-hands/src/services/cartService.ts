@@ -63,6 +63,7 @@ export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, us
         Note: cartItem.note || '',
         OrderItemColours: cartItem.color ? [cartItem.color] : [],
     };
+    logCartAction("Add Item", payload);
 
     try {
         await axiosAuth.post(`${BASE_URL}/add-to-cart`, payload);
@@ -84,3 +85,10 @@ export const sendOrderAPI = async (request: SendOrderRequest) => {
         throw new Error('Failed to send order');
     }
 };
+
+
+function logCartAction(action: string, details: any) {
+    if (process.env.NODE_ENV === "development") {
+        console.log(`[Cart] ${action}`, details);
+    }
+}
