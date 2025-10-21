@@ -1,11 +1,11 @@
-﻿import axiosAuth from '@/utils/axiosAuth';
+﻿import pyAxiosAuth from '@/utils/pyAxiosAuth';
 import { ServerSiteProvider, SiteProvider } from '@/data/SiteProvider';
 
 const BASE_URL = 'purchases';
 
 export async function getProviderById(providerId: number): Promise<SiteProvider | null> {
     try {
-        const response = await axiosAuth.get(`${BASE_URL}/GetProviderById/${providerId}`);
+        const response = await pyAxiosAuth.get(`${BASE_URL}/GetProviderById/${providerId}`);
         const rawProvider: ServerSiteProvider = response.data;
         return mapServerToClientProvider(rawProvider);
     } catch (error) {
@@ -17,22 +17,22 @@ export async function getProviderById(providerId: number): Promise<SiteProvider 
 export async function saveProvider(request: SiteProvider): Promise<number | null> {
     try {
         const mappedRequest = mapClientToServerProvider(request);
-        console.log("📤 Sending request to server:", mappedRequest);
+        console.log("Sending request to server:", mappedRequest);
 
-        const response = await axiosAuth.post(`${BASE_URL}/SaveProvider`, mappedRequest);
+        const response = await pyAxiosAuth.post(`${BASE_URL}/SaveProvider`, mappedRequest);
 
-        console.log("📥 Got response status:", response.status);
+        console.log("Got response status:", response.status);
 
         return response.data as number;
     } catch (error) {
-        console.error("❌ Save provider error", error);
+        console.error("Save provider error", error);
         return null;
     }
 }
 
 export async function getProviders(): Promise<SiteProvider[]> {
     try {
-        const response = await axiosAuth.get(`${BASE_URL}/GetProviders`);
+        const response = await pyAxiosAuth.get(`${BASE_URL}/GetProviders`);
         const rawProviders: ServerSiteProvider[] = response.data;
         return rawProviders.map(mapServerToClientProvider);
     } catch (error) {
@@ -43,7 +43,7 @@ export async function getProviders(): Promise<SiteProvider[]> {
 
 export async function deleteProvider(providerId: number): Promise<boolean> {
     try {
-        const response = await axiosAuth.delete(`${BASE_URL}/DeleteProvider/${providerId}`);
+        const response = await pyAxiosAuth.delete(`${BASE_URL}/DeleteProvider/${providerId}`);
         return response.status === 200;
     } catch (error) {
         console.error("Delete provider error:", error);

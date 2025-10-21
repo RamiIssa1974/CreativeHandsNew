@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosAuth = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE,//http://194.36.89.39:7163/api/ , http://localhost:7163/api/ 
+    baseURL: process.env.NEXT_PUBLIC_PY_API_BASE,//http://194.36.89.39:7163/api/ , http://localhost:7163/api/ 
     headers: {
         'Content-Type': 'application/json',
     },

@@ -1,4 +1,4 @@
-﻿import axiosAuth from '@/utils/axiosAuth';
+﻿import pyAxiosAuth from '@/utils/pyAxiosAuth';
 import { CartItem } from '@/data/CartItem';
 import { AddToCartRequest, SendOrderRequest } from '@/data/Requests';
 import { OrderItemResponse } from '@/data/Responses';
@@ -8,26 +8,29 @@ const BASE_URL = 'orders'; // Axios base is already set to /api/
 export const migrateCartToUser = async (cartToken: string, userId: string | number) => {
     const payload = {
         CartToken: cartToken,
-        UserId: userId.toString(),
+        UserId: String(userId),
     };
 
     try {
-        const res = await axiosAuth.post(`${BASE_URL}/migrate-cart`, payload);
+        const res = await pyAxiosAuth.post('/orders/migrate-cart', payload);
         return res.data;
     } catch (err: any) {
-        if (err.response?.status === 404) {
+        if (!err?.response) {
+            console.error('migrateCartToUser network/preflight error:', err?.message ?? err);
+            throw new Error('Failed to migrate cart: network');
+        }
+        if (err.response.status === 404) {
             console.warn('No cart found to migrate.');
             return null;
         }
-
-        console.error('migrateCartToUser error:', err);
-        throw new Error(`Failed to migrate cart: ${err.response?.status}`);
+        console.error('migrateCartToUser error:', err.response.status, err.response.data);
+        throw new Error(`Failed to migrate cart: ${err.response.status}`);
     }
 };
 
 export const fetchCartFromAPI = async (userId: string) => {
     try {
-        const res = await axiosAuth.get(`${BASE_URL}/cart`, {
+        const res = await pyAxiosAuth.get(`${BASE_URL}/cart`, {
             params: { userId }
         });
 
@@ -66,7 +69,7 @@ export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, us
     logCartAction("Add Item", payload);
 
     try {
-        await axiosAuth.post(`${BASE_URL}/add-to-cart`, payload);
+        await pyAxiosAuth.post(`${BASE_URL}/add-to-cart`, payload);
         const updatedCart = await fetchCartFromAPI(userId);
         return updatedCart;
     } catch (error) {
@@ -77,7 +80,7 @@ export const addToCartAPI = async (cartItem: CartItem, cartId: number | null, us
 
 export const sendOrderAPI = async (request: SendOrderRequest) => {
     try {
-        const res = await axiosAuth.post(`${BASE_URL}/SendOrder`, request);
+        const res = await pyAxiosAuth.post(`${BASE_URL}/SendOrder`, request);
         return res.data;
     } catch (err) {
         const errorBody = err.response?.data ?? 'Unknown error';

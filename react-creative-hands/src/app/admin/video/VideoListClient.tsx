@@ -160,7 +160,7 @@ const VideoListClient = () => {
                 {/* Section 6: Submit */}
                 {!isViewMode && (
                     <div className="section section-submit">
-                        <button type="submit">{isEditMode ? 'تحديث المنتج' : 'حفظ المنتج'}</button>
+                        <button type="submit">{isEditMode ? 'تحديث الفيديو' : 'حفظ الفيديو'}</button>
                     </div>
                 )}
                 {(previewUrl || (!isAddMode && name && extension)) && (

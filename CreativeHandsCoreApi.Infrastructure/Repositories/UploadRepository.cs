@@ -161,7 +161,7 @@ namespace CreativeHandsCoreApi.Infrastructure.Repositories
                 return response;
             }
 
-            // ✅ Step 1: Delete existing images for this product from FTP
+            // Step 1: Delete existing images for this product from FTP
             // We'll assume naming format is: prod_{productId}_*.ext
             var productPrefix = $"prod_{productId}_";
             var existingFiles = await _ftpService.ListFilesFromFTP("Images/Umbraco", productId);
@@ -176,7 +176,7 @@ namespace CreativeHandsCoreApi.Infrastructure.Repositories
                 // Optional: Log any failed deletions
             }
 
-            // ✅ Step 2: Upload new files with formatted names
+            // Step 2: Upload new files with formatted names
             int i = 1;
             foreach (var file in files)
             {

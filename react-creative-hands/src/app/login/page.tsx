@@ -20,16 +20,18 @@ const LoginPage = () => {
         e.preventDefault();
 
         try {
+            console.log('Attempting login for user:', username);    
             const cartToken = localStorage.getItem('cartToken');
-
+            console.log('Current cartToken:', cartToken);
             const loggedInUser = await login(username, password); // ✅ Get the returned user!
-
+            console.log('Logged in user:', loggedInUser);
             if (cartToken != null && loggedInUser != null) {
                 await migrateCartToUser(cartToken, loggedInUser.id); // ✅ Works now!
+                console.log('Cart migrated for user:', loggedInUser.id);
             }
 
             await loadCart();
-
+            console.log('Cart loaded after login.');
 
 
             alert('تم تسجيل الدخول بنجاح!');

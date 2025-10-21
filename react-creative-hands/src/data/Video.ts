@@ -1,15 +1,17 @@
-﻿export interface Video {
+﻿export type Video = {
     id: number;
-    name: string
-    extension: string; 
-    description: string;    
-    title: string;     
-}
+    name: string;        // never null on client
+    description: string; // never null on client
+    extension: string;
+    title: string;
+};
 
-export interface ServerVideo {
-    Id: number;
-    VideoName: string;   
-    Extension: string; 
-    Description: string;
-    Title: string;    
-}
+
+export type ServerVideo = {
+    Id?: number | null;
+    VideoName?: string | null;
+    Description?: string | null;
+    Extension?: string | null;
+    Title?: string | null;
+};
+

@@ -471,7 +471,7 @@ namespace CreativeHandsCoreApi.Infrastructure.Repositories
 
                         if (failedFiles.Any())
                         {
-                            _logger.LogWarning($"⚠️ some images failed to delete from FTP: {string.Join(", ", failedFiles)}");
+                            _logger.LogWarning($"some images failed to delete from FTP: {string.Join(", ", failedFiles)}");
                         }
 
                     }

@@ -1,4 +1,4 @@
-﻿import axiosAuth from '@/utils/axiosAuth';
+﻿import pyAxiosAuth from '@/utils/pyAxiosAuth';
 import { OrderModel } from "@/data/OrdelModel";
 import { OrderItemModel } from "@/data/OrderItemModel";
 import { GetOrderRequest } from "@/data/Requests";
@@ -8,7 +8,7 @@ const BASE_URL = 'orders';
 
 export async function deleteItem(itemId: number): Promise<boolean> {
     try {
-        await axiosAuth.delete(`${BASE_URL}/DeleteOrderItem/${itemId}`);
+        await pyAxiosAuth.delete(`${BASE_URL}/DeleteOrderItem/${itemId}`);
         return true;
     } catch (error) {
         console.error("Delete item error:", error);
@@ -19,7 +19,7 @@ export async function deleteItem(itemId: number): Promise<boolean> {
 export async function saveItem(item: OrderItemModel): Promise<number | null> {
     try {
         const serverRequestItem = mapClientItemToServer(item);
-        const response = await axiosAuth.post(`${BASE_URL}/SaveOrderItem`, serverRequestItem);
+        const response = await pyAxiosAuth.post(`${BASE_URL}/SaveOrderItem`, serverRequestItem);
         return response.data as number;
     } catch (error) {
         console.error("Save item error:", error);
@@ -29,7 +29,7 @@ export async function saveItem(item: OrderItemModel): Promise<number | null> {
 
 export async function saveOrder(order: OrderModel): Promise<boolean> {
     try {
-        await axiosAuth.post(`${BASE_URL}/SaveOrder`, order);
+        await pyAxiosAuth.post(`${BASE_URL}/SaveOrder`, order);
         return true;
     } catch (error) {
         console.error("Save order error:", error);
@@ -39,7 +39,7 @@ export async function saveOrder(order: OrderModel): Promise<boolean> {
 
 export async function fetchOrders(request: GetOrderRequest): Promise<OrderModel[]> {
     try {
-        const res = await axiosAuth.post(`${BASE_URL}/Orders`, request);
+        const res = await pyAxiosAuth.post(`${BASE_URL}/Orders`, request);
         const data = res.data;
         const mappedOrders: OrderModel[] = Array.isArray(data)
             ? data.map(mapOrder)
@@ -58,7 +58,7 @@ export async function updateOrderStatus(orderId: number, statusId: number) {
         statusId: statusId,
     };
 
-    const res = await axiosAuth.post(`${BASE_URL}/ChangeOrderStatusByChangeOrderStatusRequest`, order);
+    const res = await pyAxiosAuth.post(`${BASE_URL}/ChangeOrderStatusByChangeOrderStatusRequest`, order);
     return res.data;
 }
 
